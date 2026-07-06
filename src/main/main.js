@@ -38,7 +38,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  registerIpcHandlers({ backendProcess });
+  registerIpcHandlers({ backendProcess, getMainWindow: () => mainWindow });
   createWindow();
   backendProcess.start().catch((err) => {
     // eslint-disable-next-line no-console

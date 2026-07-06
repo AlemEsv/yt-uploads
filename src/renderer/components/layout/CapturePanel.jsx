@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useApi } from "../../hooks/useApi.js";
 import { useDownloads } from "../../hooks/useDownloads.js";
+import { useLibrary } from "../../context/LibraryContext.jsx";
 import MetadataEditModal from "../metadata/MetadataEditModal.jsx";
 
 const STATUS_LABEL = {
@@ -13,6 +14,7 @@ const STATUS_LABEL = {
 
 export default function CapturePanel() {
   const api = useApi();
+  const { applyUpdate } = useLibrary();
   const [url, setUrl] = useState("");
   const [pendingReview, setPendingReview] = useState(null);
   const { items } = useDownloads({ onNeedsReview: setPendingReview });
@@ -95,7 +97,11 @@ export default function CapturePanel() {
       )}
 
       {pendingReview && (
-        <MetadataEditModal cancion={pendingReview} onClose={() => setPendingReview(null)} />
+        <MetadataEditModal
+          cancion={pendingReview}
+          onSaved={applyUpdate}
+          onClose={() => setPendingReview(null)}
+        />
       )}
     </div>
   );

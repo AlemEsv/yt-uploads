@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BackendProvider, useBackend } from "./context/BackendContext.jsx";
 import { WebSocketProvider } from "./context/WebSocketContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
+import { LibraryProvider } from "./context/LibraryContext.jsx";
 import ToastContainer from "./components/common/ToastContainer.jsx";
 import Sidebar from "./components/layout/Sidebar.jsx";
 import CapturePanel from "./components/layout/CapturePanel.jsx";
@@ -77,7 +78,9 @@ function AppShell() {
   return (
     <WebSocketProvider>
       <ToastProvider>
-        <MainShell />
+        <LibraryProvider>
+          <MainShell />
+        </LibraryProvider>
       </ToastProvider>
     </WebSocketProvider>
   );
