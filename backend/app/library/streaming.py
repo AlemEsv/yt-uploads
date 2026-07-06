@@ -1,5 +1,3 @@
-"""Streaming de audio con soporte de Range requests (necesario para que <audio> pueda buscar)."""
-
 import os
 from pathlib import Path
 
@@ -19,7 +17,6 @@ def _iter_file(path: Path, start: int, length: int):
 
 
 def build_stream_response(path: Path, range_header: str | None):
-    """Devuelve (status_code, headers, iterador_de_bytes) listo para una StreamingResponse."""
     file_size = os.path.getsize(path)
 
     if not range_header or not range_header.startswith("bytes="):

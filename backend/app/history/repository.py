@@ -1,5 +1,3 @@
-"""Acceso a datos de `historial_reproduccion`."""
-
 import sqlite3
 
 
