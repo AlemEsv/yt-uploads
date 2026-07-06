@@ -1,0 +1,31 @@
+:root {
+  --color-bg-base: #000101;
+  --color-sidebar-bg: #131212;
+  --color-accent: #6c5ce7;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9a9a9a;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-error: #e05555;
+  --color-success: #4fbf6b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}

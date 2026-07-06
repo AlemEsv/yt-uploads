@@ -1,0 +1,37 @@
+{
+  "name": "sounddock",
+  "version": "0.1.0",
+  "description": "SoundDock - gestor de biblioteca musical local",
+  "private": true,
+  "main": "src/main/main.js",
+  "scripts": {
+    "dev:vite": "vite",
+    "dev:electron": "wait-on tcp:5173 && electron .",
+    "dev": "concurrently -k \"npm:dev:vite\" \"npm:dev:electron\"",
+    "build:renderer": "vite build",
+    "build": "npm run build:renderer && electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlemEsv/yt-uploads.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlemEsv/yt-uploads/issues"
+  },
+  "homepage": "https://github.com/AlemEsv/yt-uploads#readme",
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.3",
+    "concurrently": "^10.0.3",
+    "electron": "^43.0.0",
+    "electron-builder": "^26.15.3",
+    "vite": "^8.1.3",
+    "wait-on": "^9.0.10"
+  }
+}
