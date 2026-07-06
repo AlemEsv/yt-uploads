@@ -25,6 +25,9 @@ function createWindow() {
     mainWindow.loadFile(path.join(__dirname, "..", "..", "dist", "index.html"));
   } else {
     mainWindow.loadURL("http://localhost:5173");
+    mainWindow.webContents.on("console-message", (event) => {
+      console.log(`[renderer] ${event.message} (${event.sourceId}:${event.lineNumber})`);
+    });
   }
 
   backendProcess.on("status", (status) => {
