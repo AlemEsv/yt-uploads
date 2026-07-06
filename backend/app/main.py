@@ -11,7 +11,7 @@ from app.config_store import get_download_dir
 from app.db import get_connection
 from app.downloader.engine import DownloadQueue
 from app.errors import ApiError
-from app.routes import download, favorites, health, library
+from app.routes import download, favorites, health, history, library
 from app.websocket import ConnectionManager
 
 
@@ -51,6 +51,7 @@ app.include_router(health.router)
 app.include_router(download.router)
 app.include_router(library.router)
 app.include_router(favorites.router)
+app.include_router(history.router)
 
 
 @app.exception_handler(ApiError)
