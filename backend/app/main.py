@@ -1,24 +1,18 @@
 import asyncio
 import json
 from contextlib import asynccontextmanager
-from pathlib import Path
 
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.config_store import get_value
+from app.config_store import get_download_dir
 from app.db import get_connection
 from app.downloader.engine import DownloadQueue
 from app.errors import ApiError
-from app.paths import default_music_dir
-from app.routes import download, health, library
+from app.routes import download, favorites, health, library
 from app.websocket import ConnectionManager
-
-
-def resolve_download_dir(conn) -> Path:
-    value = get_value(conn, "directorio_descarga")
-    return Path(value) if value else default_music_dir()
 
 
 @asynccontextmanager
@@ -28,7 +22,7 @@ async def lifespan(app: FastAPI):
     app.state.download_queue = DownloadQueue(
         ws_manager=app.state.ws_manager,
         get_db=lambda: app.state.db,
-        get_download_dir=lambda: resolve_download_dir(app.state.db),
+        get_download_dir=lambda: get_download_dir(app.state.db),
     )
     app.state.download_queue.bind_loop(asyncio.get_running_loop())
 
@@ -42,9 +36,21 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="SoundDock Backend", lifespan=lifespan)
+
+# El backend solo escucha en 127.0.0.1 (nunca expuesto en la red); el renderer
+# de Electron llega desde otro origen (localhost:5173 en dev, file:// empaquetado),
+# así que el fetch() del frontend necesita CORS habilitado para poder hablar con él.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(health.router)
 app.include_router(download.router)
 app.include_router(library.router)
+app.include_router(favorites.router)
 
 
 @app.exception_handler(ApiError)
