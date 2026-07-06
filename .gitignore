@@ -1,6 +1,18 @@
 ffmpeg
 .venv
 
-
 RIGOR.md
 SoundDock_Especificacion.md
+
+# Node / Electron
+node_modules/
+dist/
+release/
+
+# Python backend
+backend/.data/
+backend/**/__pycache__/
+*.pyc
+
+# summaries (local review only)
+prs/
