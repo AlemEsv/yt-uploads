@@ -1,9 +1,11 @@
 import React from "react";
 import { useLibrary } from "../../context/LibraryContext.jsx";
+import { usePlayer } from "../../context/PlayerContext.jsx";
 import { miniButtonStyle } from "./styles.js";
 
 export default function SongListRow({ song, onEdit }) {
   const { toggleFavorite, removeSong } = useLibrary();
+  const { playNow, enqueue } = usePlayer();
 
   return (
     <div
@@ -33,6 +35,12 @@ export default function SongListRow({ song, onEdit }) {
         {song.plataforma_origen}
       </div>
       <div style={{ display: "flex", gap: "0.35rem" }}>
+        <button type="button" onClick={() => playNow(song.id)} style={miniButtonStyle(false)}>
+          Reproducir
+        </button>
+        <button type="button" onClick={() => enqueue(song.id)} style={miniButtonStyle(false)}>
+          Agregar a cola
+        </button>
         <button type="button" onClick={() => toggleFavorite(song)} style={miniButtonStyle(song.es_favorito)}>
           {song.es_favorito ? "En favoritos" : "Favorito"}
         </button>
