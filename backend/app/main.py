@@ -1,5 +1,3 @@
-"""App FastAPI de SoundDock: crea la app, monta routers, y anuncia el puerto por stdout."""
-
 import json
 from contextlib import asynccontextmanager
 

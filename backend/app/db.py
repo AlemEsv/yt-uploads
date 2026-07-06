@@ -1,5 +1,3 @@
-"""Conexión SQLite y runner de migraciones basado en PRAGMA user_version."""
-
 import sqlite3
 from pathlib import Path
 
@@ -33,7 +31,7 @@ def run_migrations(conn: sqlite3.Connection) -> None:
 
 
 def get_connection() -> sqlite3.Connection:
-    """Abre (y si hace falta, crea/migra) la base de datos activa de la app."""
+    """base de datos activa de la app."""
     conn = _connect_raw(db_path())
     run_migrations(conn)
     return conn

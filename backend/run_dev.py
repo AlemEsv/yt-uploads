@@ -1,5 +1,3 @@
-"""Punto de entrada de desarrollo: resuelve un puerto libre y levanta uvicorn."""
-
 import argparse
 import socket
 import sys
