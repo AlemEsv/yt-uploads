@@ -1,5 +1,3 @@
-"""Escritura de metadatos ID3 (título, artista, portada) con mutagen tras la descarga."""
-
 from pathlib import Path
 
 from mutagen.id3 import APIC, ID3, ID3NoHeaderError, TIT2, TPE1

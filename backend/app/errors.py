@@ -1,6 +1,3 @@
-"""Excepción HTTP con forma consistente: {"error": {"kind": ..., "message": ...}}."""
-
-
 class ApiError(Exception):
     def __init__(self, status_code: int, kind: str, message: str):
         super().__init__(message)

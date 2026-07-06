@@ -1,5 +1,3 @@
-"""Clasificación cerrada de errores de descarga (kind) a partir de excepciones de yt-dlp/ffmpeg."""
-
 import errno
 from urllib.error import URLError
 

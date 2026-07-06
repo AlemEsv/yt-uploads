@@ -1,5 +1,3 @@
-"""Acceso a la tabla `configuracion` (clave/valor genérico)."""
-
 import sqlite3
 
 

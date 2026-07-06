@@ -1,5 +1,3 @@
-"""Acceso a datos de la tabla `canciones` (capa compartida por descarga/biblioteca)."""
-
 import sqlite3
 
 CANCION_COLUMNS = [

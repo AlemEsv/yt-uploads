@@ -1,5 +1,3 @@
-"""Gestor de conexiones WebSocket: un canal /ws con broadcast a todos los clientes."""
-
 import json
 
 from fastapi import WebSocket

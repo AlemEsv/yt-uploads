@@ -1,6 +1,3 @@
-"""Traduce los progress_hooks de yt-dlp a un payload compacto para WebSocket."""
-
-
 def parse_progress(d: dict) -> dict | None:
     status = d.get("status")
 

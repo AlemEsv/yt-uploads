@@ -1,6 +1,3 @@
-"""Rutas de biblioteca. Solo PATCH en esta rama (edición asistida post-descarga);
-listar/buscar/importar/escanear se agregan en feature/library."""
-
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 
