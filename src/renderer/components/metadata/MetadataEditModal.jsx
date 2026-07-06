@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useApi } from "../../hooks/useApi.js";
 
-export default function MetadataEditModal({ cancion, onClose }) {
+export default function MetadataEditModal({ cancion, onClose, onSaved }) {
   const api = useApi();
   const [titulo, setTitulo] = useState(cancion.titulo ?? "");
   const [artista, setArtista] = useState(cancion.artista ?? "");
@@ -12,7 +12,8 @@ export default function MetadataEditModal({ cancion, onClose }) {
     if (!api) return;
     setSaving(true);
     try {
-      await api.patchLibrarySong(cancion.id, { titulo, artista, genero: genero || null });
+      const updated = await api.patchLibrarySong(cancion.id, { titulo, artista, genero: genero || null });
+      onSaved?.(updated);
       onClose();
     } finally {
       setSaving(false);
