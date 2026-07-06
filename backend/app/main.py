@@ -1,15 +1,36 @@
+import asyncio
 import json
 from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
+from app.config_store import get_value
 from app.db import get_connection
-from app.routes import health
+from app.downloader.engine import DownloadQueue
+from app.errors import ApiError
+from app.paths import default_music_dir
+from app.routes import download, health, library
+from app.websocket import ConnectionManager
+
+
+def resolve_download_dir(conn) -> Path:
+    value = get_value(conn, "directorio_descarga")
+    return Path(value) if value else default_music_dir()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.db = get_connection()
+    app.state.ws_manager = ConnectionManager()
+    app.state.download_queue = DownloadQueue(
+        ws_manager=app.state.ws_manager,
+        get_db=lambda: app.state.db,
+        get_download_dir=lambda: resolve_download_dir(app.state.db),
+    )
+    app.state.download_queue.bind_loop(asyncio.get_running_loop())
 
     host = getattr(app.state, "host", "127.0.0.1")
     port = getattr(app.state, "port", 8765)
@@ -22,3 +43,28 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="SoundDock Backend", lifespan=lifespan)
 app.include_router(health.router)
+app.include_router(download.router)
+app.include_router(library.router)
+
+
+@app.exception_handler(ApiError)
+async def api_error_handler(request: Request, exc: ApiError):
+    return JSONResponse(status_code=exc.status_code, content={"error": {"kind": exc.kind, "message": exc.message}})
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_error_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content={"error": {"kind": "solicitud_invalida", "message": str(exc)}},
+    )
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await app.state.ws_manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        app.state.ws_manager.disconnect(websocket)
