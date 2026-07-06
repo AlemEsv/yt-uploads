@@ -3,6 +3,7 @@ from pathlib import Path
 
 from fastapi import APIRouter, Request, Response
 from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import StreamingResponse
 from mutagen.id3 import ID3
 from pydantic import BaseModel
 
@@ -12,6 +13,7 @@ from app.errors import ApiError
 from app.library.importer import import_files
 from app.library.repository import delete_cancion, get_cancion, list_canciones, count_canciones, update_cancion
 from app.library.scanner import scan_directory
+from app.library.streaming import build_stream_response
 
 router = APIRouter()
 
@@ -126,6 +128,22 @@ async def delete_library_song(cancion_id: int, request: Request, borrar_archivo:
             archivo_borrado = True
 
     return {"deleted": True, "archivo_borrado": archivo_borrado}
+
+
+@router.get("/library/{cancion_id}/stream")
+async def stream_library_song(cancion_id: int, request: Request):
+    conn = request.app.state.db
+    with DB_LOCK:
+        cancion = get_cancion(conn, cancion_id)
+    if not cancion:
+        raise ApiError(404, "no_encontrado", "Canción no encontrada")
+
+    path = Path(cancion["ruta_archivo"])
+    if not path.exists():
+        raise ApiError(404, "archivo_no_encontrado", "El archivo de audio ya no existe en disco")
+
+    status_code, headers, iterator = build_stream_response(path, request.headers.get("range"))
+    return StreamingResponse(iterator, status_code=status_code, media_type="audio/mpeg", headers=headers)
 
 
 @router.get("/library/{cancion_id}/cover")

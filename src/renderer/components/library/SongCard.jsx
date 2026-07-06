@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useApi } from "../../hooks/useApi.js";
 import { useLibrary } from "../../context/LibraryContext.jsx";
+import { usePlayer } from "../../context/PlayerContext.jsx";
 import { miniButtonStyle } from "./styles.js";
 
 export default function SongCard({ song, onEdit }) {
   const api = useApi();
   const { toggleFavorite, removeSong } = useLibrary();
+  const { playNow, enqueue } = usePlayer();
   const [imgError, setImgError] = useState(false);
 
   return (
@@ -43,6 +45,12 @@ export default function SongCard({ song, onEdit }) {
         {song.artista ?? "Artista desconocido"}
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", fontSize: "0.75rem" }}>
+        <button type="button" onClick={() => playNow(song.id)} style={miniButtonStyle(false)}>
+          Reproducir
+        </button>
+        <button type="button" onClick={() => enqueue(song.id)} style={miniButtonStyle(false)}>
+          Agregar a cola
+        </button>
         <button type="button" onClick={() => toggleFavorite(song)} style={miniButtonStyle(song.es_favorito)}>
           {song.es_favorito ? "En favoritos" : "Favorito"}
         </button>

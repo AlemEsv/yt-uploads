@@ -24,6 +24,7 @@ export function createApiClient(baseUrl) {
         body: JSON.stringify(updates),
       }),
     coverUrl: (songId) => `${baseUrl}/library/${songId}/cover`,
+    streamUrl: (songId) => `${baseUrl}/library/${songId}/stream`,
     listLibrary: (params = {}) => {
       const query = new URLSearchParams(
         Object.fromEntries(Object.entries(params).filter(([, v]) => v !== undefined && v !== null && v !== "")),
@@ -40,5 +41,7 @@ export function createApiClient(baseUrl) {
     listFavorites: () => request(baseUrl, "/favorites"),
     addFavorite: (songId) => request(baseUrl, `/favorites/${songId}`, { method: "POST" }),
     removeFavorite: (songId) => request(baseUrl, `/favorites/${songId}`, { method: "DELETE" }),
+    registerHistory: (songId) =>
+      request(baseUrl, "/history", { method: "POST", body: JSON.stringify({ song_id: songId }) }),
   };
 }
