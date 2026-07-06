@@ -1,15 +1,24 @@
 import sqlite3
+import threading
 from pathlib import Path
 
 from app.paths import db_path
 
 MIGRATIONS_DIR = Path(__file__).resolve().parent / "schema" / "migrations"
 
+# La conexión se comparte entre el loop de asyncio y el worker thread de descargas;
+# este lock serializa el acceso para evitar carreras sobre el mismo objeto Connection.
+DB_LOCK = threading.Lock()
+
 
 def _connect_raw(path: Path) -> sqlite3.Connection:
-    conn = sqlite3.connect(path)
+    # check_same_thread=False: el worker de descargas (thread aparte) y el loop
+    # de asyncio comparten esta misma conexión. WAL permite que ambos lean/escriban
+    # sin bloquearse mutuamente en el caso común.
+    conn = sqlite3.connect(path, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
+    conn.execute("PRAGMA journal_mode = WAL")
     return conn
 
 
