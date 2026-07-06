@@ -1,5 +1,3 @@
-"""Escaneo del directorio configurado: detecta canciones nuevas, modificadas o desaparecidas."""
-
 from pathlib import Path
 from typing import Callable
 

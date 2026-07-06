@@ -1,5 +1,3 @@
-"""Lectura de tags existentes en un MP3 (importación manual y escaneo)."""
-
 from pathlib import Path
 
 from mutagen.easyid3 import EasyID3

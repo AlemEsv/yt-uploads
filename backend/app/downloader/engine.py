@@ -1,5 +1,3 @@
-"""Motor de descarga: worker thread único + cola FIFO, integra yt-dlp/ffmpeg/mutagen."""
-
 import asyncio
 import queue
 import threading

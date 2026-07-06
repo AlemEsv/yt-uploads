@@ -1,5 +1,3 @@
-"""Importación manual de archivos MP3 existentes (arrastrar y soltar o selector nativo)."""
-
 from pathlib import Path
 
 from app.db import DB_LOCK
@@ -41,8 +39,7 @@ def import_files(conn, rutas: list[str]) -> dict:
                 )
                 actualizadas += 1
             else:
-                # Importación manual: el usuario ya eligió el archivo a propósito,
-                # no se fuerza revisión aunque falten título/artista.
+                # Importación manual
                 insert_cancion(
                     conn,
                     titulo=tags["titulo"],
