@@ -1,10 +1,3 @@
-"""Motor de estado de ánimo: heurístico simple basado en género/plataforma/frecuencia de repetición.
-
-No adquiere DB_LOCK por su cuenta — se llama siempre desde dentro de un bloque
-`with DB_LOCK:` ya abierto por el caller (routes/history.py), para evitar un
-deadlock por adquisición anidada del mismo lock no reentrante.
-"""
-
 import json
 
 from app.config_store import get_value, set_value
@@ -19,7 +12,6 @@ UMBRAL_REPETICION = 0.3
 
 
 def evaluate(conn) -> list[tuple[str, dict]]:
-    """Evalúa el historial reciente y devuelve los eventos WS a emitir (puede ser [])."""
     modo = get_value(conn, "modo_mood_engine", "manual")
     dias = int(get_value(conn, "mood_ventana_dias", "7"))
     historial = historial_ventana(conn, dias)
