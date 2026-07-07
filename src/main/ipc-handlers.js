@@ -16,6 +16,35 @@ function registerIpcHandlers({ backendProcess, getMainWindow }) {
   ipcMain.handle("shell:show-in-folder", (_event, absolutePath) => {
     shell.showItemInFolder(absolutePath);
   });
+
+  ipcMain.handle("dialog:choose-folder", async () => {
+    const win = getMainWindow();
+    const result = await dialog.showOpenDialog(win, {
+      title: "Elegir carpeta de descarga",
+      properties: ["openDirectory"],
+    });
+    return result.canceled ? null : result.filePaths[0];
+  });
+
+  ipcMain.handle("dialog:save-backup", async () => {
+    const win = getMainWindow();
+    const result = await dialog.showSaveDialog(win, {
+      title: "Exportar respaldo",
+      defaultPath: "sounddock-backup.sounddockbak",
+      filters: [{ name: "Respaldo SoundDock", extensions: ["sounddockbak"] }],
+    });
+    return result.canceled ? null : result.filePath;
+  });
+
+  ipcMain.handle("dialog:open-backup", async () => {
+    const win = getMainWindow();
+    const result = await dialog.showOpenDialog(win, {
+      title: "Importar respaldo",
+      properties: ["openFile"],
+      filters: [{ name: "Respaldo SoundDock", extensions: ["sounddockbak", "db"] }],
+    });
+    return result.canceled ? null : result.filePaths[0];
+  });
 }
 
 module.exports = { registerIpcHandlers };

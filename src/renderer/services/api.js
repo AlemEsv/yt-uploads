@@ -52,5 +52,9 @@ export function createApiClient(baseUrl) {
     activateProfile: (profileId) => request(baseUrl, `/profiles/${profileId}/activate`, { method: "POST" }),
     getSettings: () => request(baseUrl, "/settings"),
     putSettings: (data) => request(baseUrl, "/settings", { method: "PUT", body: JSON.stringify(data) }),
+    exportBackup: (destino) =>
+      request(baseUrl, "/backup/export", { method: "POST", body: JSON.stringify({ destino }) }),
+    importBackup: (origen, modo = "reemplazar") =>
+      request(baseUrl, "/backup/import", { method: "POST", body: JSON.stringify({ origen, modo }) }),
   };
 }

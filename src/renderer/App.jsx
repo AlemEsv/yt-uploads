@@ -14,6 +14,9 @@ import FavoritesPage from "./pages/FavoritesPage.jsx";
 import ProfilesPage from "./pages/ProfilesPage.jsx";
 import StatsPage from "./pages/StatsPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import OnboardingLegalPage from "./pages/OnboardingLegalPage.jsx";
+
+const LEGAL_ACCEPTED_KEY = "sounddock:legalAccepted";
 
 const STATUS_LABEL = {
   starting: "Iniciando el motor local...",
@@ -51,7 +54,22 @@ function BackendStatusScreen() {
 
 function MainShell() {
   const [activeView, setActiveView] = useState("library");
+  const [legalAccepted, setLegalAccepted] = useState(
+    () => localStorage.getItem(LEGAL_ACCEPTED_KEY) === "true",
+  );
   const ActivePage = PAGES[activeView] ?? LibraryPage;
+
+  if (!legalAccepted) {
+    return (
+      <OnboardingLegalPage
+        mode="onboarding"
+        onAccept={() => {
+          localStorage.setItem(LEGAL_ACCEPTED_KEY, "true");
+          setLegalAccepted(true);
+        }}
+      />
+    );
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>

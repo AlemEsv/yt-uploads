@@ -11,6 +11,9 @@ contextBridge.exposeInMainWorld("sounddock", {
 
   chooseMp3Files: () => ipcRenderer.invoke("dialog:choose-mp3-files"),
   showItemInFolder: (absolutePath) => ipcRenderer.invoke("shell:show-in-folder", absolutePath),
+  chooseFolder: () => ipcRenderer.invoke("dialog:choose-folder"),
+  chooseBackupExportPath: () => ipcRenderer.invoke("dialog:save-backup"),
+  chooseBackupImportPath: () => ipcRenderer.invoke("dialog:open-backup"),
 
   // Sincrónico: webUtils.getPathForFile no necesita ida y vuelta por IPC.
   getPathForFile: (file) => webUtils.getPathForFile(file),
