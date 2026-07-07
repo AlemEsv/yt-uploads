@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 import { useLibrary } from "../../context/LibraryContext.jsx";
 import { useApi } from "../../hooks/useApi.js";
+import { useDominantColor } from "../../hooks/useDominantColor.js";
 import { miniButtonStyle } from "../library/styles.js";
 import PlayerControls from "./PlayerControls.jsx";
 import ProgressBar from "./ProgressBar.jsx";
@@ -18,6 +19,7 @@ const barStyle = {
   justifyContent: "space-between",
   padding: "0 1rem",
   gap: "1rem",
+  transition: "background 500ms ease",
 };
 
 export default function PlayerBar() {
@@ -25,6 +27,7 @@ export default function PlayerBar() {
   const { toggleFavorite } = useLibrary();
   const api = useApi();
   const [showQueue, setShowQueue] = useState(false);
+  const dominantColor = useDominantColor(currentSong && api ? api.coverUrl(currentSong.id) : null);
 
   if (!currentSong) {
     return (
@@ -36,8 +39,12 @@ export default function PlayerBar() {
     );
   }
 
+  const gradientStyle = dominantColor
+    ? { background: `linear-gradient(180deg, ${dominantColor}, transparent)` }
+    : {};
+
   return (
-    <div style={barStyle}>
+    <div style={{ ...barStyle, ...gradientStyle }}>
       <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", width: "220px", minWidth: 0 }}>
         {api && (
           <img

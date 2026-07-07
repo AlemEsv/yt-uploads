@@ -2,11 +2,22 @@
   --color-bg-base: #000101;
   --color-sidebar-bg: #131212;
   --color-accent: #6c5ce7;
+  --color-accent-soft: rgba(108, 92, 231, 0.25);
   --color-text-primary: #ffffff;
   --color-text-secondary: #9a9a9a;
   --color-border: rgba(255, 255, 255, 0.08);
   --color-error: #e05555;
   --color-success: #4fbf6b;
+}
+
+/* Transición suave al cambiar de perfil temático: el navegador no anima el
+   valor de una custom property por sí solo, así que se declara la transición
+   en las propiedades reales que la consumen (fondo/borde/color). */
+button {
+  transition:
+    background-color 400ms ease,
+    border-color 400ms ease,
+    color 400ms ease;
 }
 
 * {

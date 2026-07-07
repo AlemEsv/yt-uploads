@@ -43,5 +43,14 @@ export function createApiClient(baseUrl) {
     removeFavorite: (songId) => request(baseUrl, `/favorites/${songId}`, { method: "DELETE" }),
     registerHistory: (songId) =>
       request(baseUrl, "/history", { method: "POST", body: JSON.stringify({ song_id: songId }) }),
+    getHistoryStats: (ventanaDias = 7) => request(baseUrl, `/history/stats?ventana_dias=${ventanaDias}`),
+    listProfiles: () => request(baseUrl, "/profiles"),
+    createProfile: (data) => request(baseUrl, "/profiles", { method: "POST", body: JSON.stringify(data) }),
+    patchProfile: (profileId, data) =>
+      request(baseUrl, `/profiles/${profileId}`, { method: "PATCH", body: JSON.stringify(data) }),
+    deleteProfile: (profileId) => request(baseUrl, `/profiles/${profileId}`, { method: "DELETE" }),
+    activateProfile: (profileId) => request(baseUrl, `/profiles/${profileId}/activate`, { method: "POST" }),
+    getSettings: () => request(baseUrl, "/settings"),
+    putSettings: (data) => request(baseUrl, "/settings", { method: "PUT", body: JSON.stringify(data) }),
   };
 }
