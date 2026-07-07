@@ -11,7 +11,16 @@ from app.config_store import get_download_dir
 from app.db import get_connection
 from app.downloader.engine import DownloadQueue
 from app.errors import ApiError
-from app.routes import download, favorites, health, history, library, profiles, settings
+from app.routes import (
+    backup,
+    download,
+    favorites,
+    health,
+    history,
+    library,
+    profiles,
+    settings,
+)
 from app.websocket import ConnectionManager
 
 
@@ -29,7 +38,10 @@ async def lifespan(app: FastAPI):
     host = getattr(app.state, "host", "127.0.0.1")
     port = getattr(app.state, "port", 8765)
     # Handshake leído por Electron (src/main/backend-process.js) para conocer host/puerto reales.
-    print(f"SOUNDDOCK_BACKEND_READY {json.dumps({'host': host, 'port': port})}", flush=True)
+    print(
+        f"SOUNDDOCK_BACKEND_READY {json.dumps({'host': host, 'port': port})}",
+        flush=True,
+    )
     yield
 
     app.state.db.close()
@@ -54,11 +66,15 @@ app.include_router(favorites.router)
 app.include_router(history.router)
 app.include_router(profiles.router)
 app.include_router(settings.router)
+app.include_router(backup.router)
 
 
 @app.exception_handler(ApiError)
 async def api_error_handler(request: Request, exc: ApiError):
-    return JSONResponse(status_code=exc.status_code, content={"error": {"kind": exc.kind, "message": exc.message}})
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"error": {"kind": exc.kind, "message": exc.message}},
+    )
 
 
 @app.exception_handler(RequestValidationError)
