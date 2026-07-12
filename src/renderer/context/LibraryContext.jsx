@@ -8,6 +8,8 @@ export function LibraryProvider({ children }) {
   const api = useApi();
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [platformFilter, setPlatformFilter] = useState(null);
 
   const refetch = useCallback(async () => {
     if (!api) return;
@@ -84,6 +86,10 @@ export function LibraryProvider({ children }) {
     importFiles,
     scanLibrary,
     applyUpdate,
+    searchQuery,
+    setSearchQuery,
+    platformFilter,
+    setPlatformFilter,
   };
 
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;

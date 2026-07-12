@@ -7,11 +7,20 @@ import EmptyState from "../components/common/EmptyState.jsx";
 import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 
 export default function FavoritesPage() {
-  const { songs, applyUpdate } = useLibrary();
+  const { songs, applyUpdate, searchQuery } = useLibrary();
   const [view, setView] = useState(() => localStorage.getItem("sounddock:favoritesView") ?? "grid");
   const [editingSong, setEditingSong] = useState(null);
 
-  const favoritos = useMemo(() => songs.filter((song) => song.es_favorito), [songs]);
+  const favoritos = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return songs.filter(
+      (song) =>
+        song.es_favorito &&
+        (!q ||
+          song.titulo.toLowerCase().includes(q) ||
+          (song.artista ?? "").toLowerCase().includes(q)),
+    );
+  }, [songs, searchQuery]);
 
   function handleViewChange(next) {
     setView(next);

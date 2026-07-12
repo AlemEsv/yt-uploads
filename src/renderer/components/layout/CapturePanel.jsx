@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useApi } from "../../hooks/useApi.js";
 import { useDownloads } from "../../hooks/useDownloads.js";
 import { useLibrary } from "../../context/LibraryContext.jsx";
 import MetadataEditModal from "../metadata/MetadataEditModal.jsx";
@@ -13,67 +12,35 @@ const STATUS_LABEL = {
 };
 
 export default function CapturePanel() {
-  const api = useApi();
   const { applyUpdate } = useLibrary();
-  const [url, setUrl] = useState("");
   const [pendingReview, setPendingReview] = useState(null);
   const { items } = useDownloads({ onNeedsReview: setPendingReview });
 
-  const recentItems = Object.values(items).slice(-5).reverse();
+  const recentItems = Object.values(items)
+    .filter((item) => item.status !== "completed")
+    .slice(-5)
+    .reverse();
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    if (!url.trim() || !api) return;
-    try {
-      await api.startDownload(url.trim());
-      setUrl("");
-    } catch {
-      // El error real llega por WebSocket (download_error) y se muestra como toast.
-    }
+  if (recentItems.length === 0 && !pendingReview) {
+    return null;
   }
 
   return (
     <div
       style={{
-        padding: "0.75rem 1rem",
-        borderBottom: "1px solid var(--color-border)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.5rem",
+        position: "absolute",
+        top: "100%",
+        left: "1.25rem",
+        marginTop: "0.5rem",
+        width: "340px",
+        padding: "0.75rem",
+        borderRadius: "12px",
+        border: "1px solid var(--color-border)",
+        background: "var(--color-sidebar-bg)",
+        boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
+        zIndex: 1500,
       }}
     >
-      <form onSubmit={handleSubmit} style={{ display: "flex", gap: "0.5rem" }}>
-        <input
-          type="text"
-          value={url}
-          onChange={(event) => setUrl(event.target.value)}
-          placeholder="Pega un enlace de YouTube o SoundCloud"
-          style={{
-            flex: 1,
-            padding: "0.5rem 0.75rem",
-            borderRadius: "8px",
-            border: "1px solid var(--color-border)",
-            background: "#0c0c0c",
-            color: "var(--color-text-primary)",
-          }}
-        />
-        <button
-          type="submit"
-          disabled={!url.trim() || !api}
-          style={{
-            padding: "0.5rem 1.25rem",
-            borderRadius: "8px",
-            border: "none",
-            background: "var(--color-accent)",
-            color: "white",
-            cursor: url.trim() && api ? "pointer" : "not-allowed",
-            opacity: url.trim() && api ? 1 : 0.6,
-          }}
-        >
-          Descargar
-        </button>
-      </form>
-
       {recentItems.length > 0 && (
         <ul
           style={{
@@ -82,7 +49,7 @@ export default function CapturePanel() {
             padding: 0,
             display: "flex",
             flexDirection: "column",
-            gap: "0.25rem",
+            gap: "0.4rem",
           }}
         >
           {recentItems.map((item) => (
@@ -93,10 +60,13 @@ export default function CapturePanel() {
                 color: "var(--color-text-secondary)",
                 display: "flex",
                 justifyContent: "space-between",
+                gap: "0.5rem",
               }}
             >
-              <span>{item.cancion?.titulo ?? item.url}</span>
-              <span>
+              <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {item.cancion?.titulo ?? item.url}
+              </span>
+              <span style={{ flexShrink: 0 }}>
                 {STATUS_LABEL[item.status] ?? item.status}
                 {item.status === "downloading" ? ` ${item.progress ?? 0}%` : ""}
               </span>

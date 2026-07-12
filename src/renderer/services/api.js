@@ -56,6 +56,8 @@ export function createApiClient(baseUrl) {
       request(baseUrl, "/history", { method: "POST", body: JSON.stringify({ song_id: songId }) }),
     getHistoryStats: (ventanaDias = 7) =>
       request(baseUrl, `/history/stats?ventana_dias=${ventanaDias}`),
+    getHistory: (limit = 50, offset = 0) =>
+      request(baseUrl, `/history?limit=${limit}&offset=${offset}`),
     listProfiles: () => request(baseUrl, "/profiles"),
     createProfile: (data) =>
       request(baseUrl, "/profiles", { method: "POST", body: JSON.stringify(data) }),

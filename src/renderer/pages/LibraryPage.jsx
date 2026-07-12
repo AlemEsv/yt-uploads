@@ -4,17 +4,16 @@ import { useToast } from "../context/ToastContext.jsx";
 import SongGrid from "../components/library/SongGrid.jsx";
 import SongListView from "../components/library/SongListView.jsx";
 import ViewToggle from "../components/library/ViewToggle.jsx";
-import SearchBar from "../components/library/SearchBar.jsx";
 import EmptyState from "../components/common/EmptyState.jsx";
 import SkeletonCard from "../components/common/SkeletonCard.jsx";
 import DropZoneOverlay from "../components/import/DropZoneOverlay.jsx";
 import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 
 export default function LibraryPage() {
-  const { songs, loading, importFiles, scanLibrary, applyUpdate } = useLibrary();
+  const { songs, loading, importFiles, scanLibrary, applyUpdate, searchQuery, platformFilter } =
+    useLibrary();
   const { showSuccess, showError } = useToast();
   const [view, setView] = useState(() => localStorage.getItem("sounddock:libraryView") ?? "grid");
-  const [query, setQuery] = useState("");
   const [editingSong, setEditingSong] = useState(null);
 
   function handleViewChange(next) {
@@ -23,13 +22,19 @@ export default function LibraryPage() {
   }
 
   const filteredSongs = useMemo(() => {
-    if (!query.trim()) return songs;
-    const q = query.trim().toLowerCase();
-    return songs.filter(
-      (song) =>
-        song.titulo.toLowerCase().includes(q) || (song.artista ?? "").toLowerCase().includes(q),
-    );
-  }, [songs, query]);
+    let result = songs;
+    if (platformFilter) {
+      result = result.filter((song) => song.plataforma_origen === platformFilter);
+    }
+    const q = searchQuery.trim().toLowerCase();
+    if (q) {
+      result = result.filter(
+        (song) =>
+          song.titulo.toLowerCase().includes(q) || (song.artista ?? "").toLowerCase().includes(q),
+      );
+    }
+    return result;
+  }, [songs, searchQuery, platformFilter]);
 
   async function handleImportPaths(paths) {
     try {
@@ -83,9 +88,8 @@ export default function LibraryPage() {
           flexWrap: "wrap",
         }}
       >
-        <h2 style={{ margin: 0 }}>Tu Biblioteca</h2>
+        <h2 style={{ margin: 0 }}>Local</h2>
         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
-          <SearchBar value={query} onChange={setQuery} />
           <ViewToggle view={view} onChange={handleViewChange} />
           <button type="button" onClick={handleChooseFiles} style={secondaryButton}>
             Importar archivos
