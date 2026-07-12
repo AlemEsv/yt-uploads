@@ -46,9 +46,12 @@ export default function RecentPage() {
 
   const sections = useMemo(() => {
     const buckets = { Today: [], Yesterday: [], Earlier: [] };
+    const seen = new Set();
     for (const item of history) {
+      if (seen.has(item.song_id)) continue;
       const song = songs.find((s) => s.id === item.song_id);
       if (!song) continue;
+      seen.add(item.song_id);
       const playedAt = parseUtc(item.fecha_hora);
       buckets[dayBucket(playedAt)].push({ key: item.id, song, playedAt: relativeTime(playedAt) });
     }
