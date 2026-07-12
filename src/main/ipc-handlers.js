@@ -3,6 +3,22 @@ const { ipcMain, dialog, shell } = require("electron");
 function registerIpcHandlers({ backendProcess, getMainWindow }) {
   ipcMain.handle("backend:get-config", () => backendProcess.getConfig());
 
+  ipcMain.handle("window:minimize", () => getMainWindow()?.minimize());
+
+  ipcMain.handle("window:toggle-maximize", () => {
+    const win = getMainWindow();
+    if (!win) return;
+    if (win.isMaximized()) {
+      win.unmaximize();
+    } else {
+      win.maximize();
+    }
+  });
+
+  ipcMain.handle("window:close", () => getMainWindow()?.close());
+
+  ipcMain.handle("window:is-maximized", () => getMainWindow()?.isMaximized() ?? false);
+
   ipcMain.handle("dialog:choose-mp3-files", async () => {
     const win = getMainWindow();
     const result = await dialog.showOpenDialog(win, {

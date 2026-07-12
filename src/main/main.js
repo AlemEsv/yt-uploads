@@ -1,5 +1,5 @@
 const path = require("path");
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu } = require("electron");
 const { BackendProcess } = require("./backend-process");
 const { registerIpcHandlers } = require("./ipc-handlers");
 
@@ -13,6 +13,7 @@ function createWindow() {
     minWidth: 960,
     minHeight: 600,
     backgroundColor: "#000101",
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, "..", "preload", "preload.js"),
       contextIsolation: true,
@@ -35,9 +36,13 @@ function createWindow() {
       mainWindow.webContents.send("backend:status", status);
     }
   });
+
+  mainWindow.on("maximize", () => mainWindow.webContents.send("window:maximized-change", true));
+  mainWindow.on("unmaximize", () => mainWindow.webContents.send("window:maximized-change", false));
 }
 
 app.whenReady().then(() => {
+  Menu.setApplicationMenu(null);
   registerIpcHandlers({ backendProcess, getMainWindow: () => mainWindow });
   createWindow();
   backendProcess.start().catch((err) => {

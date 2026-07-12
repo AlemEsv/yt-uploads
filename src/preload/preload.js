@@ -16,6 +16,16 @@ contextBridge.exposeInMainWorld("sounddock", {
   chooseBackupExportPath: () => ipcRenderer.invoke("dialog:save-backup"),
   chooseBackupImportPath: () => ipcRenderer.invoke("dialog:open-backup"),
 
+  minimizeWindow: () => ipcRenderer.invoke("window:minimize"),
+  toggleMaximizeWindow: () => ipcRenderer.invoke("window:toggle-maximize"),
+  closeWindow: () => ipcRenderer.invoke("window:close"),
+  isWindowMaximized: () => ipcRenderer.invoke("window:is-maximized"),
+  onWindowMaximizedChange: (callback) => {
+    const wrapped = (_event, isMaximized) => callback(isMaximized);
+    ipcRenderer.on("window:maximized-change", wrapped);
+    return () => ipcRenderer.removeListener("window:maximized-change", wrapped);
+  },
+
   // Sincrónico: webUtils.getPathForFile no necesita ida y vuelta por IPC.
   getPathForFile: (file) => webUtils.getPathForFile(file),
 });
