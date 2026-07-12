@@ -34,6 +34,7 @@ export function PlayerProvider({ children }) {
   });
   const [isShuffle, setIsShuffle] = useState(false);
   const [loopMode, setLoopMode] = useState("off");
+  const [showQueue, setShowQueue] = useState(false);
 
   const currentSongId = queueIndex >= 0 ? queue[queueIndex] : null;
   const currentSong = songs.find((s) => s.id === currentSongId) ?? null;
@@ -239,6 +240,10 @@ export function PlayerProvider({ children }) {
     setLoopMode((mode) => (mode === "off" ? "all" : mode === "all" ? "one" : "off"));
   }
 
+  function toggleQueue() {
+    setShowQueue((v) => !v);
+  }
+
   const value = {
     currentSong,
     queue: queue.map((id) => songs.find((s) => s.id === id)).filter(Boolean),
@@ -249,6 +254,9 @@ export function PlayerProvider({ children }) {
     volume,
     isShuffle,
     loopMode,
+    showQueue,
+    setShowQueue,
+    toggleQueue,
     playNow,
     enqueue,
     removeFromQueue,

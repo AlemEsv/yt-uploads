@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Heart, ListMusic } from "lucide-react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 import { useLibrary } from "../../context/LibraryContext.jsx";
-import { useApi } from "../../hooks/useApi.js";
 import SongCover from "../common/SongCover.jsx";
 import PlayerControls from "./PlayerControls.jsx";
 import ProgressBar from "./ProgressBar.jsx";
@@ -10,9 +9,8 @@ import VolumeControl from "./VolumeControl.jsx";
 import QueuePanel from "./QueuePanel.jsx";
 
 export default function PlayerBar() {
-  const { currentSong } = usePlayer();
+  const { currentSong, showQueue, setShowQueue, toggleQueue } = usePlayer();
   const { toggleFavorite } = useLibrary();
-  const [showQueue, setShowQueue] = useState(false);
 
   if (!currentSong) {
     return (
@@ -59,7 +57,7 @@ export default function PlayerBar() {
       <div className="flex items-center gap-3 w-[200px] justify-end shrink-0">
         <button
           type="button"
-          onClick={() => setShowQueue((v) => !v)}
+          onClick={toggleQueue}
           title="Queue"
           className="bg-transparent border-none cursor-pointer p-0"
         >

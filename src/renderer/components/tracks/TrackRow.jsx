@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { Play, Heart, MoreHorizontal } from "lucide-react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 import { useLibrary } from "../../context/LibraryContext.jsx";
-import { useApi } from "../../hooks/useApi.js";
 import { formatTime } from "../../utils/formatTime.js";
 import SongCover from "../common/SongCover.jsx";
 import TrackRowMenu from "./TrackRowMenu.jsx";
 
 export default function TrackRow({ rank, song, onEdit, columns = [] }) {
-  const api = useApi();
   const { playNow } = usePlayer();
   const { toggleFavorite } = useLibrary();
   const [menuOpen, setMenuOpen] = useState(false);
