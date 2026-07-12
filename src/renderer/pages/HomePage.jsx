@@ -52,6 +52,8 @@ export default function HomePage({ onSelectView }) {
 
   const likedTracks = useMemo(() => songs.filter((s) => s.es_favorito).slice(0, 3), [songs]);
 
+  const lastPlayedSong = recentSongs[0] ?? null;
+
   const platformCounts = useMemo(() => {
     const map = {};
     for (const song of songs) {
@@ -78,14 +80,28 @@ export default function HomePage({ onSelectView }) {
     <div className="page-surface min-h-full">
       {/* Hero banner */}
       <div className="relative h-[300px] overflow-hidden rounded-[15px] mb-6">
+        {lastPlayedSong && api ? (
+          <img
+            src={api.coverUrl(lastPlayedSong.id, lastPlayedSong.fecha_modificacion)}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : null}
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(120deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 85%)",
-          }}
+          style={
+            lastPlayedSong
+              ? {
+                  background:
+                    "linear-gradient(90deg, var(--color-hero-gradient-end) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 100%)",
+                }
+              : {
+                  background:
+                    "linear-gradient(120deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 85%)",
+                }
+          }
         />
-        <div className="absolute bottom-0 left-0 p-8">
+        <div className="absolute bottom-0 left-0 p-8 text-white">
           <p className="text-[22px] font-bold mb-1">Welcome back!</p>
           <p className="text-[52px] font-medium leading-tight">Your Music</p>
           <div className="flex items-center gap-4 mt-2">
