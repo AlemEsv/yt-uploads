@@ -1,10 +1,23 @@
 import React from "react";
-import { Play, Pause, X } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, X } from "lucide-react";
 import { useRemotePlayerState } from "./hooks/useRemotePlayerState.js";
 import SongCover from "./components/common/SongCover.jsx";
 
+const transportButtonStyle = {
+  width: "26px",
+  height: "26px",
+  borderRadius: "50%",
+  background: "transparent",
+  border: "none",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  color: "var(--color-text-primary)",
+};
+
 export default function MiniPlayer() {
-  const { currentSong, isPlaying, togglePlay } = useRemotePlayerState();
+  const { currentSong, isPlaying, togglePlay, next, previous } = useRemotePlayerState();
 
   function handleRestore() {
     window.sounddock?.restoreMain();
@@ -13,7 +26,7 @@ export default function MiniPlayer() {
   return (
     <div
       style={{
-        width: "340px",
+        width: "380px",
         height: "90px",
         borderRadius: "14px",
         background: "#0a0a0a",
@@ -86,6 +99,10 @@ export default function MiniPlayer() {
           WebkitAppRegion: "no-drag",
         }}
       >
+        <button type="button" onClick={previous} style={transportButtonStyle} title="Previous">
+          <SkipBack size={14} fill="var(--color-text-primary)" />
+        </button>
+
         <button
           type="button"
           onClick={togglePlay}
@@ -108,6 +125,10 @@ export default function MiniPlayer() {
           ) : (
             <Play size={14} fill="var(--color-text-primary)" />
           )}
+        </button>
+
+        <button type="button" onClick={next} style={transportButtonStyle} title="Next">
+          <SkipForward size={14} fill="var(--color-text-primary)" />
         </button>
 
         <button

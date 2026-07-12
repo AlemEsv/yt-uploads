@@ -51,7 +51,7 @@ function createMiniWindow() {
     return;
   }
   miniWindow = new BrowserWindow({
-    width: 340,
+    width: 380,
     height: 90,
     frame: false,
     // Windows no maneja bien la transparencia real por píxel en ventanas frameless
