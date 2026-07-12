@@ -212,6 +212,37 @@ html.mini-mode #root {
   animation-play-state: paused;
 }
 
+@keyframes glow-color-cycle {
+  0%,
+  100% {
+    background: linear-gradient(
+      to bottom,
+      rgba(14, 165, 233, 0.35) 0%,
+      rgba(14, 165, 233, 0.2) 35%,
+      rgba(14, 165, 233, 0.1) 65%,
+      transparent 100%
+    );
+  }
+  33% {
+    background: linear-gradient(
+      to bottom,
+      rgba(59, 130, 246, 0.35) 0%,
+      rgba(59, 130, 246, 0.2) 35%,
+      rgba(59, 130, 246, 0.1) 65%,
+      transparent 100%
+    );
+  }
+  66% {
+    background: linear-gradient(
+      to bottom,
+      rgba(139, 92, 246, 0.35) 0%,
+      rgba(139, 92, 246, 0.2) 35%,
+      rgba(139, 92, 246, 0.1) 65%,
+      transparent 100%
+    );
+  }
+}
+
 .glow-bar-top {
   position: fixed;
   top: 0;
@@ -221,13 +252,7 @@ html.mini-mode #root {
   pointer-events: none;
   /* A propósito por encima de todo, incluida la barra de título y el sidebar. */
   z-index: 99999;
-  background: linear-gradient(
-    to bottom,
-    rgba(14, 165, 233, 0.35) 0%,
-    rgba(59, 130, 246, 0.2) 35%,
-    rgba(139, 92, 246, 0.1) 65%,
-    transparent 100%
-  );
+  animation: glow-color-cycle 12s ease-in-out infinite;
 }
 
 .player-range {
