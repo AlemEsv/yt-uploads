@@ -54,8 +54,11 @@ function createMiniWindow() {
     width: 340,
     height: 90,
     frame: false,
-    transparent: true,
-    backgroundColor: "#00000000",
+    // Windows no maneja bien la transparencia real por píxel en ventanas frameless
+    // (deja esquinas negras sin suavizar) — en vez de eso se usa un fondo opaco y se
+    // deja que Windows 11 redondee la ventana de forma nativa (roundedCorners).
+    backgroundColor: "#0a0a0a",
+    roundedCorners: true,
     alwaysOnTop: true,
     resizable: false,
     skipTaskbar: true,
