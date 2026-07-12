@@ -212,47 +212,76 @@ html.mini-mode #root {
   animation-play-state: paused;
 }
 
-@keyframes glow-color-cycle {
-  0%,
-  100% {
-    background: linear-gradient(
-      to bottom,
-      rgba(14, 165, 233, 0.35) 0%,
-      rgba(14, 165, 233, 0.2) 35%,
-      rgba(14, 165, 233, 0.1) 65%,
-      transparent 100%
-    );
-  }
-  33% {
-    background: linear-gradient(
-      to bottom,
-      rgba(59, 130, 246, 0.35) 0%,
-      rgba(59, 130, 246, 0.2) 35%,
-      rgba(59, 130, 246, 0.1) 65%,
-      transparent 100%
-    );
-  }
-  66% {
-    background: linear-gradient(
-      to bottom,
-      rgba(139, 92, 246, 0.35) 0%,
-      rgba(139, 92, 246, 0.2) 35%,
-      rgba(139, 92, 246, 0.1) 65%,
-      transparent 100%
-    );
-  }
-}
-
-.glow-bar-top {
+.glow-bar-bottom {
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   height: 320px;
   pointer-events: none;
   /* A propósito por encima de todo, incluida la barra de título y el sidebar. */
   z-index: 99999;
-  animation: glow-color-cycle 12s ease-in-out infinite;
+}
+
+.glow-bar-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /* Tres capas idénticas salvo el color, desfasadas 1/3 de la duración cada
+     una — al superponerse mientras una entra y otra sale, la mezcla se
+     percibe como una transición continua de color en vez de un salto. */
+  animation: glow-crossfade 15s ease-in-out infinite;
+}
+
+.glow-bar-layer--sky {
+  background: linear-gradient(
+    to top,
+    rgba(14, 165, 233, 0.35) 0%,
+    rgba(14, 165, 233, 0.2) 35%,
+    rgba(14, 165, 233, 0.1) 65%,
+    transparent 100%
+  );
+  animation-delay: 0s;
+}
+
+.glow-bar-layer--blue {
+  background: linear-gradient(
+    to top,
+    rgba(59, 130, 246, 0.35) 0%,
+    rgba(59, 130, 246, 0.2) 35%,
+    rgba(59, 130, 246, 0.1) 65%,
+    transparent 100%
+  );
+  animation-delay: -5s;
+}
+
+.glow-bar-layer--violet {
+  background: linear-gradient(
+    to top,
+    rgba(139, 92, 246, 0.35) 0%,
+    rgba(139, 92, 246, 0.2) 35%,
+    rgba(139, 92, 246, 0.1) 65%,
+    transparent 100%
+  );
+  animation-delay: -10s;
+}
+
+@keyframes glow-crossfade {
+  0% {
+    opacity: 0;
+  }
+  16.6% {
+    opacity: 1;
+  }
+  33.3% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .player-range {
