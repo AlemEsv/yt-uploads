@@ -29,8 +29,8 @@ export default function MiniPlayer() {
         width: "380px",
         height: "90px",
         borderRadius: "14px",
-        background: "#0a0a0a",
-        border: "1px solid rgba(255,255,255,0.1)",
+        background: "var(--color-player-bg)",
+        border: "1px solid var(--color-overlay-border)",
         boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
         display: "flex",
         alignItems: "center",
@@ -110,7 +110,7 @@ export default function MiniPlayer() {
             width: "32px",
             height: "32px",
             borderRadius: "50%",
-            background: "rgba(255,255,255,0.12)",
+            background: "var(--color-overlay-hover)",
             border: "none",
             cursor: "pointer",
             display: "flex",
@@ -144,7 +144,7 @@ export default function MiniPlayer() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "rgba(255,255,255,0.5)",
+            color: "var(--color-muted-text)",
           }}
           title="Abrir SoundDock"
         >
