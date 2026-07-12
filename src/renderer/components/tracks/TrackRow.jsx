@@ -9,10 +9,24 @@ import TrackRowMenu from "./TrackRowMenu.jsx";
 export default function TrackRow({ rank, song, onEdit, columns = [] }) {
   const { playNow } = usePlayer();
   const { toggleFavorite } = useLibrary();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuAnchor, setMenuAnchor] = useState(null);
+
+  function handleContextMenu(event) {
+    event.preventDefault();
+    const point = {
+      top: event.clientY,
+      bottom: event.clientY,
+      left: event.clientX,
+      right: event.clientX,
+    };
+    setMenuAnchor(point);
+  }
 
   return (
-    <div className="group relative flex items-center gap-4 px-4 py-2.5 rounded-[8px] hover:bg-[var(--color-overlay-subtle)] transition-colors select-none">
+    <div
+      onContextMenu={handleContextMenu}
+      className="group relative flex items-center gap-4 px-4 py-2.5 rounded-[8px] hover:bg-[var(--color-overlay-subtle)] transition-colors select-none"
+    >
       {rank != null && (
         <>
           <span className="w-5 text-[14px] font-bold text-[var(--color-text-secondary)] group-hover:hidden shrink-0 text-center">
@@ -79,7 +93,7 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
         <div className="relative flex items-center">
           <button
             type="button"
-            onClick={() => setMenuOpen((v) => !v)}
+            onClick={(event) => setMenuAnchor(event.currentTarget.getBoundingClientRect())}
             className="bg-transparent border-none cursor-pointer p-0"
             title="More"
           >
@@ -88,11 +102,17 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
               className="text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
             />
           </button>
-          {menuOpen && (
-            <TrackRowMenu song={song} onEdit={onEdit} onClose={() => setMenuOpen(false)} />
-          )}
         </div>
       </div>
+
+      {menuAnchor && (
+        <TrackRowMenu
+          song={song}
+          anchor={menuAnchor}
+          onEdit={onEdit}
+          onClose={() => setMenuAnchor(null)}
+        />
+      )}
     </div>
   );
 }
