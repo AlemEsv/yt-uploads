@@ -41,7 +41,7 @@ export default function DownloadTrigger() {
           open ? "bg-[var(--color-accent)]" : "glass hover:bg-[var(--color-overlay-hover)]"
         }`}
       >
-        <Download size={15} className="text-[var(--color-text-primary)]" />
+        <Download size={15} className={open ? "text-white" : "text-[var(--color-text-primary)]"} />
       </button>
 
       {open && (
