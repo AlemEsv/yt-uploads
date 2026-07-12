@@ -173,7 +173,7 @@ export default function HomePage({ onSelectView }) {
       )}
 
       {/* Three-column section */}
-      <div className="grid grid-cols-[1fr_1.6fr_1.6fr] gap-4">
+      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)_minmax(0,1.6fr)] gap-4">
         {/* Your Platforms */}
         <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-4 mt-0">Your Platforms</h3>

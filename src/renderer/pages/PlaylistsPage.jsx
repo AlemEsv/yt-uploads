@@ -8,6 +8,16 @@ import EmptyState from "../components/common/EmptyState.jsx";
 import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackTable from "../components/tracks/TrackTable.jsx";
 
+function playlistGradient(id) {
+  let hash = 0;
+  const str = String(id);
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) % 360;
+  }
+  const hue2 = (hash + 50) % 360;
+  return `linear-gradient(135deg, hsl(${hash}, 85%, 55%), hsl(${hue2}, 85%, 45%))`;
+}
+
 export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
   const api = useApi();
   const { songs, applyUpdate } = useLibrary();
@@ -130,10 +140,7 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
       <div className="relative rounded-t-[15px] overflow-hidden">
         <div
           className="h-[200px] px-8 pt-8 pb-6 flex flex-col justify-end"
-          style={{
-            background:
-              "linear-gradient(180deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%)",
-          }}
+          style={{ background: playlistGradient(detail.id) }}
         >
           <div className="flex items-end gap-6">
             <div className="w-[120px] h-[120px] rounded-[10px] flex items-center justify-center shadow-2xl bg-white/10">
@@ -159,11 +166,9 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
                   </button>
                 </form>
               ) : (
-                <h1 className="text-[42px] font-bold m-0 truncate">{detail.nombre}</h1>
+                <h1 className="text-[42px] font-bold m-0 truncate text-white">{detail.nombre}</h1>
               )}
-              <p className="text-[14px] text-[var(--color-text-secondary)] mt-1 mb-0">
-                {rows.length} songs
-              </p>
+              <p className="text-[14px] text-white/70 mt-1 mb-0">{rows.length} songs</p>
             </div>
           </div>
         </div>

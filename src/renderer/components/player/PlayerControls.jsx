@@ -32,7 +32,7 @@ export default function PlayerControls() {
         type="button"
         onClick={previous}
         title="Previous"
-        className="bg-transparent border-none cursor-pointer p-0 text-[var(--color-text-primary)] hover:text-[var(--color-text-secondary)] transition-colors"
+        className="bg-transparent border-none cursor-pointer p-0 text-[var(--color-text-primary)] hover:text-[var(--color-accent)] transition-colors"
       >
         <SkipBack size={18} />
       </button>
@@ -52,7 +52,7 @@ export default function PlayerControls() {
         type="button"
         onClick={next}
         title="Next"
-        className="bg-transparent border-none cursor-pointer p-0 text-[var(--color-text-primary)] hover:text-[var(--color-text-secondary)] transition-colors"
+        className="bg-transparent border-none cursor-pointer p-0 text-[var(--color-text-primary)] hover:text-[var(--color-accent)] transition-colors"
       >
         <SkipForward size={18} />
       </button>
