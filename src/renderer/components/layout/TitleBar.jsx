@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Minus, MoreHorizontal, Square, X } from "lucide-react";
+import { ListMusic, Minus, MoreHorizontal, Plus, Settings, Square, X } from "lucide-react";
 
 const buttonStyle = {
   display: "flex",
@@ -14,7 +14,27 @@ const buttonStyle = {
   WebkitAppRegion: "no-drag",
 };
 
-export default function TitleBar() {
+const menuItemStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+  width: "100%",
+  textAlign: "left",
+  padding: "0.5rem 0.75rem",
+  border: "none",
+  background: "transparent",
+  color: "var(--color-text-primary)",
+  cursor: "pointer",
+  font: "inherit",
+};
+
+export default function TitleBar({
+  onSelectView,
+  onNewPlaylist,
+  onToggleQueue,
+  onShowAbout,
+  showQueue,
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const menuRef = useRef(null);
@@ -34,6 +54,13 @@ export default function TitleBar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
+
+  function runAndClose(action) {
+    return () => {
+      action?.();
+      setMenuOpen(false);
+    };
+  }
 
   return (
     <div
@@ -64,26 +91,41 @@ export default function TitleBar() {
               left: 0,
               marginTop: "0.25rem",
               borderRadius: "8px",
-              minWidth: "160px",
+              minWidth: "200px",
               zIndex: 3000,
               WebkitAppRegion: "no-drag",
+              overflow: "hidden",
             }}
           >
             <button
               type="button"
-              onClick={() => window.sounddock.quitApp()}
-              style={{
-                display: "block",
-                width: "100%",
-                textAlign: "left",
-                padding: "0.5rem 0.75rem",
-                border: "none",
-                background: "transparent",
-                color: "var(--color-text-primary)",
-                cursor: "pointer",
-                font: "inherit",
-              }}
+              onClick={runAndClose(onNewPlaylist)}
+              disabled={!onNewPlaylist}
+              style={{ ...menuItemStyle, opacity: onNewPlaylist ? 1 : 0.4 }}
             >
+              <Plus size={14} /> Nueva playlist
+            </button>
+            <button
+              type="button"
+              onClick={runAndClose(() => onSelectView?.("settings"))}
+              disabled={!onSelectView}
+              style={{ ...menuItemStyle, opacity: onSelectView ? 1 : 0.4 }}
+            >
+              <Settings size={14} /> Configuración
+            </button>
+            <button
+              type="button"
+              onClick={runAndClose(onToggleQueue)}
+              disabled={!onToggleQueue}
+              style={{ ...menuItemStyle, opacity: onToggleQueue ? 1 : 0.4 }}
+            >
+              <ListMusic size={14} /> {showQueue ? "Ocultar" : "Mostrar"} cola de reproducción
+            </button>
+            <button type="button" onClick={runAndClose(onShowAbout)} style={menuItemStyle}>
+              Acerca de SoundDock
+            </button>
+            <div style={{ borderTop: "1px solid var(--color-border)" }} />
+            <button type="button" onClick={() => window.sounddock.quitApp()} style={menuItemStyle}>
               Salir de SoundDock
             </button>
           </div>

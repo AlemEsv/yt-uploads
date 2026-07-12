@@ -8,7 +8,7 @@ export default function ProgressBar() {
   return (
     <div className="w-full max-w-[400px] flex items-center gap-2">
       <span
-        className="text-[10px] text-[#9b9b9b] w-7 text-right"
+        className="text-[10px] text-[var(--color-muted-text)] w-7 text-right"
         style={{ fontFamily: "var(--font-secondary)" }}
       >
         {formatTime(currentTime)}
@@ -20,10 +20,10 @@ export default function ProgressBar() {
         value={Math.min(currentTime, duration || 0)}
         onChange={(event) => seek(Number(event.target.value))}
         className="flex-1 h-[3px] cursor-pointer"
-        style={{ accentColor: "#ffffff" }}
+        style={{ accentColor: "var(--color-text-primary)" }}
       />
       <span
-        className="text-[10px] text-[#9b9b9b] w-7"
+        className="text-[10px] text-[var(--color-muted-text)] w-7"
         style={{ fontFamily: "var(--font-secondary)" }}
       >
         {formatTime(duration)}

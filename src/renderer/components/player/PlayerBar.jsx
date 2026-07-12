@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Heart, ListMusic } from "lucide-react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 import { useLibrary } from "../../context/LibraryContext.jsx";
-import { useApi } from "../../hooks/useApi.js";
 import SongCover from "../common/SongCover.jsx";
 import PlayerControls from "./PlayerControls.jsx";
 import ProgressBar from "./ProgressBar.jsx";
@@ -10,14 +9,13 @@ import VolumeControl from "./VolumeControl.jsx";
 import QueuePanel from "./QueuePanel.jsx";
 
 export default function PlayerBar() {
-  const { currentSong } = usePlayer();
+  const { currentSong, showQueue, setShowQueue, toggleQueue } = usePlayer();
   const { toggleFavorite } = useLibrary();
-  const [showQueue, setShowQueue] = useState(false);
 
   if (!currentSong) {
     return (
       <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] border border-white/[0.07] rounded-[15px] h-[65px] flex items-center justify-center px-6">
-        <span className="text-[13px] text-[#9b9b9b]">
+        <span className="text-[13px] text-[var(--color-muted-text)]">
           Nothing playing — pick a song from your library.
         </span>
       </footer>
@@ -27,14 +25,10 @@ export default function PlayerBar() {
   return (
     <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] border border-white/[0.07] rounded-[15px] h-[65px] flex items-center px-6 gap-4">
       <div className="flex items-center gap-3 w-[260px] min-w-0">
-        <SongCover
-          song={currentSong}
-          className="w-[45px] h-[45px] rounded-[6px]"
-          iconSize={20}
-        />
+        <SongCover song={currentSong} className="w-[45px] h-[45px] rounded-[6px]" iconSize={20} />
         <div className="min-w-0">
           <p className="text-[15px] font-medium truncate m-0">{currentSong.titulo}</p>
-          <p className="text-[12px] text-[#b3b3b3] truncate m-0">
+          <p className="text-[12px] text-[var(--color-text-secondary)] truncate m-0">
             {currentSong.artista ?? "Unknown artist"}
           </p>
         </div>
@@ -48,7 +42,7 @@ export default function PlayerBar() {
             size={14}
             className={
               currentSong.es_favorito
-                ? "text-[#f21c2c] fill-[#f21c2c]"
+                ? "text-[var(--color-heart)] fill-[var(--color-heart)]"
                 : "text-white/60 hover:text-white"
             }
           />
@@ -63,7 +57,7 @@ export default function PlayerBar() {
       <div className="flex items-center gap-3 w-[200px] justify-end shrink-0">
         <button
           type="button"
-          onClick={() => setShowQueue((v) => !v)}
+          onClick={toggleQueue}
           title="Queue"
           className="bg-transparent border-none cursor-pointer p-0"
         >

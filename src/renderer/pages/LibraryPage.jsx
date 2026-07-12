@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Clock3, Folder, Heart, Music, RefreshCw, Upload } from "lucide-react";
+import { Clock3, Folder, HardDrive, Heart, Music, RefreshCw, Upload } from "lucide-react";
+import { SiSoundcloud, SiYoutube } from "react-icons/si";
 import { useApi } from "../hooks/useApi.js";
 import { useLibrary } from "../context/LibraryContext.jsx";
 import { useToast } from "../context/ToastContext.jsx";
@@ -9,9 +10,9 @@ import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackTable from "../components/tracks/TrackTable.jsx";
 
 const PLATFORM_BADGES = {
-  youtube: { label: "YOUTUBE", color: "#C71B1B" },
-  soundcloud: { label: "SOUNDCLOUD", color: "#E8720C" },
-  importado: { label: "IMPORTED", color: "#35827D" },
+  youtube: { label: "YOUTUBE", color: "#C71B1B", Icon: SiYoutube },
+  soundcloud: { label: "SOUNDCLOUD", color: "#E8720C", Icon: SiSoundcloud },
+  importado: { label: "IMPORTED", color: "#35827D", Icon: HardDrive },
 };
 
 function formatTotalDuration(totalSeconds) {
@@ -106,7 +107,7 @@ export default function LibraryPage() {
     {
       key: "album",
       header: "ALBUM",
-      className: "w-[160px] text-[13px] text-[#9b9b9b] truncate shrink-0",
+      className: "w-[160px] text-[13px] text-[var(--color-muted-text)] truncate shrink-0",
       render: (song) => song.album ?? "—",
     },
     {
@@ -117,9 +118,10 @@ export default function LibraryPage() {
         const badge = PLATFORM_BADGES[song.plataforma_origen];
         return (
           <span
-            className="text-[9px] font-bold px-2 py-0.5 rounded-[4px] text-white"
-            style={{ backgroundColor: badge?.color ?? "#414141" }}
+            className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-[4px] text-white"
+            style={{ backgroundColor: badge?.color ?? "var(--color-progress-inactive)" }}
           >
+            {badge?.Icon && <badge.Icon size={10} />}
             {badge?.label ?? song.plataforma_origen}
           </span>
         );
@@ -128,7 +130,7 @@ export default function LibraryPage() {
     {
       key: "bitrate",
       header: "BITRATE",
-      className: "w-[70px] text-right text-[12px] text-[#9b9b9b] shrink-0",
+      className: "w-[70px] text-right text-[12px] text-[var(--color-muted-text)] shrink-0",
       render: (song) => (song.calidad_kbps ? `${song.calidad_kbps}kbps` : "—"),
     },
   ];
@@ -151,7 +153,7 @@ export default function LibraryPage() {
           <button
             type="button"
             onClick={handleScan}
-            className="flex items-center gap-2 glass hover:bg-white/10 text-[13px] text-[#9b9b9b] hover:text-white px-4 py-2 rounded-[8px] transition-colors border-none cursor-pointer"
+            className="flex items-center gap-2 glass hover:bg-white/10 text-[13px] text-[var(--color-muted-text)] hover:text-white px-4 py-2 rounded-[8px] transition-colors border-none cursor-pointer"
           >
             <RefreshCw size={13} /> Scan Library
           </button>
@@ -173,7 +175,7 @@ export default function LibraryPage() {
               <Icon size={18} className="text-[var(--color-accent)]" />
             </div>
             <div>
-              <p className="text-[12px] text-[#9b9b9b] m-0">{label}</p>
+              <p className="text-[12px] text-[var(--color-muted-text)] m-0">{label}</p>
               <p className="text-[20px] font-bold m-0">{value}</p>
             </div>
           </div>
@@ -190,9 +192,11 @@ export default function LibraryPage() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[14px] font-semibold m-0">Downloads</p>
-              <p className="text-[11px] text-[#9b9b9b] truncate m-0">{downloadDir}</p>
+              <p className="text-[11px] text-[var(--color-muted-text)] truncate m-0">
+                {downloadDir}
+              </p>
             </div>
-            <span className="text-[12px] text-[#9b9b9b]">{songs.length} files</span>
+            <span className="text-[12px] text-[var(--color-muted-text)]">{songs.length} files</span>
           </div>
         </div>
       )}
@@ -200,7 +204,7 @@ export default function LibraryPage() {
       {/* Files list */}
       {activeFilter && (
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-[12px] text-[#9b9b9b]">
+          <span className="text-[12px] text-[var(--color-muted-text)]">
             Filtering by {platformFilter ?? genreFilter?.label}
           </span>
           <button
@@ -217,7 +221,7 @@ export default function LibraryPage() {
       )}
 
       {loading ? (
-        <p className="text-[13px] text-[#9b9b9b]">Loading library...</p>
+        <p className="text-[13px] text-[var(--color-muted-text)]">Loading library...</p>
       ) : filteredSongs.length === 0 ? (
         <EmptyState
           title={songs.length === 0 ? "Your library is empty" : "No results"}
@@ -233,7 +237,7 @@ export default function LibraryPage() {
         <div>
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-[16px] font-bold m-0">All Files</h2>
-            <span className="text-[12px] text-[#9b9b9b]">
+            <span className="text-[12px] text-[var(--color-muted-text)]">
               {filteredSongs.length} of {songs.length} shown
             </span>
           </div>

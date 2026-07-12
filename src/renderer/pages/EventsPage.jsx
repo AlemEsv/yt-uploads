@@ -13,7 +13,7 @@ export default function EventsPage() {
           <Calendar size={24} className="text-[var(--color-accent)]" />
         </div>
         <h2 className="text-[18px] font-bold m-0">No events yet</h2>
-        <p className="text-[13px] text-[#9b9b9b] mt-2 mb-0 max-w-[360px]">
+        <p className="text-[13px] text-[var(--color-muted-text)] mt-2 mb-0 max-w-[360px]">
           Concerts and live events for your favorite artists will show up here in a future update.
         </p>
       </div>

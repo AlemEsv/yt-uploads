@@ -43,13 +43,13 @@ export default function FavoritesPage() {
     {
       key: "album",
       header: "ALBUM",
-      className: "w-[200px] text-[13px] text-[#9b9b9b] truncate shrink-0",
+      className: "w-[200px] text-[13px] text-[var(--color-muted-text)] truncate shrink-0",
       render: (song) => song.album ?? "—",
     },
     {
       key: "added",
       header: "DATE ADDED",
-      className: "w-[130px] text-[12px] text-[#9b9b9b] shrink-0",
+      className: "w-[130px] text-[12px] text-[var(--color-muted-text)] shrink-0",
       render: (song) => formatAddedDate(song.fecha_descarga),
     },
   ];
@@ -60,14 +60,17 @@ export default function FavoritesPage() {
       <div className="relative rounded-t-[15px] overflow-hidden">
         <div
           className="h-[200px] px-8 pt-8 pb-6 flex flex-col justify-end"
-          style={{ background: "linear-gradient(180deg, #1a2a4a 0%, #000000 100%)" }}
+          style={{
+            background:
+              "linear-gradient(180deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%)",
+          }}
         >
           <div className="flex items-end gap-6">
             <div
               className="w-[120px] h-[120px] rounded-[10px] flex items-center justify-center shadow-2xl"
               style={{
                 background:
-                  "linear-gradient(135deg, #1a2a4a, #0d1520)",
+                  "linear-gradient(135deg, var(--color-hero-gradient-start), var(--color-hero-gradient-mid))",
               }}
             >
               <Heart size={52} className="text-white fill-white" />
@@ -77,7 +80,9 @@ export default function FavoritesPage() {
                 PLAYLIST
               </p>
               <h1 className="text-[42px] font-bold m-0">Liked Songs</h1>
-              <p className="text-[14px] text-[#b2b2b2] mt-1 mb-0">{favoritos.length} songs</p>
+              <p className="text-[14px] text-[var(--color-text-secondary)] mt-1 mb-0">
+                {favoritos.length} songs
+              </p>
             </div>
           </div>
         </div>

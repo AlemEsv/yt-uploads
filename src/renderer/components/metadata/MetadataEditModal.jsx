@@ -72,12 +72,12 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[2000]">
       <div className="glass border border-white/10 rounded-[12px] p-6 w-[360px] flex flex-col gap-3">
         <h2 className="m-0 text-[17px] font-bold">Edit metadata</h2>
-        <p className="m-0 text-[13px] text-[#9b9b9b]">
+        <p className="m-0 text-[13px] text-[var(--color-muted-text)]">
           Review this song's details before saving it to your library.
         </p>
 
         <div className="flex items-center gap-3">
-          <div className="w-[64px] h-[64px] rounded-[8px] bg-[#161616] overflow-hidden shrink-0">
+          <div className="w-[64px] h-[64px] rounded-[8px] bg-[var(--color-cover-placeholder-bg)] overflow-hidden shrink-0">
             {!coverError && api && (
               <img
                 src={api.coverUrl(cancion.id, cancion.fecha_modificacion)}
@@ -123,13 +123,27 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
             className={inputClass}
             style={{ colorScheme: "dark" }}
           >
-            <option value="" style={{ background: "#0d0d0d", color: "#fff" }}>None</option>
+            <option
+              value=""
+              style={{ background: "var(--color-input-bg)", color: "var(--color-text-primary)" }}
+            >
+              None
+            </option>
             {PRESET_GENRES.map((genre) => (
-              <option key={genre} value={genre} style={{ background: "#0d0d0d", color: "#fff" }}>
+              <option
+                key={genre}
+                value={genre}
+                style={{ background: "var(--color-input-bg)", color: "var(--color-text-primary)" }}
+              >
                 {genre}
               </option>
             ))}
-            <option value={CUSTOM} style={{ background: "#0d0d0d", color: "#fff" }}>Custom…</option>
+            <option
+              value={CUSTOM}
+              style={{ background: "var(--color-input-bg)", color: "var(--color-text-primary)" }}
+            >
+              Custom…
+            </option>
           </select>
         </label>
 
@@ -161,8 +175,8 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
   );
 }
 
-const labelClass = "text-[12px] text-[#9b9b9b] flex flex-col gap-1";
+const labelClass = "text-[12px] text-[var(--color-muted-text)] flex flex-col gap-1";
 const inputClass =
-  "w-full px-3 py-2 rounded-[6px] border border-white/10 bg-[#0d0d0d] text-white text-[13px] outline-none focus:ring-1 focus:ring-white/20";
+  "w-full px-3 py-2 rounded-[6px] border border-white/10 bg-[var(--color-input-bg)] text-white text-[13px] outline-none focus:ring-1 focus:ring-white/20";
 const secondaryButton =
   "px-4 py-1.5 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors";

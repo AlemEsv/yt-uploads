@@ -1,3 +1,5 @@
+from typing import Literal
+
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 
@@ -8,18 +10,24 @@ router = APIRouter()
 
 DEFAULTS = {
     "calidad_audio_kbps": "320",
+    "tema": "oscuro",
+    "nombre_usuario": "Usuario",
 }
 
 
 class SettingsPayload(BaseModel):
     directorio_descarga: str | None = None
     calidad_audio_kbps: int | None = None
+    tema: Literal["oscuro", "claro"] | None = None
+    nombre_usuario: str | None = None
 
 
 def _read_settings(conn) -> dict:
     return {
         "directorio_descarga": str(get_download_dir(conn)),
         "calidad_audio_kbps": int(get_value(conn, "calidad_audio_kbps", DEFAULTS["calidad_audio_kbps"])),
+        "tema": get_value(conn, "tema", DEFAULTS["tema"]),
+        "nombre_usuario": get_value(conn, "nombre_usuario", DEFAULTS["nombre_usuario"]),
     }
 
 

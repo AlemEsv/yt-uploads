@@ -1,5 +1,5 @@
 const path = require("path");
-const { app, BrowserWindow, Menu, Tray, nativeImage, ipcMain } = require("electron");
+const { app, BrowserWindow, Menu, Tray, nativeImage } = require("electron");
 const { BackendProcess } = require("./backend-process");
 const { registerIpcHandlers } = require("./ipc-handlers");
 
@@ -53,6 +53,7 @@ function createMiniWindow() {
     height: 90,
     frame: false,
     transparent: true,
+    backgroundColor: "#00000000",
     alwaysOnTop: true,
     resizable: false,
     skipTaskbar: true,
@@ -129,7 +130,11 @@ function createWindow() {
 
 app.whenReady().then(() => {
   Menu.setApplicationMenu(null);
-  registerIpcHandlers({ backendProcess, getMainWindow: () => mainWindow, getMiniWindow: () => miniWindow });
+  registerIpcHandlers({
+    backendProcess,
+    getMainWindow: () => mainWindow,
+    getMiniWindow: () => miniWindow,
+  });
   createWindow();
   createTray();
   backendProcess.start().catch((err) => {

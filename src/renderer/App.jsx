@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { BackendProvider, useBackend } from "./context/BackendContext.jsx";
+import { AppearanceProvider } from "./context/AppearanceContext.jsx";
 import { WebSocketProvider } from "./context/WebSocketContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import { LibraryProvider } from "./context/LibraryContext.jsx";
-import { PlayerProvider } from "./context/PlayerContext.jsx";
-import { PlaylistsProvider } from "./context/PlaylistsContext.jsx";
+import { PlayerProvider, usePlayer } from "./context/PlayerContext.jsx";
+import { PlaylistsProvider, usePlaylists } from "./context/PlaylistsContext.jsx";
 import ToastContainer from "./components/common/ToastContainer.jsx";
 import TitleBar from "./components/layout/TitleBar.jsx";
 import TopBar from "./components/layout/TopBar.jsx";
 import Sidebar from "./components/layout/Sidebar.jsx";
 import CapturePanel from "./components/layout/CapturePanel.jsx";
 import PlayerBar from "./components/player/PlayerBar.jsx";
+import CreatePlaylistModal from "./components/playlists/CreatePlaylistModal.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import LibraryPage from "./pages/LibraryPage.jsx";
 import FavoritesPage from "./pages/FavoritesPage.jsx";
@@ -64,50 +66,28 @@ function BackendStatusScreen() {
   );
 }
 
-function MainShell() {
-  const [activeView, setActiveView] = useState("home");
-  const [activePlaylistId, setActivePlaylistId] = useState(null);
-  const [legalAccepted, setLegalAccepted] = useState(
-    () => localStorage.getItem(LEGAL_ACCEPTED_KEY) === "true",
-  );
+function MainShell({ activeView, onSelectView, activePlaylistId, onOpenPlaylist }) {
   const ActivePage = PAGES[activeView] ?? HomePage;
-
-  function openPlaylist(playlistId) {
-    setActivePlaylistId(playlistId);
-    setActiveView("playlists");
-  }
-
-  if (!legalAccepted) {
-    return (
-      <OnboardingLegalPage
-        mode="onboarding"
-        onAccept={() => {
-          localStorage.setItem(LEGAL_ACCEPTED_KEY, "true");
-          setLegalAccepted(true);
-        }}
-      />
-    );
-  }
 
   return (
     <div className="flex flex-col h-full text-white overflow-hidden relative">
-      <TopBar activeView={activeView} onSelectView={setActiveView} />
+      <TopBar activeView={activeView} onSelectView={onSelectView} />
       <CapturePanel />
       <div className="flex flex-1 gap-4 px-4 pb-4 min-h-0">
         <Sidebar
           activeView={activeView}
-          onSelectView={setActiveView}
+          onSelectView={onSelectView}
           activePlaylistId={activePlaylistId}
-          onOpenPlaylist={openPlaylist}
+          onOpenPlaylist={onOpenPlaylist}
         />
         <main
           key={`${activeView}-${activeView === "playlists" ? activePlaylistId : ""}`}
-          className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0 bg-[#080808]"
+          className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0 bg-[var(--color-surface-raised)]"
         >
           <ActivePage
-            onSelectView={setActiveView}
+            onSelectView={onSelectView}
             activePlaylistId={activePlaylistId}
-            onOpenPlaylist={openPlaylist}
+            onOpenPlaylist={onOpenPlaylist}
           />
         </main>
       </div>
@@ -117,37 +97,96 @@ function MainShell() {
   );
 }
 
-function AppShell() {
+function AppContent() {
   const { status } = useBackend();
+  const { createPlaylist } = usePlaylists();
+  const { showQueue, toggleQueue } = usePlayer();
+  const [activeView, setActiveView] = useState("home");
+  const [activePlaylistId, setActivePlaylistId] = useState(null);
+  const [legalAccepted, setLegalAccepted] = useState(
+    () => localStorage.getItem(LEGAL_ACCEPTED_KEY) === "true",
+  );
+  const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
+
+  function openPlaylist(playlistId) {
+    setActivePlaylistId(playlistId);
+    setActiveView("playlists");
+  }
+
+  async function handleCreatePlaylist(name) {
+    const playlist = await createPlaylist(name);
+    if (playlist) openPlaylist(playlist.id);
+  }
+
+  let body;
+  if (status !== "ready") {
+    body = <BackendStatusScreen />;
+  } else if (!legalAccepted) {
+    body = (
+      <OnboardingLegalPage
+        mode="onboarding"
+        onAccept={() => {
+          localStorage.setItem(LEGAL_ACCEPTED_KEY, "true");
+          setLegalAccepted(true);
+        }}
+      />
+    );
+  } else {
+    body = (
+      <MainShell
+        activeView={activeView}
+        onSelectView={setActiveView}
+        activePlaylistId={activePlaylistId}
+        onOpenPlaylist={openPlaylist}
+      />
+    );
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <TitleBar />
-      <div style={{ flex: 1, minHeight: 0 }}>
-        {status !== "ready" ? (
-          <BackendStatusScreen />
-        ) : (
-          <WebSocketProvider>
-            <ToastProvider>
-              <LibraryProvider>
-                <PlaylistsProvider>
-                  <PlayerProvider>
-                    <MainShell />
-                  </PlayerProvider>
-                </PlaylistsProvider>
-              </LibraryProvider>
-            </ToastProvider>
-          </WebSocketProvider>
-        )}
-      </div>
+      <TitleBar
+        onSelectView={setActiveView}
+        onNewPlaylist={() => setShowCreatePlaylist(true)}
+        onToggleQueue={toggleQueue}
+        showQueue={showQueue}
+        onShowAbout={() => setShowAbout(true)}
+      />
+      <div style={{ flex: 1, minHeight: 0 }}>{body}</div>
+
+      {showCreatePlaylist && (
+        <CreatePlaylistModal
+          onClose={() => setShowCreatePlaylist(false)}
+          onCreate={handleCreatePlaylist}
+        />
+      )}
+      {showAbout && <OnboardingLegalPage mode="about" onClose={() => setShowAbout(false)} />}
     </div>
+  );
+}
+
+function AppShell() {
+  return (
+    <WebSocketProvider>
+      <ToastProvider>
+        <LibraryProvider>
+          <PlaylistsProvider>
+            <PlayerProvider>
+              <AppContent />
+            </PlayerProvider>
+          </PlaylistsProvider>
+        </LibraryProvider>
+      </ToastProvider>
+    </WebSocketProvider>
   );
 }
 
 export default function App() {
   return (
     <BackendProvider>
-      <AppShell />
+      <AppearanceProvider>
+        <AppShell />
+      </AppearanceProvider>
     </BackendProvider>
   );
 }

@@ -61,13 +61,13 @@ export default function RecentPage() {
     {
       key: "album",
       header: "ALBUM",
-      className: "w-[180px] text-[13px] text-[#9b9b9b] truncate shrink-0",
+      className: "w-[180px] text-[13px] text-[var(--color-muted-text)] truncate shrink-0",
       render: (song) => song.album ?? "—",
     },
     {
       key: "playedAt",
       header: "PLAYED AT",
-      className: "w-[120px] text-[12px] text-[#9b9b9b] shrink-0",
+      className: "w-[120px] text-[12px] text-[var(--color-muted-text)] shrink-0",
       render: (song, row) => row.playedAt,
     },
   ];
@@ -76,7 +76,7 @@ export default function RecentPage() {
     <div className="page-surface min-h-full p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-[28px] font-bold m-0">Recently Played</h1>
-        <div className="flex items-center gap-2 text-[13px] text-[#9b9b9b]">
+        <div className="flex items-center gap-2 text-[13px] text-[var(--color-muted-text)]">
           <Clock size={14} />
           <span>Play history</span>
         </div>
@@ -87,7 +87,7 @@ export default function RecentPage() {
       ) : (
         sections.map((section) => (
           <div key={section.label} className="mb-6">
-            <p className="text-[12px] font-bold tracking-widest text-[#9b9b9b] mb-3 mt-0">
+            <p className="text-[12px] font-bold tracking-widest text-[var(--color-muted-text)] mb-3 mt-0">
               {section.label.toUpperCase()}
             </p>
             <TrackTable rows={section.rows} columns={columns} onEdit={setEditingSong} />

@@ -12,8 +12,10 @@ import "./styles/global.css";
 
 const isMini = window.location.hash === "#mini";
 
+if (isMini) {
+  document.documentElement.classList.add("mini-mode");
+}
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    {isMini ? <MiniPlayerApp /> : <App />}
-  </React.StrictMode>,
+  <React.StrictMode>{isMini ? <MiniPlayerApp /> : <App />}</React.StrictMode>,
 );

@@ -14,7 +14,7 @@ function BarList({ title, items, max }) {
     <div className="glass rounded-[15px] p-5">
       <h3 className="text-[16px] font-bold mb-4 mt-0">{title}</h3>
       {items.length === 0 ? (
-        <p className="text-[13px] text-[#9b9b9b] m-0">No data yet.</p>
+        <p className="text-[13px] text-[var(--color-muted-text)] m-0">No data yet.</p>
       ) : (
         <div className="flex flex-col gap-3">
           {items.map((item) => (
@@ -26,7 +26,9 @@ function BarList({ title, items, max }) {
                   style={{ width: `${Math.round((item.count / max) * 100)}%` }}
                 />
               </div>
-              <span className="w-8 text-right text-[12px] text-[#9b9b9b]">{item.count}</span>
+              <span className="w-8 text-right text-[12px] text-[var(--color-muted-text)]">
+                {item.count}
+              </span>
             </div>
           ))}
         </div>
@@ -76,7 +78,7 @@ export default function StatsPage() {
               className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                 windowDays === w.days
                   ? "bg-[var(--color-accent)] text-white"
-                  : "glass text-[#9b9b9b] hover:text-white hover:bg-white/10"
+                  : "glass text-[var(--color-muted-text)] hover:text-white hover:bg-white/10"
               }`}
             >
               {w.label}
@@ -99,7 +101,7 @@ export default function StatsPage() {
                   <Icon size={18} className="text-[var(--color-accent)]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[12px] text-[#9b9b9b] m-0">{label}</p>
+                  <p className="text-[12px] text-[var(--color-muted-text)] m-0">{label}</p>
                   <p className="text-[20px] font-bold m-0 truncate">{value}</p>
                 </div>
               </div>
@@ -112,7 +114,9 @@ export default function StatsPage() {
               Most played
             </h3>
             {topSongs.length === 0 ? (
-              <p className="text-[13px] text-[#9b9b9b] m-0">No plays in this period.</p>
+              <p className="text-[13px] text-[var(--color-muted-text)] m-0">
+                No plays in this period.
+              </p>
             ) : (
               <div className="flex flex-col gap-2">
                 {topSongs.map((entry, idx) => (
@@ -122,18 +126,18 @@ export default function StatsPage() {
                       <img
                         src={api.coverUrl(entry.song.id, entry.song.fecha_modificacion)}
                         alt=""
-                        className="w-[40px] h-[40px] rounded-[4px] object-cover bg-[#161616] shrink-0"
+                        className="w-[40px] h-[40px] rounded-[4px] object-cover bg-[var(--color-cover-placeholder-bg)] shrink-0"
                       />
                     ) : (
-                      <div className="w-[40px] h-[40px] rounded-[4px] bg-[#161616] shrink-0" />
+                      <div className="w-[40px] h-[40px] rounded-[4px] bg-[var(--color-cover-placeholder-bg)] shrink-0" />
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="text-[14px] font-semibold truncate m-0">{entry.titulo}</p>
-                      <p className="text-[12px] text-[#b2b2b2] truncate m-0">
+                      <p className="text-[12px] text-[var(--color-text-secondary)] truncate m-0">
                         {entry.artista ?? "Unknown artist"}
                       </p>
                     </div>
-                    <span className="text-[12px] text-[#9b9b9b] shrink-0">
+                    <span className="text-[12px] text-[var(--color-muted-text)] shrink-0">
                       {entry.reproducciones} plays
                     </span>
                   </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Play } from "lucide-react";
+import { HardDrive, Play } from "lucide-react";
+import { SiSoundcloud, SiYoutube } from "react-icons/si";
 import { useApi } from "../hooks/useApi.js";
 import { useLibrary } from "../context/LibraryContext.jsx";
 import { usePlayer } from "../context/PlayerContext.jsx";
@@ -7,9 +8,9 @@ import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackRow from "../components/tracks/TrackRow.jsx";
 
 const PLATFORM_CHIPS = [
-  { id: "youtube", label: "YouTube", color: "#C71B1B" },
-  { id: "soundcloud", label: "SoundCloud", color: "#E8720C" },
-  { id: "importado", label: "Imported", color: "#35827D" },
+  { id: "youtube", label: "YouTube", color: "#C71B1B", Icon: SiYoutube },
+  { id: "soundcloud", label: "SoundCloud", color: "#E8720C", Icon: SiSoundcloud },
+  { id: "importado", label: "Imported", color: "#35827D", Icon: HardDrive },
 ];
 
 export default function HomePage({ onSelectView }) {
@@ -79,7 +80,10 @@ export default function HomePage({ onSelectView }) {
       <div className="relative h-[300px] overflow-hidden rounded-[15px] mb-6">
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(120deg, #1a2a4a 0%, #000000 85%)" }}
+          style={{
+            background:
+              "linear-gradient(120deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 85%)",
+          }}
         />
         <div className="absolute bottom-0 left-0 p-8">
           <p className="text-[22px] font-bold mb-1">Welcome back!</p>
@@ -89,10 +93,10 @@ export default function HomePage({ onSelectView }) {
               type="button"
               onClick={handlePlayNow}
               disabled={songs.length === 0}
-              className={`bg-[#f1f1f1] text-black text-[13px] font-medium px-4 py-1.5 rounded-[5px] shadow transition-colors border-none ${
+              className={`bg-[var(--color-cta-light-bg)] text-[var(--color-cta-light-text)] text-[13px] font-medium px-4 py-1.5 rounded-[5px] shadow transition-colors border-none ${
                 songs.length === 0
                   ? "opacity-50 cursor-not-allowed"
-                  : "cursor-pointer hover:bg-white"
+                  : "cursor-pointer hover:opacity-90"
               }`}
             >
               Play Now!
@@ -108,7 +112,7 @@ export default function HomePage({ onSelectView }) {
           <div className="grid grid-cols-6 gap-4">
             {recentSongs.map((song) => (
               <div key={song.id} className="group cursor-pointer" onClick={() => playNow(song.id)}>
-                <div className="relative rounded-[9px] overflow-hidden aspect-square mb-2 bg-[#161616]">
+                <div className="relative rounded-[9px] overflow-hidden aspect-square mb-2 bg-[var(--color-cover-placeholder-bg)]">
                   {api && (
                     <img
                       src={api.coverUrl(song.id, song.fecha_modificacion)}
@@ -123,7 +127,7 @@ export default function HomePage({ onSelectView }) {
                   </div>
                 </div>
                 <p className="text-[15px] font-bold truncate m-0">{song.titulo}</p>
-                <p className="text-[13px] text-[#d7d7d7] font-semibold truncate m-0">
+                <p className="text-[13px] text-[var(--color-inactive-text)] font-semibold truncate m-0">
                   {song.artista ?? "Unknown artist"}
                 </p>
               </div>
@@ -143,9 +147,10 @@ export default function HomePage({ onSelectView }) {
                 key={p.id}
                 type="button"
                 onClick={() => handlePlatformClick(p.id)}
-                className="h-[58px] rounded-[10px] flex items-center justify-center text-[13px] font-bold text-white transition-opacity hover:opacity-90 border-none cursor-pointer"
+                className="h-[58px] rounded-[10px] flex items-center justify-center gap-2 text-[13px] font-bold text-white transition-opacity hover:opacity-90 border-none cursor-pointer"
                 style={{ backgroundColor: p.color }}
               >
+                <p.Icon size={16} />
                 {p.label} · {platformCounts[p.id] ?? 0}
               </button>
             ))}
@@ -156,7 +161,9 @@ export default function HomePage({ onSelectView }) {
         <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-3 mt-0">Top Tracks</h3>
           {topTracks.length === 0 ? (
-            <p className="text-[13px] text-[#9b9b9b]">Play some songs to see your top tracks.</p>
+            <p className="text-[13px] text-[var(--color-muted-text)]">
+              Play some songs to see your top tracks.
+            </p>
           ) : (
             topTracks.map((song, idx) => (
               <TrackRow key={song.id} rank={idx + 1} song={song} onEdit={setEditingSong} />
@@ -168,7 +175,9 @@ export default function HomePage({ onSelectView }) {
         <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-3 mt-0">Liked Songs</h3>
           {likedTracks.length === 0 ? (
-            <p className="text-[13px] text-[#9b9b9b]">Like songs to see them here.</p>
+            <p className="text-[13px] text-[var(--color-muted-text)]">
+              Like songs to see them here.
+            </p>
           ) : (
             likedTracks.map((song, idx) => (
               <TrackRow key={song.id} rank={idx + 1} song={song} onEdit={setEditingSong} />

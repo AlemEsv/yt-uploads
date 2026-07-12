@@ -79,7 +79,7 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
             <ListMusic size={24} className="text-[var(--color-accent)]" />
           </div>
           <h2 className="text-[18px] font-bold m-0">No playlists yet</h2>
-          <p className="text-[13px] text-[#9b9b9b] mt-2 mb-0 max-w-[360px]">
+          <p className="text-[13px] text-[var(--color-muted-text)] mt-2 mb-0 max-w-[360px]">
             Create your first playlist from the sidebar and add songs from any track's menu.
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
   if (!detail) {
     return (
       <div className="page-surface min-h-full p-6">
-        <p className="text-[13px] text-[#9b9b9b]">Loading playlist...</p>
+        <p className="text-[13px] text-[var(--color-muted-text)]">Loading playlist...</p>
       </div>
     );
   }
@@ -99,7 +99,7 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
     {
       key: "album",
       header: "ALBUM",
-      className: "w-[180px] text-[13px] text-[#9b9b9b] truncate shrink-0",
+      className: "w-[180px] text-[13px] text-[var(--color-muted-text)] truncate shrink-0",
       render: (song) => song.album ?? "—",
     },
     {
@@ -127,7 +127,10 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
       <div className="relative rounded-t-[15px] overflow-hidden">
         <div
           className="h-[200px] px-8 pt-8 pb-6 flex flex-col justify-end"
-          style={{ background: "linear-gradient(180deg, #1a2a4a 0%, #000000 100%)" }}
+          style={{
+            background:
+              "linear-gradient(180deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%)",
+          }}
         >
           <div className="flex items-end gap-6">
             <div className="w-[120px] h-[120px] rounded-[10px] flex items-center justify-center shadow-2xl bg-white/10">
@@ -155,7 +158,9 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
               ) : (
                 <h1 className="text-[42px] font-bold m-0 truncate">{detail.nombre}</h1>
               )}
-              <p className="text-[14px] text-[#b2b2b2] mt-1 mb-0">{rows.length} songs</p>
+              <p className="text-[14px] text-[var(--color-text-secondary)] mt-1 mb-0">
+                {rows.length} songs
+              </p>
             </div>
           </div>
         </div>
@@ -202,7 +207,7 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
         <button
           type="button"
           onClick={handleDelete}
-          className="flex items-center gap-2 px-4 py-2 rounded-[8px] border border-white/10 bg-transparent text-[#f21c2c] text-[13px] cursor-pointer hover:bg-white/5 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-[8px] border border-white/10 bg-transparent text-[var(--color-heart)] text-[13px] cursor-pointer hover:bg-white/5 transition-colors"
         >
           <Trash2 size={13} /> Delete
         </button>
