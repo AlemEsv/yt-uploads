@@ -13,6 +13,8 @@ release/
 # Python backend
 backend/.data/
 backend/**/__pycache__/
+backend/build-output/
+backend/build-work/
 *.pyc
 
 # summaries (local review only)

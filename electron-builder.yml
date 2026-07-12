@@ -1,0 +1,26 @@
+appId: com.sounddock.app
+productName: SoundDock
+directories:
+  output: release
+files:
+  - dist/**/*
+  - src/main/**/*
+  - src/preload/**/*
+  - package.json
+  - "!node_modules/**/*"
+extraResources:
+  - from: backend/build-output/sounddock-backend
+    to: backend
+  - from: ffmpeg/bin
+    to: backend/ffmpeg/bin
+    filter:
+      - "*.exe"
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true

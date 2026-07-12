@@ -9,7 +9,8 @@
     "dev:electron": "wait-on tcp:5173 && electron .",
     "dev": "concurrently -k \"npm:dev:vite\" \"npm:dev:electron\"",
     "build:renderer": "vite build",
-    "build": "npm run build:renderer && electron-builder"
+    "build:backend": ".venv\\Scripts\\python.exe -m PyInstaller backend/pyinstaller/sounddock-backend.spec --distpath backend/build-output --workpath backend/build-work --noconfirm",
+    "build": "npm run build:renderer && npm run build:backend && electron-builder"
   },
   "repository": {
     "type": "git",
