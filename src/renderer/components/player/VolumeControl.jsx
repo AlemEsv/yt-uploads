@@ -10,6 +10,7 @@ function VolumeIcon({ volume }) {
 
 export default function VolumeControl() {
   const { volume, setVolume } = usePlayer();
+  const pct = Math.min(100, volume * 100);
 
   return (
     <div className="flex items-center gap-2">
@@ -24,6 +25,9 @@ export default function VolumeControl() {
         value={volume}
         onChange={(event) => setVolume(Number(event.target.value))}
         className="player-range w-[101px] h-[5px] cursor-pointer"
+        style={{
+          background: `linear-gradient(to right, var(--color-text-primary) ${pct}%, var(--color-progress-inactive) ${pct}%)`,
+        }}
       />
     </div>
   );
