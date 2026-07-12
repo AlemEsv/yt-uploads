@@ -6,11 +6,19 @@ import { LibraryProvider } from "./context/LibraryContext.jsx";
 import { PlayerProvider } from "./context/PlayerContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import ToastContainer from "./components/common/ToastContainer.jsx";
+import TitleBar from "./components/layout/TitleBar.jsx";
+import TopBar from "./components/layout/TopBar.jsx";
 import Sidebar from "./components/layout/Sidebar.jsx";
 import CapturePanel from "./components/layout/CapturePanel.jsx";
 import PlayerBar from "./components/player/PlayerBar.jsx";
+import HomePage from "./pages/HomePage.jsx";
 import LibraryPage from "./pages/LibraryPage.jsx";
 import FavoritesPage from "./pages/FavoritesPage.jsx";
+import RecentPage from "./pages/RecentPage.jsx";
+import GenresPage from "./pages/GenresPage.jsx";
+import AlbumsPage from "./pages/AlbumsPage.jsx";
+import EventsPage from "./pages/EventsPage.jsx";
+import PlaylistsPage from "./pages/PlaylistsPage.jsx";
 import ProfilesPage from "./pages/ProfilesPage.jsx";
 import StatsPage from "./pages/StatsPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
@@ -26,8 +34,14 @@ const STATUS_LABEL = {
 };
 
 const PAGES = {
+  home: HomePage,
   library: LibraryPage,
   favorites: FavoritesPage,
+  recent: RecentPage,
+  genres: GenresPage,
+  albums: AlbumsPage,
+  events: EventsPage,
+  playlists: PlaylistsPage,
   profiles: ProfilesPage,
   stats: StatsPage,
   settings: SettingsPage,
@@ -53,11 +67,11 @@ function BackendStatusScreen() {
 }
 
 function MainShell() {
-  const [activeView, setActiveView] = useState("library");
+  const [activeView, setActiveView] = useState("home");
   const [legalAccepted, setLegalAccepted] = useState(
     () => localStorage.getItem(LEGAL_ACCEPTED_KEY) === "true",
   );
-  const ActivePage = PAGES[activeView] ?? LibraryPage;
+  const ActivePage = PAGES[activeView] ?? HomePage;
 
   if (!legalAccepted) {
     return (
@@ -75,10 +89,19 @@ function MainShell() {
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
         <Sidebar activeView={activeView} onSelectView={setActiveView} />
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            minWidth: 0,
+            position: "relative",
+          }}
+        >
+          <TopBar activeView={activeView} onSelectView={setActiveView} />
           <CapturePanel />
           <div style={{ flex: 1, overflow: "auto" }}>
-            <ActivePage />
+            <ActivePage onSelectView={setActiveView} />
           </div>
         </div>
       </div>
@@ -91,22 +114,27 @@ function MainShell() {
 function AppShell() {
   const { status } = useBackend();
 
-  if (status !== "ready") {
-    return <BackendStatusScreen />;
-  }
-
   return (
-    <WebSocketProvider>
-      <ToastProvider>
-        <ThemeProvider>
-          <LibraryProvider>
-            <PlayerProvider>
-              <MainShell />
-            </PlayerProvider>
-          </LibraryProvider>
-        </ThemeProvider>
-      </ToastProvider>
-    </WebSocketProvider>
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <TitleBar />
+      <div style={{ flex: 1, minHeight: 0 }}>
+        {status !== "ready" ? (
+          <BackendStatusScreen />
+        ) : (
+          <WebSocketProvider>
+            <ToastProvider>
+              <ThemeProvider>
+                <LibraryProvider>
+                  <PlayerProvider>
+                    <MainShell />
+                  </PlayerProvider>
+                </LibraryProvider>
+              </ThemeProvider>
+            </ToastProvider>
+          </WebSocketProvider>
+        )}
+      </div>
+    </div>
   );
 }
 

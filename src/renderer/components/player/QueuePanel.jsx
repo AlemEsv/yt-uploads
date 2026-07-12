@@ -93,7 +93,7 @@ const panelStyle = {
   right: "1rem",
   bottom: "80px",
   width: "280px",
-  background: "#131212",
+  background: "var(--color-sidebar-bg)",
   border: "1px solid var(--color-border)",
   borderRadius: "10px",
   padding: "0.75rem",

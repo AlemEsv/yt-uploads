@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { Heart, ListMusic } from "lucide-react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 import { useLibrary } from "../../context/LibraryContext.jsx";
 import { useApi } from "../../hooks/useApi.js";
 import { useDominantColor } from "../../hooks/useDominantColor.js";
-import { miniButtonStyle } from "../library/styles.js";
 import PlayerControls from "./PlayerControls.jsx";
 import ProgressBar from "./ProgressBar.jsx";
 import VolumeControl from "./VolumeControl.jsx";
@@ -11,9 +11,12 @@ import QueuePanel from "./QueuePanel.jsx";
 
 const barStyle = {
   position: "relative",
-  height: "76px",
+  height: "65px",
   flexShrink: 0,
-  borderTop: "1px solid var(--color-border)",
+  margin: "0 0.75rem 0.75rem",
+  borderRadius: "15px",
+  boxShadow: "inset 0 4px 0 0 var(--color-progress-active)",
+  background: "var(--color-sidebar-bg)",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -99,9 +102,14 @@ export default function PlayerBar() {
         <button
           type="button"
           onClick={() => toggleFavorite(currentSong)}
-          style={miniButtonStyle(currentSong.es_favorito)}
+          title={currentSong.es_favorito ? "En favoritos" : "Favorito"}
+          style={iconButtonStyle(currentSong.es_favorito, "var(--color-heart)")}
         >
-          {currentSong.es_favorito ? "En favoritos" : "Favorito"}
+          <Heart
+            size={19}
+            strokeWidth={2.25}
+            fill={currentSong.es_favorito ? "currentColor" : "none"}
+          />
         </button>
       </div>
 
@@ -131,13 +139,30 @@ export default function PlayerBar() {
         <button
           type="button"
           onClick={() => setShowQueue((v) => !v)}
-          style={miniButtonStyle(showQueue)}
+          title="Cola"
+          style={iconButtonStyle(showQueue)}
         >
-          Cola
+          <ListMusic size={19} strokeWidth={2.25} />
         </button>
       </div>
 
       {showQueue && <QueuePanel onClose={() => setShowQueue(false)} />}
     </div>
   );
+}
+
+function iconButtonStyle(active, activeColor = "var(--color-accent)") {
+  return {
+    width: "34px",
+    height: "34px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "none",
+    borderRadius: "50%",
+    background: "transparent",
+    color: active ? activeColor : "var(--color-text-primary)",
+    cursor: "pointer",
+    flexShrink: 0,
+  };
 }

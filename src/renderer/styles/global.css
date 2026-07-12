@@ -1,13 +1,36 @@
 :root {
-  --color-bg-base: #000101;
-  --color-sidebar-bg: #131212;
+  --color-bg-base: #000000;
+  --color-sidebar-bg: #080808;
   --color-accent: #6c5ce7;
   --color-accent-soft: rgba(108, 92, 231, 0.25);
   --color-text-primary: #ffffff;
-  --color-text-secondary: #9a9a9a;
+  --color-text-secondary: #b3b3b3;
+  --color-muted-text: #9b9b9b;
+  --color-inactive-text: #d7d7d7;
   --color-border: rgba(255, 255, 255, 0.08);
   --color-error: #e05555;
   --color-success: #4fbf6b;
+  --color-surface-raised: #080808;
+  --color-surface-raised-hover: #141414;
+  --color-cta: #e0313f;
+  --color-cta-hover: #c72631;
+  --color-cta-light-bg: #f1f1f1;
+  --color-cta-light-text: #000000;
+  --color-search-bg: #f1f1f1;
+  --color-search-text: #000000;
+  --color-search-placeholder: #696969;
+  --color-progress-active: #0c1b6a;
+  --color-progress-inactive: #414141;
+  --color-heart: #f21c2c;
+  --color-platform-youtube: #c71b1b;
+  --color-platform-soundcloud: #e8720c;
+  --color-platform-importado: #35827d;
+  --font-primary:
+    "Poppins",
+    "Segoe UI",
+    system-ui,
+    sans-serif;
+  --font-secondary: "Roboto", sans-serif;
 }
 
 /* Transición suave al cambiar de perfil temático: el navegador no anima el
@@ -34,9 +57,10 @@ body,
 body {
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
-  font-family:
-    "Segoe UI",
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: var(--font-primary);
+}
+
+.sounddock-search-input::placeholder {
+  font-style: italic;
+  color: var(--color-search-placeholder);
 }

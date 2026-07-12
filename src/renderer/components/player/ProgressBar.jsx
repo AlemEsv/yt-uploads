@@ -1,14 +1,6 @@
 import React from "react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
-
-function formatTime(seconds) {
-  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60)
-    .toString()
-    .padStart(2, "0");
-  return `${m}:${s}`;
-}
+import { formatTime } from "../../utils/formatTime.js";
 
 export default function ProgressBar() {
   const { currentTime, duration, seek } = usePlayer();
@@ -23,7 +15,13 @@ export default function ProgressBar() {
         maxWidth: "420px",
       }}
     >
-      <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>
+      <span
+        style={{
+          fontSize: "0.7rem",
+          color: "var(--color-text-secondary)",
+          fontFamily: "var(--font-secondary)",
+        }}
+      >
         {formatTime(currentTime)}
       </span>
       <input
@@ -32,9 +30,15 @@ export default function ProgressBar() {
         max={duration || 0}
         value={Math.min(currentTime, duration || 0)}
         onChange={(event) => seek(Number(event.target.value))}
-        style={{ flex: 1 }}
+        style={{ flex: 1, accentColor: "var(--color-progress-active)" }}
       />
-      <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>
+      <span
+        style={{
+          fontSize: "0.7rem",
+          color: "var(--color-text-secondary)",
+          fontFamily: "var(--font-secondary)",
+        }}
+      >
         {formatTime(duration)}
       </span>
     </div>
