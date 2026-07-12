@@ -1,15 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown, User } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext.jsx";
 
 const MENU_ITEMS = [
-  { id: "profiles", label: "Theme Profiles" },
   { id: "stats", label: "Statistics" },
   { id: "settings", label: "Settings" },
 ];
 
 export default function UserMenu({ activeView, onSelectView }) {
-  const { profiles, activeProfileId } = useTheme();
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -24,8 +21,6 @@ export default function UserMenu({ activeView, onSelectView }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
-  const activeProfile = profiles.find((p) => p.id === activeProfileId);
-
   return (
     <div ref={menuRef} className="relative">
       <button
@@ -33,20 +28,15 @@ export default function UserMenu({ activeView, onSelectView }) {
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-2 bg-[#080808] rounded-[6px] px-3 h-[34px] border-none cursor-pointer"
       >
-        <span
-          className="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0"
-          style={{ background: activeProfile?.paleta_colores?.accent ?? "var(--color-accent)" }}
-        >
+        <span className="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 bg-[var(--color-accent)]">
           <User size={12} className="text-white" />
         </span>
-        <span className="text-[14px] font-semibold text-white">
-          {activeProfile?.nombre ?? "No profile"}
-        </span>
+        <span className="text-[14px] font-semibold text-white">SoundDock</span>
         <ChevronDown size={14} className="text-white" />
       </button>
 
       {open && (
-        <div className="absolute top-full right-0 mt-2 bg-[#080808] border border-white/10 rounded-[8px] min-w-[200px] overflow-hidden z-[2000]">
+        <div className="popover-in absolute top-full right-0 mt-2 bg-[#080808] border border-white/10 rounded-[8px] min-w-[200px] overflow-hidden z-[2000]">
           {MENU_ITEMS.map((item) => (
             <button
               key={item.id}

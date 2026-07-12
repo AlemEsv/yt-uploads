@@ -7,7 +7,7 @@ export default function QueuePanel({ onClose }) {
   const [dragIndex, setDragIndex] = useState(null);
 
   return (
-    <div style={panelStyle}>
+    <div className="panel-in-up" style={panelStyle}>
       <div
         style={{
           display: "flex",

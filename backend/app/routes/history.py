@@ -5,7 +5,6 @@ from app.db import DB_LOCK
 from app.errors import ApiError
 from app.history.repository import get_stats, insert_reproduccion, list_historial
 from app.library.repository import get_cancion
-from app.mood_engine import evaluate as evaluate_mood
 
 router = APIRouter()
 
@@ -17,19 +16,12 @@ class HistoryRequest(BaseModel):
 @router.post("/history", status_code=201)
 async def register_history(payload: HistoryRequest, request: Request):
     conn = request.app.state.db
-    ws_manager = request.app.state.ws_manager
 
     with DB_LOCK:
         cancion = get_cancion(conn, payload.song_id)
         if not cancion:
             raise ApiError(404, "no_encontrado", "Canción no encontrada")
-        result = insert_reproduccion(conn, payload.song_id)
-        eventos = evaluate_mood(conn)
-
-    for evento, ev_payload in eventos:
-        await ws_manager.broadcast(evento, ev_payload)
-
-    return result
+        return insert_reproduccion(conn, payload.song_id)
 
 
 @router.get("/history/stats")

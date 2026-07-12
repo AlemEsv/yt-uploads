@@ -47,7 +47,7 @@ export default function DownloadTrigger() {
       {open && (
         <form
           onSubmit={handleSubmit}
-          className="absolute top-full right-0 mt-2 w-[340px] p-3 rounded-[12px] border border-white/10 bg-[#080808] shadow-2xl flex gap-2 z-[2000]"
+          className="popover-in absolute top-full right-0 mt-2 w-[340px] p-3 rounded-[12px] border border-white/10 bg-[#080808] shadow-2xl flex gap-2 z-[2000]"
         >
           <input
             type="text"

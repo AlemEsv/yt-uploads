@@ -2,12 +2,32 @@ import React, { useState } from "react";
 import { useApi } from "../../hooks/useApi.js";
 import { useToast } from "../../context/ToastContext.jsx";
 
+const PRESET_GENRES = [
+  "Pop",
+  "Rock",
+  "Hip-Hop",
+  "Dance/Electronic",
+  "K-Pop",
+  "R&B/Soul",
+  "Jazz",
+  "Classical",
+  "Indie",
+  "Metal",
+  "Reggae",
+  "Latin",
+];
+
+const CUSTOM = "__custom__";
+
 export default function MetadataEditModal({ cancion, onClose, onSaved }) {
   const api = useApi();
   const { showError } = useToast();
+  const initialGenre = cancion.genero ?? "";
+  const initialIsPreset = initialGenre === "" || PRESET_GENRES.includes(initialGenre);
   const [titulo, setTitulo] = useState(cancion.titulo ?? "");
   const [artista, setArtista] = useState(cancion.artista ?? "");
-  const [genero, setGenero] = useState(cancion.genero ?? "");
+  const [genreChoice, setGenreChoice] = useState(initialIsPreset ? initialGenre : CUSTOM);
+  const [customGenre, setCustomGenre] = useState(initialIsPreset ? "" : initialGenre);
   const [saving, setSaving] = useState(false);
   const [changingCover, setChangingCover] = useState(false);
   const [coverError, setCoverError] = useState(false);
@@ -16,6 +36,7 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
     if (!api) return;
     setSaving(true);
     try {
+      const genero = genreChoice === CUSTOM ? customGenre.trim() : genreChoice;
       const updated = await api.patchLibrarySong(cancion.id, {
         titulo,
         artista,
@@ -39,8 +60,8 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
       onSaved?.(updated);
     } catch {
       showError({
-        title: "Error al cambiar la portada",
-        message: "No se pudo actualizar la portada de esta canción.",
+        title: "Cover update failed",
+        message: "The cover for this song could not be updated.",
       });
     } finally {
       setChangingCover(false);
@@ -48,52 +69,21 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
   }
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.6)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 2000,
-      }}
-    >
-      <div
-        style={{
-          background: "#131212",
-          border: "1px solid var(--color-border)",
-          borderRadius: "12px",
-          padding: "1.5rem",
-          width: "360px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "0.75rem",
-        }}
-      >
-        <h2 style={{ margin: 0, fontSize: "1.1rem" }}>Revisar metadatos</h2>
-        <p style={{ margin: 0, fontSize: "0.85rem", color: "var(--color-text-secondary)" }}>
-          No pudimos detectar toda la información de esta descarga. Corrígela antes de guardarla
-          definitivamente.
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[2000]">
+      <div className="bg-[#131212] border border-white/10 rounded-[12px] p-6 w-[360px] flex flex-col gap-3">
+        <h2 className="m-0 text-[17px] font-bold">Edit metadata</h2>
+        <p className="m-0 text-[13px] text-[#9b9b9b]">
+          Review this song's details before saving it to your library.
         </p>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div
-            style={{
-              width: "64px",
-              height: "64px",
-              borderRadius: "8px",
-              background: "#161616",
-              overflow: "hidden",
-              flexShrink: 0,
-            }}
-          >
+        <div className="flex items-center gap-3">
+          <div className="w-[64px] h-[64px] rounded-[8px] bg-[#161616] overflow-hidden shrink-0">
             {!coverError && api && (
               <img
                 src={api.coverUrl(cancion.id, cancion.fecha_modificacion)}
                 alt=""
                 onError={() => setCoverError(true)}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                className="w-full h-full object-cover"
               />
             )}
           </div>
@@ -101,40 +91,68 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
             type="button"
             onClick={handleChangeCover}
             disabled={changingCover}
-            style={secondaryButtonStyle}
+            className={secondaryButton}
           >
-            {changingCover ? "Actualizando..." : "Cambiar portada"}
+            {changingCover ? "Updating..." : "Change cover"}
           </button>
         </div>
 
-        <label style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>
-          Título
-          <input value={titulo} onChange={(e) => setTitulo(e.target.value)} style={inputStyle} />
+        <label className={labelClass}>
+          Title
+          <input
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+            className={inputClass}
+          />
         </label>
 
-        <label style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>
-          Artista
-          <input value={artista} onChange={(e) => setArtista(e.target.value)} style={inputStyle} />
+        <label className={labelClass}>
+          Artist
+          <input
+            value={artista}
+            onChange={(e) => setArtista(e.target.value)}
+            className={inputClass}
+          />
         </label>
 
-        <label style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>
-          Género (opcional)
-          <input value={genero} onChange={(e) => setGenero(e.target.value)} style={inputStyle} />
+        <label className={labelClass}>
+          Genre
+          <select
+            value={genreChoice}
+            onChange={(e) => setGenreChoice(e.target.value)}
+            className={inputClass}
+          >
+            <option value="">None</option>
+            {PRESET_GENRES.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+            <option value={CUSTOM}>Custom…</option>
+          </select>
         </label>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "0.5rem",
-            marginTop: "0.5rem",
-          }}
-        >
-          <button type="button" onClick={onClose} style={secondaryButtonStyle}>
-            Cerrar
+        {genreChoice === CUSTOM && (
+          <input
+            value={customGenre}
+            onChange={(e) => setCustomGenre(e.target.value)}
+            placeholder="Type a custom genre"
+            autoFocus
+            className={inputClass}
+          />
+        )}
+
+        <div className="flex justify-end gap-2 mt-2">
+          <button type="button" onClick={onClose} className={secondaryButton}>
+            Close
           </button>
-          <button type="button" onClick={handleSave} disabled={saving} style={primaryButtonStyle}>
-            {saving ? "Guardando..." : "Guardar"}
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="px-4 py-1.5 rounded-[8px] border-none bg-[var(--color-accent)] text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-opacity"
+          >
+            {saving ? "Saving..." : "Save"}
           </button>
         </div>
       </div>
@@ -142,31 +160,8 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
   );
 }
 
-const inputStyle = {
-  display: "block",
-  width: "100%",
-  marginTop: "0.25rem",
-  padding: "0.4rem 0.6rem",
-  borderRadius: "6px",
-  border: "1px solid var(--color-border)",
-  background: "#0c0c0c",
-  color: "var(--color-text-primary)",
-};
-
-const primaryButtonStyle = {
-  padding: "0.4rem 1rem",
-  borderRadius: "8px",
-  border: "none",
-  background: "var(--color-accent)",
-  color: "white",
-  cursor: "pointer",
-};
-
-const secondaryButtonStyle = {
-  padding: "0.4rem 1rem",
-  borderRadius: "8px",
-  border: "1px solid var(--color-border)",
-  background: "transparent",
-  color: "var(--color-text-primary)",
-  cursor: "pointer",
-};
+const labelClass = "text-[12px] text-[#9b9b9b] flex flex-col gap-1";
+const inputClass =
+  "w-full px-3 py-2 rounded-[6px] border border-white/10 bg-[#0c0c0c] text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]";
+const secondaryButton =
+  "px-4 py-1.5 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors";

@@ -3,7 +3,6 @@ import { Play } from "lucide-react";
 import { useApi } from "../hooks/useApi.js";
 import { useLibrary } from "../context/LibraryContext.jsx";
 import { usePlayer } from "../context/PlayerContext.jsx";
-import { useTheme } from "../context/ThemeContext.jsx";
 import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackRow from "../components/tracks/TrackRow.jsx";
 
@@ -17,7 +16,6 @@ export default function HomePage({ onSelectView }) {
   const api = useApi();
   const { songs, applyUpdate, setPlatformFilter } = useLibrary();
   const { clearQueue, enqueue, playQueueItem, playNow } = usePlayer();
-  const { profiles, activeProfileId } = useTheme();
   const [history, setHistory] = useState([]);
   const [topCanciones, setTopCanciones] = useState([]);
   const [editingSong, setEditingSong] = useState(null);
@@ -27,9 +25,6 @@ export default function HomePage({ onSelectView }) {
     api.getHistory(30).then(({ items }) => setHistory(items));
     api.getHistoryStats(7).then((stats) => setTopCanciones(stats.top_canciones));
   }, [api]);
-
-  const activeProfile = profiles.find((p) => p.id === activeProfileId);
-  const accent = activeProfile?.paleta_colores?.accent ?? "var(--color-accent)";
 
   const recentSongs = useMemo(() => {
     const seen = new Set();
@@ -84,13 +79,11 @@ export default function HomePage({ onSelectView }) {
       <div className="relative h-[300px] overflow-hidden rounded-[15px] mb-6">
         <div
           className="absolute inset-0"
-          style={{ background: `linear-gradient(120deg, ${accent} 0%, #000000 85%)` }}
+          style={{ background: "linear-gradient(120deg, var(--color-accent) 0%, #000000 85%)" }}
         />
         <div className="absolute bottom-0 left-0 p-8">
-          <p className="text-[22px] font-bold mb-1">Now playing mood</p>
-          <p className="text-[52px] font-medium leading-tight">
-            {activeProfile?.nombre ?? "SoundDock"}
-          </p>
+          <p className="text-[22px] font-bold mb-1">Welcome back!</p>
+          <p className="text-[52px] font-medium leading-tight">Your Music</p>
           <div className="flex items-center gap-4 mt-2">
             <button
               type="button"

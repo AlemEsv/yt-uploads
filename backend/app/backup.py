@@ -7,7 +7,6 @@ EXPECTED_TABLES = {
     "canciones",
     "historial_reproduccion",
     "favoritos",
-    "perfiles_tematicos",
     "configuracion",
 }
 

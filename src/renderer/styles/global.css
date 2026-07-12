@@ -23,6 +23,7 @@
   --color-search-placeholder: #696969;
   --color-progress-active: #0c1b6a;
   --color-progress-inactive: #414141;
+  --color-player-bg: #202120;
   --color-heart: #f21c2c;
   --color-platform-youtube: #c71b1b;
   --color-platform-soundcloud: #e8720c;
@@ -65,4 +66,50 @@ body {
 .sounddock-search-input::placeholder {
   font-style: italic;
   color: var(--color-search-placeholder);
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-in {
+  animation: page-in 180ms ease-out;
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.popover-in {
+  animation: popover-in 140ms ease-out;
+  transform-origin: top right;
+}
+
+@keyframes panel-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel-in-up {
+  animation: panel-in-up 140ms ease-out;
 }

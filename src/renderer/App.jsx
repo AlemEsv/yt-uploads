@@ -4,7 +4,6 @@ import { WebSocketProvider } from "./context/WebSocketContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import { LibraryProvider } from "./context/LibraryContext.jsx";
 import { PlayerProvider } from "./context/PlayerContext.jsx";
-import { ThemeProvider } from "./context/ThemeContext.jsx";
 import ToastContainer from "./components/common/ToastContainer.jsx";
 import TitleBar from "./components/layout/TitleBar.jsx";
 import TopBar from "./components/layout/TopBar.jsx";
@@ -19,7 +18,6 @@ import GenresPage from "./pages/GenresPage.jsx";
 import AlbumsPage from "./pages/AlbumsPage.jsx";
 import EventsPage from "./pages/EventsPage.jsx";
 import PlaylistsPage from "./pages/PlaylistsPage.jsx";
-import ProfilesPage from "./pages/ProfilesPage.jsx";
 import StatsPage from "./pages/StatsPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import OnboardingLegalPage from "./pages/OnboardingLegalPage.jsx";
@@ -42,7 +40,6 @@ const PAGES = {
   albums: AlbumsPage,
   events: EventsPage,
   playlists: PlaylistsPage,
-  profiles: ProfilesPage,
   stats: StatsPage,
   settings: SettingsPage,
 };
@@ -91,7 +88,7 @@ function MainShell() {
       <CapturePanel />
       <div className="flex flex-1 gap-4 px-4 pb-4 min-h-0">
         <Sidebar activeView={activeView} onSelectView={setActiveView} />
-        <main className="flex-1 rounded-[15px] overflow-y-auto min-h-0">
+        <main key={activeView} className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0">
           <ActivePage onSelectView={setActiveView} />
         </main>
       </div>
@@ -113,13 +110,11 @@ function AppShell() {
         ) : (
           <WebSocketProvider>
             <ToastProvider>
-              <ThemeProvider>
-                <LibraryProvider>
-                  <PlayerProvider>
-                    <MainShell />
-                  </PlayerProvider>
-                </LibraryProvider>
-              </ThemeProvider>
+              <LibraryProvider>
+                <PlayerProvider>
+                  <MainShell />
+                </PlayerProvider>
+              </LibraryProvider>
             </ToastProvider>
           </WebSocketProvider>
         )}

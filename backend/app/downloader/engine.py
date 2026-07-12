@@ -165,6 +165,7 @@ class DownloadQueue:
 
         titulo, artista, revisado = write_tags(filepath, info)
         plataforma = "soundcloud" if "soundcloud.com" in url else "youtube"
+        genero = info.get("genre") or None
 
         conn = self._get_db()
         with DB_LOCK:
@@ -172,6 +173,7 @@ class DownloadQueue:
                 conn,
                 titulo=titulo,
                 artista=artista,
+                genero=genero,
                 ruta_archivo=filepath,
                 duracion_segundos=info.get("duration"),
                 plataforma_origen=plataforma,

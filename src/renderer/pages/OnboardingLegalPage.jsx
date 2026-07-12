@@ -9,13 +9,13 @@ export default function OnboardingLegalPage({ mode = "onboarding", onAccept, onC
   const [checked, setChecked] = useState(false);
 
   return (
-    <div style={overlayStyle}>
-      <div style={boxStyle}>
-        <h2 style={{ margin: 0 }}>Acerca de SoundDock</h2>
+    <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[3000]">
+      <div className="popover-in bg-[#131212] border border-white/10 rounded-[15px] p-8 w-[480px] max-h-[80vh] overflow-y-auto flex flex-col gap-3">
+        <h2 className="m-0 text-[18px] font-bold">About SoundDock</h2>
         {LEGAL_TEXT.map((paragraph) => (
           <p
             key={paragraph.slice(0, 20)}
-            style={{ color: "var(--color-text-secondary)", lineHeight: 1.5 }}
+            className="m-0 text-[13px] text-[#9b9b9b] leading-relaxed"
           >
             {paragraph}
           </p>
@@ -23,26 +23,38 @@ export default function OnboardingLegalPage({ mode = "onboarding", onAccept, onC
 
         {mode === "onboarding" ? (
           <>
-            <label
-              style={{ display: "flex", gap: "0.5rem", alignItems: "center", fontSize: "0.85rem" }}
-            >
+            <label className="flex gap-2 items-center text-[13px] cursor-pointer">
               <input
                 type="checkbox"
                 checked={checked}
                 onChange={(event) => setChecked(event.target.checked)}
+                className="accent-[var(--color-accent)]"
               />
-              Entiendo y acepto lo anterior
+              I understand and accept the above
             </label>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <button type="button" disabled={!checked} onClick={onAccept} style={primaryButton}>
-                Continuar
+            <div className="flex justify-end">
+              <button
+                type="button"
+                disabled={!checked}
+                onClick={onAccept}
+                className={`px-5 py-2 rounded-[8px] border-none text-white text-[13px] font-semibold transition-opacity ${
+                  checked
+                    ? "bg-[var(--color-accent)] cursor-pointer hover:opacity-90"
+                    : "bg-[var(--color-accent)] opacity-50 cursor-not-allowed"
+                }`}
+              >
+                Continue
               </button>
             </div>
           </>
         ) : (
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button type="button" onClick={onClose} style={primaryButton}>
-              Cerrar
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-5 py-2 rounded-[8px] border-none bg-[var(--color-accent)] text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-opacity"
+            >
+              Close
             </button>
           </div>
         )}
@@ -50,35 +62,3 @@ export default function OnboardingLegalPage({ mode = "onboarding", onAccept, onC
     </div>
   );
 }
-
-const overlayStyle = {
-  position: "fixed",
-  inset: 0,
-  background: "rgba(0, 0, 0, 0.75)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  zIndex: 3000,
-};
-
-const boxStyle = {
-  background: "#131212",
-  border: "1px solid var(--color-border)",
-  borderRadius: "12px",
-  padding: "2rem",
-  width: "480px",
-  maxHeight: "80vh",
-  overflowY: "auto",
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.75rem",
-};
-
-const primaryButton = {
-  padding: "0.5rem 1.25rem",
-  borderRadius: "8px",
-  border: "none",
-  background: "var(--color-accent)",
-  color: "white",
-  cursor: "pointer",
-};

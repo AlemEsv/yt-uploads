@@ -18,6 +18,7 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
   return (
     <div
       ref={menuRef}
+      className="popover-in"
       style={{
         position: "absolute",
         top: "100%",

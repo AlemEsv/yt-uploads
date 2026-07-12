@@ -2,7 +2,6 @@ import React, { useMemo, useState } from "react";
 import { Heart, Play, Shuffle } from "lucide-react";
 import { useLibrary } from "../context/LibraryContext.jsx";
 import { usePlayer } from "../context/PlayerContext.jsx";
-import { useTheme } from "../context/ThemeContext.jsx";
 import EmptyState from "../components/common/EmptyState.jsx";
 import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackTable from "../components/tracks/TrackTable.jsx";
@@ -19,11 +18,7 @@ function formatAddedDate(fecha) {
 export default function FavoritesPage() {
   const { songs, applyUpdate, searchQuery } = useLibrary();
   const { clearQueue, enqueue, playQueueItem } = usePlayer();
-  const { profiles, activeProfileId } = useTheme();
   const [editingSong, setEditingSong] = useState(null);
-
-  const activeProfile = profiles.find((p) => p.id === activeProfileId);
-  const accent = activeProfile?.paleta_colores?.accent ?? "var(--color-accent)";
 
   const favoritos = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -65,12 +60,15 @@ export default function FavoritesPage() {
       <div className="relative rounded-t-[15px] overflow-hidden">
         <div
           className="h-[200px] px-8 pt-8 pb-6 flex flex-col justify-end"
-          style={{ background: `linear-gradient(180deg, ${accent} 0%, #000000 100%)` }}
+          style={{ background: "linear-gradient(180deg, var(--color-accent) 0%, #000000 100%)" }}
         >
           <div className="flex items-end gap-6">
             <div
               className="w-[120px] h-[120px] rounded-[10px] flex items-center justify-center shadow-2xl"
-              style={{ background: `linear-gradient(135deg, var(--color-accent), ${accent})` }}
+              style={{
+                background:
+                  "linear-gradient(135deg, var(--color-accent), var(--color-accent-soft))",
+              }}
             >
               <Heart size={52} className="text-white fill-white" />
             </div>

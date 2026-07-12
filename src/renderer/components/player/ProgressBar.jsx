@@ -20,7 +20,7 @@ export default function ProgressBar() {
         value={Math.min(currentTime, duration || 0)}
         onChange={(event) => seek(Number(event.target.value))}
         className="flex-1 h-[3px] cursor-pointer"
-        style={{ accentColor: "#0c1b6a" }}
+        style={{ accentColor: "#ffffff" }}
       />
       <span
         className="text-[10px] text-[#9b9b9b] w-7"

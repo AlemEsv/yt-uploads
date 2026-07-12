@@ -11,7 +11,7 @@ def file_hash(path: Path) -> str:
 
 
 def read_tags(path: Path) -> dict:
-    titulo = artista = album = None
+    titulo = artista = album = genero = None
     duracion = None
 
     try:
@@ -19,6 +19,7 @@ def read_tags(path: Path) -> dict:
         titulo = (audio.get("title") or [None])[0]
         artista = (audio.get("artist") or [None])[0]
         album = (audio.get("album") or [None])[0]
+        genero = (audio.get("genre") or [None])[0]
         duracion = int(audio.info.length) if audio.info else None
     except ID3NoHeaderError:
         try:
@@ -31,5 +32,6 @@ def read_tags(path: Path) -> dict:
         "titulo": titulo or path.stem,
         "artista": artista,
         "album": album,
+        "genero": genero,
         "duracion_segundos": duracion,
     }

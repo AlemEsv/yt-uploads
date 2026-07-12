@@ -1,8 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { DatabaseBackup, FileText, Folder, RefreshCw, Volume2 } from "lucide-react";
 import { useApi } from "../hooks/useApi.js";
 import { useToast } from "../context/ToastContext.jsx";
 import { useLibrary } from "../context/LibraryContext.jsx";
 import OnboardingLegalPage from "./OnboardingLegalPage.jsx";
+
+const QUALITY_OPTIONS = [128, 192, 256, 320];
+
+function SettingsCard({ icon: Icon, title, description, children }) {
+  return (
+    <div className="bg-[#080808] rounded-[15px] p-5">
+      <div className="flex items-center gap-3 mb-1">
+        <div className="w-9 h-9 rounded-[8px] flex items-center justify-center bg-[var(--color-accent-soft)] shrink-0">
+          <Icon size={16} className="text-[var(--color-accent)]" />
+        </div>
+        <div>
+          <h3 className="text-[15px] font-bold m-0">{title}</h3>
+          <p className="text-[12px] text-[#9b9b9b] m-0">{description}</p>
+        </div>
+      </div>
+      <div className="mt-4">{children}</div>
+    </div>
+  );
+}
 
 export default function SettingsPage() {
   const api = useApi();
@@ -28,174 +48,138 @@ export default function SettingsPage() {
     }
   }
 
+  async function handleScan() {
+    try {
+      await scanLibrary();
+      showSuccess({
+        title: "Scan complete",
+        message: "Your library is in sync with the configured folder.",
+      });
+    } catch {
+      showError({ title: "Scan failed", message: "The library scan could not be completed." });
+    }
+  }
+
   async function handleExport() {
     const destino = await window.sounddock.chooseBackupExportPath();
     if (!destino) return;
     try {
       const result = await api.exportBackup(destino);
-      showSuccess({ title: "Respaldo exportado", message: `Guardado en ${result.exportado_a}` });
+      showSuccess({ title: "Backup exported", message: `Saved to ${result.exportado_a}` });
     } catch {
-      showError({
-        title: "Error al exportar",
-        message: "No se pudo crear el archivo de respaldo.",
-      });
+      showError({ title: "Export failed", message: "The backup file could not be created." });
     }
   }
 
   async function handleImport() {
     const origen = await window.sounddock.chooseBackupImportPath();
     if (!origen) return;
-    if (
-      !confirm("Esto reemplazará tu biblioteca actual con el contenido del respaldo. ¿Continuar?")
-    )
+    if (!confirm("This will replace your current library with the backup contents. Continue?"))
       return;
     try {
       const result = await api.importBackup(origen);
       showSuccess({
-        title: "Respaldo restaurado",
-        message: `${result.canciones_totales} canciones en el catálogo restaurado.`,
+        title: "Backup restored",
+        message: `${result.canciones_totales} songs in the restored catalog.`,
       });
       await refetch();
     } catch {
-      showError({
-        title: "Error al restaurar",
-        message: "No se pudo restaurar el respaldo seleccionado.",
-      });
-    }
-  }
-
-  async function handleScan() {
-    try {
-      await scanLibrary();
-      showSuccess({
-        title: "Escaneo completo",
-        message: "La biblioteca se sincronizó con la carpeta configurada.",
-      });
-    } catch {
-      showError({ title: "Error al escanear", message: "No se pudo completar el escaneo." });
+      showError({ title: "Restore failed", message: "The selected backup could not be restored." });
     }
   }
 
   if (!settings) {
     return (
-      <div style={{ padding: "1.5rem", color: "var(--color-text-secondary)" }}>
-        Cargando configuración...
+      <div className="bg-black min-h-full p-6">
+        <p className="text-[13px] text-[#9b9b9b]">Loading settings...</p>
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        padding: "1.5rem",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1.5rem",
-        maxWidth: "560px",
-      }}
-    >
-      <h2 style={{ margin: 0 }}>Configuración</h2>
+    <div className="bg-black min-h-full p-6">
+      <h1 className="text-[28px] font-bold m-0 mb-6">Settings</h1>
 
-      <section style={sectionStyle}>
-        <h3 style={sectionTitleStyle}>Audio</h3>
-        <label style={labelStyle}>
-          Calidad de descarga
-          <select
-            value={settings.calidad_audio_kbps}
-            onChange={(event) => updateSetting({ calidad_audio_kbps: Number(event.target.value) })}
-            style={inputStyle}
-          >
-            <option value={320}>320 kbps</option>
-            <option value={192}>192 kbps</option>
-          </select>
-        </label>
-      </section>
+      <div className="flex flex-col gap-4 max-w-[640px]">
+        <SettingsCard
+          icon={Volume2}
+          title="Audio quality"
+          description="Bitrate used when converting downloads to MP3."
+        >
+          <div className="flex gap-2">
+            {QUALITY_OPTIONS.map((kbps) => (
+              <button
+                key={kbps}
+                type="button"
+                onClick={() => updateSetting({ calidad_audio_kbps: kbps })}
+                className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
+                  settings.calidad_audio_kbps === kbps
+                    ? "bg-[var(--color-accent)] text-white"
+                    : "bg-white/5 text-[#9b9b9b] hover:text-white hover:bg-white/10"
+                }`}
+              >
+                {kbps} kbps
+              </button>
+            ))}
+          </div>
+        </SettingsCard>
 
-      <section style={sectionStyle}>
-        <h3 style={sectionTitleStyle}>Biblioteca</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-          <span style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>
-            Carpeta de descarga
-          </span>
-          <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-            <span
-              style={{
-                flex: 1,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
+        <SettingsCard
+          icon={Folder}
+          title="Download folder"
+          description="Where new downloads and your library live."
+        >
+          <div className="flex items-center gap-3">
+            <p className="flex-1 text-[13px] text-[#b2b2b2] truncate m-0">
               {settings.directorio_descarga}
-            </span>
-            <button type="button" onClick={handleChooseFolder} style={secondaryButton}>
-              Cambiar
+            </p>
+            <button type="button" onClick={handleChooseFolder} className={secondaryButton}>
+              Change
+            </button>
+            <button
+              type="button"
+              onClick={handleScan}
+              className={`${secondaryButton} flex items-center gap-2`}
+            >
+              <RefreshCw size={13} /> Scan
             </button>
           </div>
-        </div>
-        <button
-          type="button"
-          onClick={handleScan}
-          style={{ ...secondaryButton, alignSelf: "flex-start" }}
-        >
-          Escanear carpeta ahora
-        </button>
-      </section>
+        </SettingsCard>
 
-      <section style={sectionStyle}>
-        <h3 style={sectionTitleStyle}>Respaldo</h3>
-        <p style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)", margin: 0 }}>
-          El respaldo incluye tu catálogo, historial, favoritos, perfiles y configuración — no copia
-          los archivos MP3.
-        </p>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
-          <button type="button" onClick={handleExport} style={secondaryButton}>
-            Exportar respaldo
-          </button>
-          <button type="button" onClick={handleImport} style={secondaryButton}>
-            Restaurar respaldo
-          </button>
-        </div>
-      </section>
-
-      <section style={sectionStyle}>
-        <h3 style={sectionTitleStyle}>Acerca de</h3>
-        <button
-          type="button"
-          onClick={() => setShowLegal(true)}
-          style={{ ...secondaryButton, alignSelf: "flex-start" }}
+        <SettingsCard
+          icon={DatabaseBackup}
+          title="Backup"
+          description="Export or restore your whole catalog (songs, history, likes) as a single file."
         >
-          Ver nota legal
-        </button>
-      </section>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={handleExport}
+              className="px-4 py-2 rounded-[8px] border-none bg-[var(--color-accent)] text-white text-[13px] font-semibold cursor-pointer hover:opacity-90 transition-opacity"
+            >
+              Export backup
+            </button>
+            <button type="button" onClick={handleImport} className={secondaryButton}>
+              Restore from file
+            </button>
+          </div>
+        </SettingsCard>
+
+        <SettingsCard
+          icon={FileText}
+          title="About"
+          description="Usage terms and responsibility notice."
+        >
+          <button type="button" onClick={() => setShowLegal(true)} className={secondaryButton}>
+            View legal notice
+          </button>
+        </SettingsCard>
+      </div>
 
       {showLegal && <OnboardingLegalPage mode="about" onClose={() => setShowLegal(false)} />}
     </div>
   );
 }
 
-const sectionStyle = { display: "flex", flexDirection: "column", gap: "0.6rem" };
-const sectionTitleStyle = { fontSize: "0.9rem", color: "var(--color-text-secondary)", margin: 0 };
-const labelStyle = {
-  fontSize: "0.8rem",
-  color: "var(--color-text-secondary)",
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.25rem",
-  maxWidth: "220px",
-};
-const inputStyle = {
-  padding: "0.4rem 0.6rem",
-  borderRadius: "6px",
-  border: "1px solid var(--color-border)",
-  background: "#0c0c0c",
-  color: "var(--color-text-primary)",
-};
-const secondaryButton = {
-  padding: "0.4rem 0.9rem",
-  borderRadius: "8px",
-  border: "1px solid var(--color-border)",
-  background: "transparent",
-  color: "var(--color-text-primary)",
-  cursor: "pointer",
-};
+const secondaryButton =
+  "px-4 py-2 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors";

@@ -3,7 +3,6 @@ import { Heart, ListMusic } from "lucide-react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 import { useLibrary } from "../../context/LibraryContext.jsx";
 import { useApi } from "../../hooks/useApi.js";
-import { useDominantColor } from "../../hooks/useDominantColor.js";
 import PlayerControls from "./PlayerControls.jsx";
 import ProgressBar from "./ProgressBar.jsx";
 import VolumeControl from "./VolumeControl.jsx";
@@ -14,13 +13,10 @@ export default function PlayerBar() {
   const { toggleFavorite } = useLibrary();
   const api = useApi();
   const [showQueue, setShowQueue] = useState(false);
-  const dominantColor = useDominantColor(
-    currentSong && api ? api.coverUrl(currentSong.id, currentSong.fecha_modificacion) : null,
-  );
 
   if (!currentSong) {
     return (
-      <footer className="relative shrink-0 mx-4 mb-4 bg-[#080808] rounded-[15px] h-[65px] flex items-center justify-center px-6">
+      <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] rounded-[15px] h-[65px] flex items-center justify-center px-6">
         <span className="text-[13px] text-[#9b9b9b]">
           Nothing playing — pick a song from your library.
         </span>
@@ -28,15 +24,8 @@ export default function PlayerBar() {
     );
   }
 
-  const gradientStyle = dominantColor
-    ? { background: `linear-gradient(180deg, ${dominantColor}, #080808)` }
-    : {};
-
   return (
-    <footer
-      className="relative shrink-0 mx-4 mb-4 bg-[#080808] rounded-[15px] h-[65px] flex items-center px-6 gap-4 transition-colors duration-500"
-      style={gradientStyle}
-    >
+    <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] rounded-[15px] h-[65px] flex items-center px-6 gap-4">
       <div className="flex items-center gap-3 w-[260px] min-w-0">
         {api && (
           <img

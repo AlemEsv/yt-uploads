@@ -1,5 +1,3 @@
-from typing import Literal
-
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 
@@ -10,25 +8,18 @@ router = APIRouter()
 
 DEFAULTS = {
     "calidad_audio_kbps": "320",
-    "modo_mood_engine": "manual",
-    "mood_ventana_dias": "7",
 }
 
 
 class SettingsPayload(BaseModel):
     directorio_descarga: str | None = None
     calidad_audio_kbps: int | None = None
-    modo_mood_engine: Literal["automatico", "manual"] | None = None
-    mood_ventana_dias: int | None = None
 
 
 def _read_settings(conn) -> dict:
     return {
         "directorio_descarga": str(get_download_dir(conn)),
         "calidad_audio_kbps": int(get_value(conn, "calidad_audio_kbps", DEFAULTS["calidad_audio_kbps"])),
-        "modo_mood_engine": get_value(conn, "modo_mood_engine", DEFAULTS["modo_mood_engine"]),
-        "mood_ventana_dias": int(get_value(conn, "mood_ventana_dias", DEFAULTS["mood_ventana_dias"])),
-        "perfil_tematico_activo": get_value(conn, "perfil_tematico_activo"),
     }
 
 
