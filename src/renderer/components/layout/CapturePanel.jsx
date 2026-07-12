@@ -75,7 +75,16 @@ export default function CapturePanel() {
       </form>
 
       {recentItems.length > 0 && (
-        <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+        <ul
+          style={{
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.25rem",
+          }}
+        >
           {recentItems.map((item) => (
             <li
               key={item.songId}

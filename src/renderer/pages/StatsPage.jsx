@@ -12,7 +12,9 @@ export default function StatsPage() {
 
   if (!stats) {
     return (
-      <div style={{ padding: "1.5rem", color: "var(--color-text-secondary)" }}>Cargando estadísticas...</div>
+      <div style={{ padding: "1.5rem", color: "var(--color-text-secondary)" }}>
+        Cargando estadísticas...
+      </div>
     );
   }
 
@@ -37,8 +39,17 @@ export default function StatsPage() {
         <ol style={listStyle}>
           {stats.top_canciones.map((cancion, index) => (
             <li key={cancion.song_id} style={rowStyle}>
-              <span style={{ width: "1.5rem", color: "var(--color-text-secondary)" }}>{index + 1}.</span>
-              <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <span style={{ width: "1.5rem", color: "var(--color-text-secondary)" }}>
+                {index + 1}.
+              </span>
+              <span
+                style={{
+                  flex: 1,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {cancion.titulo}
               </span>
               <BarMeter value={cancion.reproducciones} max={maxCancion} />
@@ -64,7 +75,8 @@ export default function StatsPage() {
         <ul style={{ ...listStyle, flexDirection: "row", gap: "1.5rem" }}>
           {stats.top_plataformas.map((p) => (
             <li key={p.plataforma} style={{ color: "var(--color-text-secondary)" }}>
-              {p.plataforma}: <strong style={{ color: "var(--color-text-primary)" }}>{p.reproducciones}</strong>
+              {p.plataforma}:{" "}
+              <strong style={{ color: "var(--color-text-primary)" }}>{p.reproducciones}</strong>
             </li>
           ))}
         </ul>
@@ -76,7 +88,9 @@ export default function StatsPage() {
 function BarMeter({ value, max }) {
   return (
     <>
-      <div style={{ width: "120px", background: "#161616", borderRadius: "4px", overflow: "hidden" }}>
+      <div
+        style={{ width: "120px", background: "#161616", borderRadius: "4px", overflow: "hidden" }}
+      >
         <div
           style={{
             width: `${(value / max) * 100}%`,
@@ -86,13 +100,31 @@ function BarMeter({ value, max }) {
           }}
         />
       </div>
-      <span style={{ color: "var(--color-text-secondary)", fontSize: "0.8rem", width: "1.5rem", textAlign: "right" }}>
+      <span
+        style={{
+          color: "var(--color-text-secondary)",
+          fontSize: "0.8rem",
+          width: "1.5rem",
+          textAlign: "right",
+        }}
+      >
         {value}
       </span>
     </>
   );
 }
 
-const sectionTitleStyle = { fontSize: "0.9rem", color: "var(--color-text-secondary)", margin: "0 0 0.5rem" };
-const listStyle = { margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "0.4rem" };
+const sectionTitleStyle = {
+  fontSize: "0.9rem",
+  color: "var(--color-text-secondary)",
+  margin: "0 0 0.5rem",
+};
+const listStyle = {
+  margin: 0,
+  padding: 0,
+  listStyle: "none",
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.4rem",
+};
 const rowStyle = { display: "flex", alignItems: "center", gap: "0.5rem" };

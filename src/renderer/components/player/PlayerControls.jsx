@@ -2,7 +2,16 @@ import React from "react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 
 export default function PlayerControls() {
-  const { isPlaying, togglePlay, next, previous, isShuffle, toggleShuffle, loopMode, cycleLoopMode } = usePlayer();
+  const {
+    isPlaying,
+    togglePlay,
+    next,
+    previous,
+    isShuffle,
+    toggleShuffle,
+    loopMode,
+    cycleLoopMode,
+  } = usePlayer();
 
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>

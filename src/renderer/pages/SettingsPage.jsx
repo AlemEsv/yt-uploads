@@ -35,14 +35,20 @@ export default function SettingsPage() {
       const result = await api.exportBackup(destino);
       showSuccess({ title: "Respaldo exportado", message: `Guardado en ${result.exportado_a}` });
     } catch {
-      showError({ title: "Error al exportar", message: "No se pudo crear el archivo de respaldo." });
+      showError({
+        title: "Error al exportar",
+        message: "No se pudo crear el archivo de respaldo.",
+      });
     }
   }
 
   async function handleImport() {
     const origen = await window.sounddock.chooseBackupImportPath();
     if (!origen) return;
-    if (!confirm("Esto reemplazará tu biblioteca actual con el contenido del respaldo. ¿Continuar?")) return;
+    if (
+      !confirm("Esto reemplazará tu biblioteca actual con el contenido del respaldo. ¿Continuar?")
+    )
+      return;
     try {
       const result = await api.importBackup(origen);
       showSuccess({
@@ -51,25 +57,43 @@ export default function SettingsPage() {
       });
       await refetch();
     } catch {
-      showError({ title: "Error al restaurar", message: "No se pudo restaurar el respaldo seleccionado." });
+      showError({
+        title: "Error al restaurar",
+        message: "No se pudo restaurar el respaldo seleccionado.",
+      });
     }
   }
 
   async function handleScan() {
     try {
       await scanLibrary();
-      showSuccess({ title: "Escaneo completo", message: "La biblioteca se sincronizó con la carpeta configurada." });
+      showSuccess({
+        title: "Escaneo completo",
+        message: "La biblioteca se sincronizó con la carpeta configurada.",
+      });
     } catch {
       showError({ title: "Error al escanear", message: "No se pudo completar el escaneo." });
     }
   }
 
   if (!settings) {
-    return <div style={{ padding: "1.5rem", color: "var(--color-text-secondary)" }}>Cargando configuración...</div>;
+    return (
+      <div style={{ padding: "1.5rem", color: "var(--color-text-secondary)" }}>
+        Cargando configuración...
+      </div>
+    );
   }
 
   return (
-    <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1.5rem", maxWidth: "560px" }}>
+    <div
+      style={{
+        padding: "1.5rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1.5rem",
+        maxWidth: "560px",
+      }}
+    >
       <h2 style={{ margin: 0 }}>Configuración</h2>
 
       <section style={sectionStyle}>
@@ -90,9 +114,18 @@ export default function SettingsPage() {
       <section style={sectionStyle}>
         <h3 style={sectionTitleStyle}>Biblioteca</h3>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-          <span style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>Carpeta de descarga</span>
+          <span style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>
+            Carpeta de descarga
+          </span>
           <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-            <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            <span
+              style={{
+                flex: 1,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
               {settings.directorio_descarga}
             </span>
             <button type="button" onClick={handleChooseFolder} style={secondaryButton}>
@@ -100,7 +133,11 @@ export default function SettingsPage() {
             </button>
           </div>
         </div>
-        <button type="button" onClick={handleScan} style={{ ...secondaryButton, alignSelf: "flex-start" }}>
+        <button
+          type="button"
+          onClick={handleScan}
+          style={{ ...secondaryButton, alignSelf: "flex-start" }}
+        >
           Escanear carpeta ahora
         </button>
       </section>
@@ -108,7 +145,8 @@ export default function SettingsPage() {
       <section style={sectionStyle}>
         <h3 style={sectionTitleStyle}>Respaldo</h3>
         <p style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)", margin: 0 }}>
-          El respaldo incluye tu catálogo, historial, favoritos, perfiles y configuración — no copia los archivos MP3.
+          El respaldo incluye tu catálogo, historial, favoritos, perfiles y configuración — no copia
+          los archivos MP3.
         </p>
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <button type="button" onClick={handleExport} style={secondaryButton}>
@@ -122,7 +160,11 @@ export default function SettingsPage() {
 
       <section style={sectionStyle}>
         <h3 style={sectionTitleStyle}>Acerca de</h3>
-        <button type="button" onClick={() => setShowLegal(true)} style={{ ...secondaryButton, alignSelf: "flex-start" }}>
+        <button
+          type="button"
+          onClick={() => setShowLegal(true)}
+          style={{ ...secondaryButton, alignSelf: "flex-start" }}
+        >
           Ver nota legal
         </button>
       </section>

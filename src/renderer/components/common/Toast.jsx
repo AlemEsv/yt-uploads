@@ -20,7 +20,9 @@ export default function Toast({ toast, onDismiss }) {
       }}
     >
       <strong style={{ color: accent }}>{toast.title}</strong>
-      <p style={{ margin: "0.25rem 0 0", color: "var(--color-text-secondary)", fontSize: "0.85rem" }}>
+      <p
+        style={{ margin: "0.25rem 0 0", color: "var(--color-text-secondary)", fontSize: "0.85rem" }}
+      >
         {toast.message}
       </p>
     </div>

@@ -12,7 +12,11 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
     if (!api) return;
     setSaving(true);
     try {
-      const updated = await api.patchLibrarySong(cancion.id, { titulo, artista, genero: genero || null });
+      const updated = await api.patchLibrarySong(cancion.id, {
+        titulo,
+        artista,
+        genero: genero || null,
+      });
       onSaved?.(updated);
       onClose();
     } finally {
@@ -65,7 +69,14 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
           <input value={genero} onChange={(e) => setGenero(e.target.value)} style={inputStyle} />
         </label>
 
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", marginTop: "0.5rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: "0.5rem",
+            marginTop: "0.5rem",
+          }}
+        >
           <button type="button" onClick={onClose} style={secondaryButtonStyle}>
             Cerrar
           </button>

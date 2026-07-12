@@ -35,7 +35,7 @@ function extractColor(img) {
 // Extrae un color promedio (oscurecido para contrastar con texto blanco) de la
 // portada vía canvas, sin depender de una librería externa como node-vibrant.
 export function useDominantColor(coverUrl) {
-  const [color, setColor] = useState(() => (coverUrl ? cache.get(coverUrl) ?? null : null));
+  const [color, setColor] = useState(() => (coverUrl ? (cache.get(coverUrl) ?? null) : null));
 
   useEffect(() => {
     if (!coverUrl) {

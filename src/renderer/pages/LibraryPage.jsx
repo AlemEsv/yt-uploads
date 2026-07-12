@@ -26,7 +26,8 @@ export default function LibraryPage() {
     if (!query.trim()) return songs;
     const q = query.trim().toLowerCase();
     return songs.filter(
-      (song) => song.titulo.toLowerCase().includes(q) || (song.artista ?? "").toLowerCase().includes(q),
+      (song) =>
+        song.titulo.toLowerCase().includes(q) || (song.artista ?? "").toLowerCase().includes(q),
     );
   }, [songs, query]);
 
@@ -40,7 +41,10 @@ export default function LibraryPage() {
         }.`,
       });
     } catch {
-      showError({ title: "Error al importar", message: "No se pudieron importar los archivos seleccionados." });
+      showError({
+        title: "Error al importar",
+        message: "No se pudieron importar los archivos seleccionados.",
+      });
     }
   }
 
@@ -54,9 +58,15 @@ export default function LibraryPage() {
   async function handleScan() {
     try {
       await scanLibrary();
-      showSuccess({ title: "Escaneo completo", message: "La biblioteca se sincronizó con la carpeta configurada." });
+      showSuccess({
+        title: "Escaneo completo",
+        message: "La biblioteca se sincronizó con la carpeta configurada.",
+      });
     } catch {
-      showError({ title: "Error al escanear", message: "No se pudo completar el escaneo de la biblioteca." });
+      showError({
+        title: "Error al escanear",
+        message: "No se pudo completar el escaneo de la biblioteca.",
+      });
     }
   }
 

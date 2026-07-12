@@ -53,7 +53,9 @@ export default function DropZoneOverlay({ onDropFiles }) {
         pointerEvents: "none",
       }}
     >
-      <span style={{ fontSize: "1.1rem", fontWeight: 600 }}>Suelta los archivos MP3 para importarlos</span>
+      <span style={{ fontSize: "1.1rem", fontWeight: 600 }}>
+        Suelta los archivos MP3 para importarlos
+      </span>
     </div>
   );
 }

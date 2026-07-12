@@ -14,8 +14,18 @@ export default function ProgressBar() {
   const { currentTime, duration, seek } = usePlayer();
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", width: "100%", maxWidth: "420px" }}>
-      <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>{formatTime(currentTime)}</span>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        width: "100%",
+        maxWidth: "420px",
+      }}
+    >
+      <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>
+        {formatTime(currentTime)}
+      </span>
       <input
         type="range"
         min={0}
@@ -24,7 +34,9 @@ export default function ProgressBar() {
         onChange={(event) => seek(Number(event.target.value))}
         style={{ flex: 1 }}
       />
-      <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>{formatTime(duration)}</span>
+      <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>
+        {formatTime(duration)}
+      </span>
     </div>
   );
 }

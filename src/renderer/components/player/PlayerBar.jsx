@@ -45,12 +45,26 @@ export default function PlayerBar() {
 
   return (
     <div style={{ ...barStyle, ...gradientStyle }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", width: "220px", minWidth: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.6rem",
+          width: "220px",
+          minWidth: 0,
+        }}
+      >
         {api && (
           <img
             src={api.coverUrl(currentSong.id)}
             alt=""
-            style={{ width: "44px", height: "44px", borderRadius: "6px", objectFit: "cover", background: "#161616" }}
+            style={{
+              width: "44px",
+              height: "44px",
+              borderRadius: "6px",
+              objectFit: "cover",
+              background: "#161616",
+            }}
             onError={(event) => {
               event.target.style.visibility = "hidden";
             }}
@@ -89,14 +103,34 @@ export default function PlayerBar() {
         </button>
       </div>
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "0.3rem" }}>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "0.3rem",
+        }}
+      >
         <PlayerControls />
         <ProgressBar />
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", width: "220px", justifyContent: "flex-end" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          width: "220px",
+          justifyContent: "flex-end",
+        }}
+      >
         <VolumeControl />
-        <button type="button" onClick={() => setShowQueue((v) => !v)} style={miniButtonStyle(showQueue)}>
+        <button
+          type="button"
+          onClick={() => setShowQueue((v) => !v)}
+          style={miniButtonStyle(showQueue)}
+        >
           Cola
         </button>
       </div>

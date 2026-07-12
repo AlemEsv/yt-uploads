@@ -16,7 +16,13 @@ export function useDownloads({ onNeedsReview } = {}) {
   useWebSocketEvent(
     "download_queued",
     useCallback(
-      (data) => upsert(data.song_id, { songId: data.song_id, url: data.url, status: "queued", progress: 0 }),
+      (data) =>
+        upsert(data.song_id, {
+          songId: data.song_id,
+          url: data.url,
+          status: "queued",
+          progress: 0,
+        }),
       [upsert],
     ),
   );
@@ -28,7 +34,10 @@ export function useDownloads({ onNeedsReview } = {}) {
 
   useWebSocketEvent(
     "download_progress",
-    useCallback((data) => upsert(data.song_id, { status: "downloading", progress: data.progress }), [upsert]),
+    useCallback(
+      (data) => upsert(data.song_id, { status: "downloading", progress: data.progress }),
+      [upsert],
+    ),
   );
 
   useWebSocketEvent(
@@ -41,7 +50,10 @@ export function useDownloads({ onNeedsReview } = {}) {
     useCallback(
       (data) => {
         upsert(data.song_id, { status: "completed", progress: 100, cancion: data.cancion });
-        showSuccess({ title: "Descarga completa", message: `${data.cancion.titulo} se agregó a tu biblioteca.` });
+        showSuccess({
+          title: "Descarga completa",
+          message: `${data.cancion.titulo} se agregó a tu biblioteca.`,
+        });
         if (data.needs_review && onNeedsReviewRef.current) {
           onNeedsReviewRef.current(data.cancion);
         }

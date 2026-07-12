@@ -13,15 +13,24 @@ export default function OnboardingLegalPage({ mode = "onboarding", onAccept, onC
       <div style={boxStyle}>
         <h2 style={{ margin: 0 }}>Acerca de SoundDock</h2>
         {LEGAL_TEXT.map((paragraph) => (
-          <p key={paragraph.slice(0, 20)} style={{ color: "var(--color-text-secondary)", lineHeight: 1.5 }}>
+          <p
+            key={paragraph.slice(0, 20)}
+            style={{ color: "var(--color-text-secondary)", lineHeight: 1.5 }}
+          >
             {paragraph}
           </p>
         ))}
 
         {mode === "onboarding" ? (
           <>
-            <label style={{ display: "flex", gap: "0.5rem", alignItems: "center", fontSize: "0.85rem" }}>
-              <input type="checkbox" checked={checked} onChange={(event) => setChecked(event.target.checked)} />
+            <label
+              style={{ display: "flex", gap: "0.5rem", alignItems: "center", fontSize: "0.85rem" }}
+            >
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={(event) => setChecked(event.target.checked)}
+              />
               Entiendo y acepto lo anterior
             </label>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>

@@ -21,10 +21,26 @@ export default function ProfilesPage() {
 
   return (
     <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.75rem" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "0.75rem",
+        }}
+      >
         <h2 style={{ margin: 0 }}>Perfiles Temáticos</h2>
         <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-          <label style={{ fontSize: "0.85rem", color: "var(--color-text-secondary)", display: "flex", gap: "0.4rem", alignItems: "center" }}>
+          <label
+            style={{
+              fontSize: "0.85rem",
+              color: "var(--color-text-secondary)",
+              display: "flex",
+              gap: "0.4rem",
+              alignItems: "center",
+            }}
+          >
             <input
               type="checkbox"
               checked={mode === "automatico"}
@@ -41,11 +57,15 @@ export default function ProfilesPage() {
       {suggestion && mode === "manual" && (
         <div style={suggestionBanner}>
           <span>
-            Sugerencia: perfil <strong>{suggestion.nombre}</strong> combina con tus hábitos recientes (confianza{" "}
-            {Math.round(suggestion.confianza * 100)}%).
+            Sugerencia: perfil <strong>{suggestion.nombre}</strong> combina con tus hábitos
+            recientes (confianza {Math.round(suggestion.confianza * 100)}%).
           </span>
           <div style={{ display: "flex", gap: "0.5rem" }}>
-            <button type="button" onClick={() => activateProfile(suggestion.profile_id)} style={secondaryButton}>
+            <button
+              type="button"
+              onClick={() => activateProfile(suggestion.profile_id)}
+              style={secondaryButton}
+            >
               Activar
             </button>
             <button type="button" onClick={dismissSuggestion} style={secondaryButton}>
@@ -55,7 +75,13 @@ export default function ProfilesPage() {
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "1rem" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+          gap: "1rem",
+        }}
+      >
         {profiles.map((profile) => (
           <div
             key={profile.id}
@@ -70,11 +96,18 @@ export default function ProfilesPage() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <span
-                style={{ width: "16px", height: "16px", borderRadius: "50%", background: profile.paleta_colores.accent }}
+                style={{
+                  width: "16px",
+                  height: "16px",
+                  borderRadius: "50%",
+                  background: profile.paleta_colores.accent,
+                }}
               />
               <strong>{profile.nombre}</strong>
               {profile.id === activeProfileId && (
-                <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>(activo)</span>
+                <span style={{ fontSize: "0.7rem", color: "var(--color-text-secondary)" }}>
+                  (activo)
+                </span>
               )}
             </div>
             <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
@@ -86,14 +119,19 @@ export default function ProfilesPage() {
               >
                 Activar
               </button>
-              <button type="button" onClick={() => setEditingProfile(profile)} style={secondaryButton}>
+              <button
+                type="button"
+                onClick={() => setEditingProfile(profile)}
+                style={secondaryButton}
+              >
                 Editar
               </button>
               {!profile.es_predefinido && (
                 <button
                   type="button"
                   onClick={() => {
-                    if (confirm(`¿Eliminar el perfil "${profile.nombre}"?`)) removeProfile(profile.id);
+                    if (confirm(`¿Eliminar el perfil "${profile.nombre}"?`))
+                      removeProfile(profile.id);
                   }}
                   style={secondaryButton}
                 >
@@ -141,7 +179,8 @@ function ProfileEditor({ profile, onClose, onSave }) {
           background: "#000101",
           sidebarBackground: "#131212",
         },
-        criterio_activacion: genero || plataforma ? { genero: genero || null, plataforma: plataforma || null } : null,
+        criterio_activacion:
+          genero || plataforma ? { genero: genero || null, plataforma: plataforma || null } : null,
       });
     } finally {
       setSaving(false);
@@ -154,7 +193,11 @@ function ProfileEditor({ profile, onClose, onSave }) {
         <h3 style={{ margin: 0 }}>{profile.id ? "Editar perfil" : "Nuevo perfil"}</h3>
         <label style={labelStyle}>
           Nombre
-          <input value={nombre} onChange={(event) => setNombre(event.target.value)} style={inputStyle} />
+          <input
+            value={nombre}
+            onChange={(event) => setNombre(event.target.value)}
+            style={inputStyle}
+          />
         </label>
         <label style={labelStyle}>
           Color de acento
@@ -167,7 +210,11 @@ function ProfileEditor({ profile, onClose, onSave }) {
         </label>
         <label style={labelStyle}>
           Género que activa este perfil (opcional)
-          <select value={genero} onChange={(event) => setGenero(event.target.value)} style={inputStyle}>
+          <select
+            value={genero}
+            onChange={(event) => setGenero(event.target.value)}
+            style={inputStyle}
+          >
             {GENRE_OPTIONS.map((option) => (
               <option key={option} value={option}>
                 {option || "(ninguno)"}
@@ -177,7 +224,11 @@ function ProfileEditor({ profile, onClose, onSave }) {
         </label>
         <label style={labelStyle}>
           Plataforma que activa este perfil (opcional)
-          <select value={plataforma} onChange={(event) => setPlataforma(event.target.value)} style={inputStyle}>
+          <select
+            value={plataforma}
+            onChange={(event) => setPlataforma(event.target.value)}
+            style={inputStyle}
+          >
             {PLATFORM_OPTIONS.map((option) => (
               <option key={option} value={option}>
                 {option || "(ninguna)"}
@@ -185,11 +236,23 @@ function ProfileEditor({ profile, onClose, onSave }) {
             ))}
           </select>
         </label>
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "0.5rem", marginTop: "0.5rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: "0.5rem",
+            marginTop: "0.5rem",
+          }}
+        >
           <button type="button" onClick={onClose} style={secondaryButton}>
             Cancelar
           </button>
-          <button type="button" onClick={handleSave} disabled={saving || !nombre.trim()} style={primaryButton}>
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving || !nombre.trim()}
+            style={primaryButton}
+          >
             {saving ? "Guardando..." : "Guardar"}
           </button>
         </div>

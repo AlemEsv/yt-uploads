@@ -17,7 +17,15 @@ export default function SongListRow({ song, onEdit }) {
         borderBottom: "1px solid var(--color-border)",
       }}
     >
-      <div style={{ flex: 1, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+      <div
+        style={{
+          flex: 1,
+          fontWeight: 600,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
         {song.titulo}
       </div>
       <div
@@ -41,7 +49,11 @@ export default function SongListRow({ song, onEdit }) {
         <button type="button" onClick={() => enqueue(song.id)} style={miniButtonStyle(false)}>
           Agregar a cola
         </button>
-        <button type="button" onClick={() => toggleFavorite(song)} style={miniButtonStyle(song.es_favorito)}>
+        <button
+          type="button"
+          onClick={() => toggleFavorite(song)}
+          style={miniButtonStyle(song.es_favorito)}
+        >
           {song.es_favorito ? "En favoritos" : "Favorito"}
         </button>
         <button type="button" onClick={() => onEdit(song)} style={miniButtonStyle(false)}>

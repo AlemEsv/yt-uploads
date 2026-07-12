@@ -41,7 +41,6 @@ app.whenReady().then(() => {
   registerIpcHandlers({ backendProcess, getMainWindow: () => mainWindow });
   createWindow();
   backendProcess.start().catch((err) => {
-    // eslint-disable-next-line no-console
     console.error("[main] no se pudo iniciar el backend:", err);
   });
 

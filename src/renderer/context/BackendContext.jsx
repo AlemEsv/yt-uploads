@@ -26,9 +26,7 @@ export function BackendProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  return (
-    <BackendContext.Provider value={{ status, config }}>{children}</BackendContext.Provider>
-  );
+  return <BackendContext.Provider value={{ status, config }}>{children}</BackendContext.Provider>;
 }
 
 export function useBackend() {

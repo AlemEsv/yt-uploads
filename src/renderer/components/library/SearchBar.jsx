@@ -1,6 +1,10 @@
 import React from "react";
 
-export default function SearchBar({ value, onChange, placeholder = "Buscar por título o artista" }) {
+export default function SearchBar({
+  value,
+  onChange,
+  placeholder = "Buscar por título o artista",
+}) {
   return (
     <input
       type="text"

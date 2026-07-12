@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 
 export default function QueuePanel({ onClose }) {
-  const { queue, queueIndex, playQueueItem, removeFromQueue, reorderQueue, clearQueue } = usePlayer();
+  const { queue, queueIndex, playQueueItem, removeFromQueue, reorderQueue, clearQueue } =
+    usePlayer();
   const [dragIndex, setDragIndex] = useState(null);
 
   return (
     <div style={panelStyle}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "0.5rem",
+        }}
+      >
         <strong>Cola de reproducción</strong>
         <div style={{ display: "flex", gap: "0.4rem" }}>
           <button type="button" onClick={clearQueue} style={smallButton}>
@@ -20,9 +28,19 @@ export default function QueuePanel({ onClose }) {
       </div>
 
       {queue.length === 0 ? (
-        <p style={{ color: "var(--color-text-secondary)", fontSize: "0.85rem", margin: 0 }}>La cola está vacía.</p>
+        <p style={{ color: "var(--color-text-secondary)", fontSize: "0.85rem", margin: 0 }}>
+          La cola está vacía.
+        </p>
       ) : (
-        <ul style={{ listStyle: "none", margin: 0, padding: 0, maxHeight: "260px", overflowY: "auto" }}>
+        <ul
+          style={{
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
+            maxHeight: "260px",
+            overflowY: "auto",
+          }}
+        >
           {queue.map((song, index) => (
             <li
               key={`${song.id}-${index}`}
@@ -49,7 +67,13 @@ export default function QueuePanel({ onClose }) {
             >
               <span
                 onClick={() => playQueueItem(index)}
-                style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", cursor: "pointer", flex: 1 }}
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  cursor: "pointer",
+                  flex: 1,
+                }}
               >
                 {song.titulo}
               </span>

@@ -45,7 +45,7 @@ function healthcheck(host, port) {
 
 async function waitForHealthy(host, port, timeoutMs) {
   const deadline = Date.now() + timeoutMs;
-  // eslint-disable-next-line no-constant-condition
+
   while (true) {
     try {
       await healthcheck(host, port);
@@ -87,12 +87,10 @@ class BackendProcess extends EventEmitter {
 
     this.child.stdout.on("data", (chunk) => this._handleStdout(chunk));
     this.child.stderr.on("data", (chunk) => {
-      // eslint-disable-next-line no-console
       console.error("[backend]", chunk.toString());
     });
-    this.child.on("exit", (code, signal) => this._handleExit(code, signal));
+    this.child.on("exit", () => this._handleExit());
     this.child.on("error", (err) => {
-      // eslint-disable-next-line no-console
       console.error("[backend] failed to spawn:", err);
     });
 
@@ -136,7 +134,7 @@ class BackendProcess extends EventEmitter {
     });
   }
 
-  _handleExit(code, signal) {
+  _handleExit() {
     this.config = { httpBaseUrl: null, wsUrl: null, ready: false };
 
     if (this.intentionalShutdown) {
@@ -150,7 +148,6 @@ class BackendProcess extends EventEmitter {
       const delay = 1000 * this.restartCount;
       setTimeout(() => {
         this.start().catch((err) => {
-          // eslint-disable-next-line no-console
           console.error("[backend] reintento falló:", err);
         });
       }, delay);

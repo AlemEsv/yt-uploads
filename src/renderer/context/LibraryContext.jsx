@@ -31,7 +31,10 @@ export function LibraryProvider({ children }) {
     }, []),
   );
 
-  useWebSocketEvent("library_scan_completed", useCallback(() => refetch(), [refetch]));
+  useWebSocketEvent(
+    "library_scan_completed",
+    useCallback(() => refetch(), [refetch]),
+  );
 
   async function toggleFavorite(song) {
     if (!api) return;
@@ -44,7 +47,9 @@ export function LibraryProvider({ children }) {
         await api.removeFavorite(song.id);
       }
     } catch {
-      setSongs((current) => current.map((s) => (s.id === song.id ? { ...s, es_favorito: !next } : s)));
+      setSongs((current) =>
+        current.map((s) => (s.id === song.id ? { ...s, es_favorito: !next } : s)),
+      );
     }
   }
 
@@ -70,7 +75,16 @@ export function LibraryProvider({ children }) {
     setSongs((current) => current.map((s) => (s.id === updatedSong.id ? updatedSong : s)));
   }
 
-  const value = { songs, loading, refetch, toggleFavorite, removeSong, importFiles, scanLibrary, applyUpdate };
+  const value = {
+    songs,
+    loading,
+    refetch,
+    toggleFavorite,
+    removeSong,
+    importFiles,
+    scanLibrary,
+    applyUpdate,
+  };
 
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;
 }
