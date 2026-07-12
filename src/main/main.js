@@ -9,9 +9,11 @@ let tray = null;
 let forceQuit = false;
 const backendProcess = new BackendProcess({ isPackaged: app.isPackaged });
 
+const appIconPath = path.join(__dirname, "..", "..", "build", "icon.ico");
+const trayIconPath = path.join(__dirname, "..", "..", "build", "tray-icon.png");
+
 function createTray() {
-  // Ícono mínimo (16x16 vacío si no hay asset)
-  const icon = nativeImage.createEmpty();
+  const icon = nativeImage.createFromPath(trayIconPath);
   tray = new Tray(icon);
   tray.setToolTip("SoundDock");
   const contextMenu = Menu.buildFromTemplate([
@@ -85,6 +87,7 @@ function createWindow() {
     minWidth: 960,
     minHeight: 600,
     backgroundColor: "#000000",
+    icon: appIconPath,
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "..", "preload", "preload.js"),
