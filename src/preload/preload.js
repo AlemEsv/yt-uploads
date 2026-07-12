@@ -40,6 +40,7 @@ contextBridge.exposeInMainWorld("sounddock", {
     return () => ipcRenderer.removeListener("player:state", wrapped);
   },
   sendPlayerCommand: (action) => ipcRenderer.send("player:command", action),
+  setMiniBackground: (hex) => ipcRenderer.send("mini:set-background", hex),
   onPlayerCommand: (callback) => {
     const wrapped = (_event, action) => callback(action);
     ipcRenderer.on("player:command", wrapped);

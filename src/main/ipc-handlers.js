@@ -17,6 +17,15 @@ function registerIpcHandlers({ backendProcess, getMainWindow, getMiniWindow }) {
 
   ipcMain.handle("player:get-state", () => lastPlayerState);
 
+  // Evita que las esquinas de la mini ventana muestren un color que no
+  // coincide con el tema actual (se ve como un borde negro sin suavizar).
+  ipcMain.on("mini:set-background", (_event, hex) => {
+    const mini = getMiniWindow?.();
+    if (mini && !mini.isDestroyed() && /^#[0-9a-fA-F]{6}$/.test(hex)) {
+      mini.setBackgroundColor(hex);
+    }
+  });
+
   ipcMain.on("player:command", (_event, action) => {
     const win = getMainWindow();
     if (win && !win.isDestroyed()) {
