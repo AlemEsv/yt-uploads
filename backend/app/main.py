@@ -18,6 +18,7 @@ from app.routes import (
     health,
     history,
     library,
+    playlists,
     settings,
 )
 from app.websocket import ConnectionManager
@@ -63,6 +64,7 @@ app.include_router(download.router)
 app.include_router(library.router)
 app.include_router(favorites.router)
 app.include_router(history.router)
+app.include_router(playlists.router)
 app.include_router(settings.router)
 app.include_router(backup.router)
 
