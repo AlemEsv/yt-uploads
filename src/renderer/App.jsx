@@ -7,6 +7,7 @@ import { LibraryProvider } from "./context/LibraryContext.jsx";
 import { PlayerProvider, usePlayer } from "./context/PlayerContext.jsx";
 import { PlaylistsProvider, usePlaylists } from "./context/PlaylistsContext.jsx";
 import ToastContainer from "./components/common/ToastContainer.jsx";
+import CursorGlow from "./components/common/CursorGlow.jsx";
 import TitleBar from "./components/layout/TitleBar.jsx";
 import TopBar from "./components/layout/TopBar.jsx";
 import Sidebar from "./components/layout/Sidebar.jsx";
@@ -143,6 +144,7 @@ function AppContent() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <CursorGlow />
       <TitleBar
         onSelectView={setActiveView}
         onNewPlaylist={() => setShowCreatePlaylist(true)}
