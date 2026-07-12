@@ -70,7 +70,7 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[2000]">
-      <div className="bg-[#131212] border border-white/10 rounded-[12px] p-6 w-[360px] flex flex-col gap-3">
+      <div className="glass border border-white/10 rounded-[12px] p-6 w-[360px] flex flex-col gap-3">
         <h2 className="m-0 text-[17px] font-bold">Edit metadata</h2>
         <p className="m-0 text-[13px] text-[#9b9b9b]">
           Review this song's details before saving it to your library.
@@ -121,14 +121,15 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
             value={genreChoice}
             onChange={(e) => setGenreChoice(e.target.value)}
             className={inputClass}
+            style={{ colorScheme: "dark" }}
           >
-            <option value="">None</option>
+            <option value="" style={{ background: "#0d0d0d", color: "#fff" }}>None</option>
             {PRESET_GENRES.map((genre) => (
-              <option key={genre} value={genre}>
+              <option key={genre} value={genre} style={{ background: "#0d0d0d", color: "#fff" }}>
                 {genre}
               </option>
             ))}
-            <option value={CUSTOM}>Custom…</option>
+            <option value={CUSTOM} style={{ background: "#0d0d0d", color: "#fff" }}>Custom…</option>
           </select>
         </label>
 
@@ -162,6 +163,6 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
 
 const labelClass = "text-[12px] text-[#9b9b9b] flex flex-col gap-1";
 const inputClass =
-  "w-full px-3 py-2 rounded-[6px] border border-white/10 bg-[#0c0c0c] text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]";
+  "w-full px-3 py-2 rounded-[6px] border border-white/10 bg-[#0d0d0d] text-white text-[13px] outline-none focus:ring-1 focus:ring-white/20";
 const secondaryButton =
   "px-4 py-1.5 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors";

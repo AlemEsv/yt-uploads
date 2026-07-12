@@ -11,7 +11,7 @@ const WINDOWS = [
 
 function BarList({ title, items, max }) {
   return (
-    <div className="bg-[#080808] rounded-[15px] p-5">
+    <div className="glass rounded-[15px] p-5">
       <h3 className="text-[16px] font-bold mb-4 mt-0">{title}</h3>
       {items.length === 0 ? (
         <p className="text-[13px] text-[#9b9b9b] m-0">No data yet.</p>
@@ -64,7 +64,7 @@ export default function StatsPage() {
   ];
 
   return (
-    <div className="bg-black min-h-full p-6">
+    <div className="page-surface min-h-full p-6">
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <h1 className="text-[28px] font-bold m-0">Statistics</h1>
         <div className="flex gap-2">
@@ -76,7 +76,7 @@ export default function StatsPage() {
               className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                 windowDays === w.days
                   ? "bg-[var(--color-accent)] text-white"
-                  : "bg-[#080808] text-[#9b9b9b] hover:text-white hover:bg-white/10"
+                  : "glass text-[#9b9b9b] hover:text-white hover:bg-white/10"
               }`}
             >
               {w.label}
@@ -94,7 +94,7 @@ export default function StatsPage() {
         <>
           <div className="grid grid-cols-3 gap-4 mb-6">
             {tiles.map(({ icon: Icon, label, value }) => (
-              <div key={label} className="bg-[#080808] rounded-[12px] p-4 flex items-center gap-4">
+              <div key={label} className="glass rounded-[12px] p-4 flex items-center gap-4">
                 <div className="w-10 h-10 rounded-[8px] flex items-center justify-center bg-[var(--color-accent-soft)]">
                   <Icon size={18} className="text-[var(--color-accent)]" />
                 </div>
@@ -106,7 +106,7 @@ export default function StatsPage() {
             ))}
           </div>
 
-          <div className="bg-[#080808] rounded-[15px] p-5 mb-6">
+          <div className="glass rounded-[15px] p-5 mb-6">
             <h3 className="text-[16px] font-bold mb-4 mt-0 flex items-center gap-2">
               <BarChart3 size={16} className="text-[var(--color-accent)]" />
               Most played

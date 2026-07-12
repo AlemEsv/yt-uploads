@@ -90,7 +90,7 @@ function MainShell() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-black text-white overflow-hidden relative">
+    <div className="flex flex-col h-full text-white overflow-hidden relative">
       <TopBar activeView={activeView} onSelectView={setActiveView} />
       <CapturePanel />
       <div className="flex flex-1 gap-4 px-4 pb-4 min-h-0">
@@ -102,7 +102,7 @@ function MainShell() {
         />
         <main
           key={`${activeView}-${activeView === "playlists" ? activePlaylistId : ""}`}
-          className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0"
+          className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0 bg-[#080808]"
         >
           <ActivePage
             onSelectView={setActiveView}

@@ -33,7 +33,7 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
   return (
     <div
       ref={menuRef}
-      className="popover-in absolute top-full right-0 mt-1 bg-[#080808] border border-white/10 rounded-[8px] min-w-[180px] z-[1000]"
+      className="popover-in absolute top-full right-0 mt-1 glass border border-white/10 rounded-[8px] min-w-[180px] z-[1000]"
     >
       <div className="relative">
         <button
@@ -45,7 +45,7 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
           <ChevronRight size={13} className="text-white/50" />
         </button>
         {showPlaylists && (
-          <div className="popover-in absolute top-0 right-full mr-1 bg-[#080808] border border-white/10 rounded-[8px] min-w-[160px] max-h-[220px] overflow-y-auto z-[1001]">
+          <div className="popover-in absolute top-0 right-full mr-1 glass border border-white/10 rounded-[8px] min-w-[160px] max-h-[220px] overflow-y-auto z-[1001]">
             {playlists.length === 0 ? (
               <p className="m-0 px-3 py-2 text-[12px] text-[#9b9b9b]">
                 No playlists yet — create one from the sidebar.

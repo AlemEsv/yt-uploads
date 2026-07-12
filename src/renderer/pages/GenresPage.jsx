@@ -42,7 +42,7 @@ export default function GenresPage({ onSelectView }) {
   }
 
   return (
-    <div className="bg-black min-h-full p-6">
+    <div className="page-surface min-h-full p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-[28px] font-bold m-0">Browse Genres</h1>
       </div>

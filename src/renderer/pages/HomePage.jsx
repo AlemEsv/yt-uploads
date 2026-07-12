@@ -74,12 +74,12 @@ export default function HomePage({ onSelectView }) {
   }
 
   return (
-    <div className="bg-black min-h-full">
+    <div className="page-surface min-h-full">
       {/* Hero banner */}
       <div className="relative h-[300px] overflow-hidden rounded-[15px] mb-6">
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(120deg, var(--color-accent) 0%, #000000 85%)" }}
+          style={{ background: "linear-gradient(120deg, #1a2a4a 0%, #000000 85%)" }}
         />
         <div className="absolute bottom-0 left-0 p-8">
           <p className="text-[22px] font-bold mb-1">Welcome back!</p>
@@ -135,7 +135,7 @@ export default function HomePage({ onSelectView }) {
       {/* Three-column section */}
       <div className="grid grid-cols-[1fr_1.6fr_1.6fr] gap-4">
         {/* Your Platforms */}
-        <div className="bg-[#080808] rounded-[15px] p-5">
+        <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-4 mt-0">Your Platforms</h3>
           <div className="flex flex-col gap-2">
             {PLATFORM_CHIPS.map((p) => (
@@ -153,7 +153,7 @@ export default function HomePage({ onSelectView }) {
         </div>
 
         {/* Top Tracks */}
-        <div className="bg-[#080808] rounded-[15px] p-5">
+        <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-3 mt-0">Top Tracks</h3>
           {topTracks.length === 0 ? (
             <p className="text-[13px] text-[#9b9b9b]">Play some songs to see your top tracks.</p>
@@ -165,7 +165,7 @@ export default function HomePage({ onSelectView }) {
         </div>
 
         {/* Liked Songs */}
-        <div className="bg-[#080808] rounded-[15px] p-5">
+        <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-3 mt-0">Liked Songs</h3>
           {likedTracks.length === 0 ? (
             <p className="text-[13px] text-[#9b9b9b]">Like songs to see them here.</p>

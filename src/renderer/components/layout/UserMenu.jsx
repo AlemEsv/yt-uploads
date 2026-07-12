@@ -26,7 +26,7 @@ export default function UserMenu({ activeView, onSelectView }) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 bg-[#080808] rounded-[6px] px-3 h-[34px] border-none cursor-pointer"
+        className="flex items-center gap-2 glass rounded-[6px] px-3 h-[34px] border-none cursor-pointer"
       >
         <span className="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 bg-[var(--color-accent)]">
           <User size={12} className="text-white" />
@@ -36,7 +36,7 @@ export default function UserMenu({ activeView, onSelectView }) {
       </button>
 
       {open && (
-        <div className="popover-in absolute top-full right-0 mt-2 bg-[#080808] border border-white/10 rounded-[8px] min-w-[200px] overflow-hidden z-[2000]">
+        <div className="popover-in absolute top-full right-0 mt-2 glass border border-white/10 rounded-[8px] min-w-[200px] overflow-hidden z-[2000]">
           {MENU_ITEMS.map((item) => (
             <button
               key={item.id}

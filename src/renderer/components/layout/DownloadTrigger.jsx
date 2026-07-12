@@ -38,7 +38,7 @@ export default function DownloadTrigger() {
         onClick={() => setOpen((v) => !v)}
         title="Download from a link"
         className={`w-[34px] h-[34px] rounded-[6px] flex items-center justify-center border-none cursor-pointer transition-colors ${
-          open ? "bg-[var(--color-accent)]" : "bg-[#080808] hover:bg-white/10"
+          open ? "bg-[var(--color-accent)]" : "glass hover:bg-white/10"
         }`}
       >
         <Download size={15} className="text-white" />
@@ -47,7 +47,7 @@ export default function DownloadTrigger() {
       {open && (
         <form
           onSubmit={handleSubmit}
-          className="popover-in absolute top-full right-0 mt-2 w-[340px] p-3 rounded-[12px] border border-white/10 bg-[#080808] shadow-2xl flex gap-2 z-[2000]"
+          className="popover-in absolute top-full right-0 mt-2 w-[340px] p-3 rounded-[12px] border border-white/10 glass shadow-2xl flex gap-2 z-[2000]"
         >
           <input
             type="text"
@@ -55,7 +55,7 @@ export default function DownloadTrigger() {
             value={url}
             onChange={(event) => setUrl(event.target.value)}
             placeholder="Paste a YouTube or SoundCloud link"
-            className="flex-1 px-3 py-2 rounded-[8px] border border-white/10 bg-[#0c0c0c] text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+            className="flex-1 px-3 py-2 rounded-[8px] border border-white/10 bg-white/5 text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
           />
           <button
             type="submit"

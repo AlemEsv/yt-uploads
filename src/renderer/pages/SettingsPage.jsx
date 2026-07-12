@@ -9,7 +9,7 @@ const QUALITY_OPTIONS = [128, 192, 256, 320];
 
 function SettingsCard({ icon: Icon, title, description, children }) {
   return (
-    <div className="bg-[#080808] rounded-[15px] p-5">
+    <div className="glass rounded-[15px] p-5">
       <div className="flex items-center gap-3 mb-1">
         <div className="w-9 h-9 rounded-[8px] flex items-center justify-center bg-[var(--color-accent-soft)] shrink-0">
           <Icon size={16} className="text-[var(--color-accent)]" />
@@ -90,14 +90,14 @@ export default function SettingsPage() {
 
   if (!settings) {
     return (
-      <div className="bg-black min-h-full p-6">
+      <div className="page-surface min-h-full p-6">
         <p className="text-[13px] text-[#9b9b9b]">Loading settings...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-black min-h-full p-6">
+    <div className="page-surface min-h-full p-6">
       <h1 className="text-[28px] font-bold m-0 mb-6">Settings</h1>
 
       <div className="flex flex-col gap-4 max-w-[640px]">

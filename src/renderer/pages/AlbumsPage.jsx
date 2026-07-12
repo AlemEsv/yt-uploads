@@ -44,7 +44,7 @@ export default function AlbumsPage() {
   }
 
   return (
-    <div className="bg-black min-h-full p-6">
+    <div className="page-surface min-h-full p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-[28px] font-bold m-0">Albums</h1>
         <div className="flex gap-2">
@@ -56,7 +56,7 @@ export default function AlbumsPage() {
               className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                 sort === s
                   ? "bg-[var(--color-accent)] text-white"
-                  : "bg-[#080808] text-[#9b9b9b] hover:text-white hover:bg-white/10"
+                  : "glass text-[#9b9b9b] hover:text-white hover:bg-white/10"
               }`}
             >
               {s}
@@ -73,7 +73,7 @@ export default function AlbumsPage() {
       ) : (
         <>
           {featured && (
-            <div className="relative bg-[#080808] rounded-[15px] overflow-hidden mb-8 flex">
+            <div className="relative glass rounded-[15px] overflow-hidden mb-8 flex">
               {api && featured.songs[0] && (
                 <img
                   src={api.coverUrl(featured.songs[0].id, featured.songs[0].fecha_modificacion)}
@@ -108,7 +108,7 @@ export default function AlbumsPage() {
             {albums.map((album) => (
               <div
                 key={album.name}
-                className="group cursor-pointer bg-[#080808] rounded-[12px] p-4 hover:bg-white/5 transition-colors"
+                className="group cursor-pointer glass rounded-[12px] p-4 hover:bg-white/5 transition-colors"
                 onClick={() => playAlbum(album)}
               >
                 <div className="relative rounded-[9px] overflow-hidden aspect-square mb-3 bg-[#161616]">

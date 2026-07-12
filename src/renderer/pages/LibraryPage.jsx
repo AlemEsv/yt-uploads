@@ -142,7 +142,7 @@ export default function LibraryPage() {
   const activeFilter = platformFilter || genreFilter;
 
   return (
-    <div className="bg-black min-h-full p-6">
+    <div className="page-surface min-h-full p-6">
       <DropZoneOverlay onDropFiles={handleImportPaths} />
 
       <div className="flex items-center justify-between mb-6">
@@ -151,7 +151,7 @@ export default function LibraryPage() {
           <button
             type="button"
             onClick={handleScan}
-            className="flex items-center gap-2 bg-[#080808] hover:bg-white/10 text-[13px] text-[#9b9b9b] hover:text-white px-4 py-2 rounded-[8px] transition-colors border-none cursor-pointer"
+            className="flex items-center gap-2 glass hover:bg-white/10 text-[13px] text-[#9b9b9b] hover:text-white px-4 py-2 rounded-[8px] transition-colors border-none cursor-pointer"
           >
             <RefreshCw size={13} /> Scan Library
           </button>
@@ -168,7 +168,7 @@ export default function LibraryPage() {
       {/* Stats bar */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         {stats.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="bg-[#080808] rounded-[12px] p-4 flex items-center gap-4">
+          <div key={label} className="glass rounded-[12px] p-4 flex items-center gap-4">
             <div className="w-10 h-10 rounded-[8px] flex items-center justify-center bg-[var(--color-accent-soft)]">
               <Icon size={18} className="text-[var(--color-accent)]" />
             </div>
@@ -182,7 +182,7 @@ export default function LibraryPage() {
 
       {/* Source folder */}
       {downloadDir && (
-        <div className="bg-[#080808] rounded-[15px] p-5 mb-6">
+        <div className="glass rounded-[15px] p-5 mb-6">
           <h2 className="text-[16px] font-bold mb-4 mt-0">Source Folder</h2>
           <div className="flex items-center gap-4 p-3 rounded-[10px] hover:bg-white/5 transition-colors">
             <div className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 bg-[var(--color-accent-soft)]">

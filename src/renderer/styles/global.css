@@ -3,8 +3,11 @@
 :root {
   --color-bg-base: #000000;
   --color-sidebar-bg: #080808;
-  --color-accent: #c30dd2;
-  --color-accent-soft: rgba(195, 13, 210, 0.25);
+  /* Accent = azul pizarra oscuro (fuera de los colores de género del DESIGN.md).
+     Funciona con text-white en botones rellenos.
+     Géneros: Dance #C30DD2, Rock #C71B1B, Pop #7D25ED, K-Pop #207C29, etc. */
+  --color-accent: #2a3f6f;
+  --color-accent-soft: rgba(42, 63, 111, 0.25);
   --color-text-primary: #ffffff;
   --color-text-secondary: #b3b3b3;
   --color-muted-text: #9b9b9b;
@@ -14,6 +17,7 @@
   --color-success: #4fbf6b;
   --color-surface-raised: #080808;
   --color-surface-raised-hover: #141414;
+  /* CTA: azul oscuro del progress bar según DESIGN.md */
   --color-cta: #e0313f;
   --color-cta-hover: #c72631;
   --color-cta-light-bg: #f1f1f1;
@@ -23,7 +27,7 @@
   --color-search-placeholder: #696969;
   --color-progress-active: #0c1b6a;
   --color-progress-inactive: #414141;
-  --color-player-bg: #202120;
+  --color-player-bg: #080808;
   --color-heart: #f21c2c;
   --color-platform-youtube: #c71b1b;
   --color-platform-soundcloud: #e8720c;
@@ -36,9 +40,7 @@
   --font-secondary: "Roboto", sans-serif;
 }
 
-/* Transición suave al cambiar de perfil temático: el navegador no anima el
-   valor de una custom property por sí solo, así que se declara la transición
-   en las propiedades reales que la consumen (fondo/borde/color). */
+/* Transición suave al cambiar de perfil temático */
 button {
   transition:
     background-color 400ms ease,
@@ -58,9 +60,43 @@ body,
 }
 
 body {
-  background-color: var(--color-bg-base);
+  background: #000000;
   color: var(--color-text-primary);
   font-family: var(--font-primary);
+}
+
+.glass {
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.04) inset,
+    0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 .sounddock-search-input::placeholder {
@@ -68,48 +104,48 @@ body {
   color: var(--color-search-placeholder);
 }
 
-@keyframes page-in {
+@keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
+}
+
+@keyframes icon-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
 }
 
 .page-in {
-  animation: page-in 180ms ease-out;
-}
-
-@keyframes popover-in {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  animation: fade-in 220ms ease-out;
 }
 
 .popover-in {
-  animation: popover-in 140ms ease-out;
-  transform-origin: top right;
-}
-
-@keyframes panel-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  animation: fade-in 160ms ease-out;
 }
 
 .panel-in-up {
-  animation: panel-in-up 140ms ease-out;
+  animation: fade-in 160ms ease-out;
+}
+
+/* Icon fade-in-out loop (sin movimiento) */
+.icon-breathe {
+  animation: icon-pulse 2.4s ease-in-out infinite;
+}
+
+/* Transparent page container — crystal effect handled by the main shell */
+.page-surface {
+  background: transparent;
+  min-height: 100%;
+}
+
+/* Crystal card — for inner panels / sections */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }

@@ -70,11 +70,11 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
 
   if (playlistId == null) {
     return (
-      <div className="bg-black min-h-full p-6">
+      <div className="page-surface min-h-full p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-[28px] font-bold m-0">Playlists</h1>
         </div>
-        <div className="bg-[#080808] rounded-[15px] flex flex-col items-center justify-center py-20 px-6 text-center">
+        <div className="glass rounded-[15px] flex flex-col items-center justify-center py-20 px-6 text-center">
           <div className="w-14 h-14 rounded-full bg-[var(--color-accent-soft)] flex items-center justify-center mb-4">
             <ListMusic size={24} className="text-[var(--color-accent)]" />
           </div>
@@ -89,7 +89,7 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
 
   if (!detail) {
     return (
-      <div className="bg-black min-h-full p-6">
+      <div className="page-surface min-h-full p-6">
         <p className="text-[13px] text-[#9b9b9b]">Loading playlist...</p>
       </div>
     );
@@ -123,11 +123,11 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
   ];
 
   return (
-    <div className="bg-black min-h-full">
+    <div className="page-surface min-h-full">
       <div className="relative rounded-t-[15px] overflow-hidden">
         <div
           className="h-[200px] px-8 pt-8 pb-6 flex flex-col justify-end"
-          style={{ background: "linear-gradient(180deg, var(--color-accent) 0%, #000000 100%)" }}
+          style={{ background: "linear-gradient(180deg, #1a2a4a 0%, #000000 100%)" }}
         >
           <div className="flex items-end gap-6">
             <div className="w-[120px] h-[120px] rounded-[10px] flex items-center justify-center shadow-2xl bg-white/10">

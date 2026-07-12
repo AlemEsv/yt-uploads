@@ -63,7 +63,7 @@ function CreatePlaylistModal({ onClose, onCreate }) {
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[2000]">
       <form
         onSubmit={handleCreate}
-        className="popover-in bg-[#131212] border border-white/10 rounded-[12px] p-6 w-[320px] flex flex-col gap-3"
+        className="popover-in glass border border-white/10 rounded-[12px] p-6 w-[320px] flex flex-col gap-3"
       >
         <h2 className="m-0 text-[16px] font-bold">New playlist</h2>
         <input
@@ -71,7 +71,7 @@ function CreatePlaylistModal({ onClose, onCreate }) {
           value={name}
           onChange={(event) => setName(event.target.value)}
           placeholder="Playlist name"
-          className="w-full px-3 py-2 rounded-[6px] border border-white/10 bg-[#0c0c0c] text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+          className="w-full px-3 py-2 rounded-[6px] border border-white/10 bg-white/5 text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
         />
         <div className="flex justify-end gap-2">
           <button
@@ -110,7 +110,7 @@ export default function Sidebar({ activeView, onSelectView, activePlaylistId, on
   }
 
   return (
-    <aside className="w-[254px] shrink-0 bg-[#080808] rounded-[15px] flex flex-col py-6 px-5 overflow-y-auto">
+    <aside className="w-[254px] shrink-0 glass rounded-[15px] flex flex-col py-6 px-5 overflow-y-auto">
       <p className="text-[11px] font-semibold tracking-widest text-white mb-2 mt-0">DISCOVER</p>
       <nav className="flex flex-col gap-1 mb-6">
         {navDiscover.map((item) => (

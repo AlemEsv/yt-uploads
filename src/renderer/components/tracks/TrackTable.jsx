@@ -3,7 +3,7 @@ import TrackRow from "./TrackRow.jsx";
 
 export default function TrackTable({ rows, columns = [], showRank = true, onEdit }) {
   return (
-    <div className="bg-[#080808] rounded-[15px] overflow-hidden">
+    <div className="glass rounded-[15px] overflow-hidden">
       <div className="flex items-center gap-4 px-5 py-2 border-b border-white/5 text-[11px] font-semibold text-[#9b9b9b] tracking-wider">
         {showRank && <span className="w-5 text-center">#</span>}
         <span className="w-[44px]" />

@@ -26,7 +26,7 @@ export default function CapturePanel() {
   }
 
   return (
-    <div className="popover-in absolute top-[58px] right-4 w-[340px] p-3 rounded-[12px] border border-white/10 bg-[#080808] shadow-2xl z-[1500]">
+    <div className="popover-in absolute top-[58px] right-4 w-[340px] p-3 rounded-[12px] border border-white/10 glass shadow-2xl z-[1500]">
       {recentItems.length > 0 && (
         <ul className="list-none m-0 p-0 flex flex-col gap-2">
           {recentItems.map((item) => (

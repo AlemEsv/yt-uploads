@@ -73,7 +73,7 @@ export default function RecentPage() {
   ];
 
   return (
-    <div className="bg-black min-h-full p-6">
+    <div className="page-surface min-h-full p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-[28px] font-bold m-0">Recently Played</h1>
         <div className="flex items-center gap-2 text-[13px] text-[#9b9b9b]">

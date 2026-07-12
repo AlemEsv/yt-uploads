@@ -10,7 +10,7 @@ export default function OnboardingLegalPage({ mode = "onboarding", onAccept, onC
 
   return (
     <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-[3000]">
-      <div className="popover-in bg-[#131212] border border-white/10 rounded-[15px] p-8 w-[480px] max-h-[80vh] overflow-y-auto flex flex-col gap-3">
+      <div className="popover-in glass border border-white/10 rounded-[15px] p-8 w-[480px] max-h-[80vh] overflow-y-auto flex flex-col gap-3">
         <h2 className="m-0 text-[18px] font-bold">About SoundDock</h2>
         {LEGAL_TEXT.map((paragraph) => (
           <p

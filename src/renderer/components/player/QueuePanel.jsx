@@ -7,7 +7,7 @@ export default function QueuePanel({ onClose }) {
   const [dragIndex, setDragIndex] = useState(null);
 
   return (
-    <div className="panel-in-up" style={panelStyle}>
+    <div className="panel-in-up glass" style={panelStyle}>
       <div
         style={{
           display: "flex",
@@ -93,8 +93,6 @@ const panelStyle = {
   right: "1rem",
   bottom: "80px",
   width: "280px",
-  background: "var(--color-sidebar-bg)",
-  border: "1px solid var(--color-border)",
   borderRadius: "10px",
   padding: "0.75rem",
   zIndex: 1200,
