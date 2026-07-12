@@ -23,8 +23,7 @@ export default function VolumeControl() {
         step={0.05}
         value={volume}
         onChange={(event) => setVolume(Number(event.target.value))}
-        className="w-[101px] h-[4px] cursor-pointer"
-        style={{ accentColor: "var(--color-text-primary)" }}
+        className="player-range w-[101px] h-[5px] cursor-pointer"
       />
     </div>
   );

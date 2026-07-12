@@ -212,6 +212,39 @@ html.mini-mode #root {
   animation-play-state: paused;
 }
 
+.player-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-progress-inactive);
+  border-radius: 999px;
+  border: none;
+  outline: none;
+}
+
+.player-range:focus,
+.player-range:focus-visible {
+  outline: none;
+}
+
+.player-range::-webkit-slider-runnable-track {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.player-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-text-primary);
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+
 .page-in {
   animation: fade-in 220ms ease-out;
 }

@@ -19,8 +19,7 @@ export default function ProgressBar() {
         max={duration || 0}
         value={Math.min(currentTime, duration || 0)}
         onChange={(event) => seek(Number(event.target.value))}
-        className="flex-1 h-[3px] cursor-pointer"
-        style={{ accentColor: "var(--color-text-primary)" }}
+        className="player-range flex-1 h-[5px] cursor-pointer"
       />
       <span
         className="text-[10px] text-[var(--color-muted-text)] w-7"
