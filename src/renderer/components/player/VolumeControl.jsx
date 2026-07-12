@@ -24,7 +24,7 @@ export default function VolumeControl() {
         value={volume}
         onChange={(event) => setVolume(Number(event.target.value))}
         className="w-[101px] h-[4px] cursor-pointer"
-        style={{ accentColor: "#ffffff" }}
+        style={{ accentColor: "var(--color-text-primary)" }}
       />
     </div>
   );

@@ -93,10 +93,10 @@ export default function HomePage({ onSelectView }) {
               type="button"
               onClick={handlePlayNow}
               disabled={songs.length === 0}
-              className={`bg-[#f1f1f1] text-black text-[13px] font-medium px-4 py-1.5 rounded-[5px] shadow transition-colors border-none ${
+              className={`bg-[var(--color-cta-light-bg)] text-[var(--color-cta-light-text)] text-[13px] font-medium px-4 py-1.5 rounded-[5px] shadow transition-colors border-none ${
                 songs.length === 0
                   ? "opacity-50 cursor-not-allowed"
-                  : "cursor-pointer hover:bg-white"
+                  : "cursor-pointer hover:opacity-90"
               }`}
             >
               Play Now!
@@ -112,7 +112,7 @@ export default function HomePage({ onSelectView }) {
           <div className="grid grid-cols-6 gap-4">
             {recentSongs.map((song) => (
               <div key={song.id} className="group cursor-pointer" onClick={() => playNow(song.id)}>
-                <div className="relative rounded-[9px] overflow-hidden aspect-square mb-2 bg-[#161616]">
+                <div className="relative rounded-[9px] overflow-hidden aspect-square mb-2 bg-[var(--color-cover-placeholder-bg)]">
                   {api && (
                     <img
                       src={api.coverUrl(song.id, song.fecha_modificacion)}
@@ -127,7 +127,7 @@ export default function HomePage({ onSelectView }) {
                   </div>
                 </div>
                 <p className="text-[15px] font-bold truncate m-0">{song.titulo}</p>
-                <p className="text-[13px] text-[#d7d7d7] font-semibold truncate m-0">
+                <p className="text-[13px] text-[var(--color-inactive-text)] font-semibold truncate m-0">
                   {song.artista ?? "Unknown artist"}
                 </p>
               </div>
@@ -161,7 +161,9 @@ export default function HomePage({ onSelectView }) {
         <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-3 mt-0">Top Tracks</h3>
           {topTracks.length === 0 ? (
-            <p className="text-[13px] text-[#9b9b9b]">Play some songs to see your top tracks.</p>
+            <p className="text-[13px] text-[var(--color-muted-text)]">
+              Play some songs to see your top tracks.
+            </p>
           ) : (
             topTracks.map((song, idx) => (
               <TrackRow key={song.id} rank={idx + 1} song={song} onEdit={setEditingSong} />
@@ -173,7 +175,9 @@ export default function HomePage({ onSelectView }) {
         <div className="glass rounded-[15px] p-5">
           <h3 className="text-[18px] font-bold mb-3 mt-0">Liked Songs</h3>
           {likedTracks.length === 0 ? (
-            <p className="text-[13px] text-[#9b9b9b]">Like songs to see them here.</p>
+            <p className="text-[13px] text-[var(--color-muted-text)]">
+              Like songs to see them here.
+            </p>
           ) : (
             likedTracks.map((song, idx) => (
               <TrackRow key={song.id} rank={idx + 1} song={song} onEdit={setEditingSong} />

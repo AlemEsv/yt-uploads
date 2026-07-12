@@ -30,7 +30,10 @@ export default function CapturePanel() {
       {recentItems.length > 0 && (
         <ul className="list-none m-0 p-0 flex flex-col gap-2">
           {recentItems.map((item) => (
-            <li key={item.songId} className="text-[12px] text-[#9b9b9b] flex justify-between gap-2">
+            <li
+              key={item.songId}
+              className="text-[12px] text-[var(--color-muted-text)] flex justify-between gap-2"
+            >
               <span className="truncate">{item.cancion?.titulo ?? item.url}</span>
               <span className="shrink-0">
                 {STATUS_LABEL[item.status] ?? item.status}

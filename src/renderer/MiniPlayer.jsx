@@ -26,7 +26,7 @@ export default function MiniPlayer() {
         gap: "12px",
         padding: "0 14px",
         fontFamily: "Poppins, sans-serif",
-        color: "#fff",
+        color: "var(--color-text-primary)",
         userSelect: "none",
         position: "relative",
         overflow: "hidden",
@@ -44,25 +44,47 @@ export default function MiniPlayer() {
 
       {/* Album art */}
       <div style={{ zIndex: 1, flexShrink: 0 }}>
-        <SongCover
-          song={currentSong}
-          className="w-[54px] h-[54px] rounded-[8px]"
-          iconSize={24}
-        />
+        <SongCover song={currentSong} className="w-[54px] h-[54px] rounded-[8px]" iconSize={24} />
       </div>
 
       {/* Song info */}
       <div style={{ flex: 1, minWidth: 0, zIndex: 1 }}>
-        <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <p
+          style={{
+            margin: 0,
+            fontSize: "13px",
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           {currentSong?.titulo ?? "No song playing"}
         </p>
-        <p style={{ margin: 0, fontSize: "11px", color: "#9b9b9b", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <p
+          style={{
+            margin: 0,
+            fontSize: "11px",
+            color: "var(--color-muted-text)",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           {currentSong?.artista ?? "\u2014"}
         </p>
       </div>
 
       {/* Controls — no-drag */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", zIndex: 1, WebkitAppRegion: "no-drag" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          zIndex: 1,
+          WebkitAppRegion: "no-drag",
+        }}
+      >
         <button
           type="button"
           onClick={togglePlay}
@@ -76,11 +98,15 @@ export default function MiniPlayer() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "#fff",
+            color: "var(--color-text-primary)",
           }}
           title={isPlaying ? "Pause" : "Play"}
         >
-          {isPlaying ? <Pause size={14} fill="#fff" /> : <Play size={14} fill="#fff" />}
+          {isPlaying ? (
+            <Pause size={14} fill="var(--color-text-primary)" />
+          ) : (
+            <Play size={14} fill="var(--color-text-primary)" />
+          )}
         </button>
 
         <button

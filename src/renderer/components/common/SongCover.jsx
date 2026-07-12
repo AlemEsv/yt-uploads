@@ -15,13 +15,12 @@ export default function SongCover({
     setError(false);
   }, [song?.id, song?.fecha_modificacion]);
 
-  const coverUrl =
-    api && song?.id ? api.coverUrl(song.id, song.fecha_modificacion) : null;
+  const coverUrl = api && song?.id ? api.coverUrl(song.id, song.fecha_modificacion) : null;
 
   return (
     <div
       onClick={onClick}
-      className={`relative overflow-hidden shrink-0 bg-[#161616] flex items-center justify-center border border-white/10 ${className}`}
+      className={`relative overflow-hidden shrink-0 bg-[var(--color-cover-placeholder-bg)] flex items-center justify-center border border-white/10 ${className}`}
     >
       <Music size={iconSize} className="text-white/30 shrink-0" />
       {coverUrl && !error && (

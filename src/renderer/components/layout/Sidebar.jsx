@@ -141,7 +141,7 @@ export default function Sidebar({ activeView, onSelectView, activePlaylistId, on
       <button
         type="button"
         onClick={() => setShowCreate(true)}
-        className="flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent text-[#9b9b9b] hover:text-white"
+        className="flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent text-[var(--color-muted-text)] hover:text-white"
       >
         <Plus size={14} />
         Create playlist
@@ -154,7 +154,7 @@ export default function Sidebar({ activeView, onSelectView, activePlaylistId, on
           className={`flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent ${
             activeView === "playlists" && playlist.id === activePlaylistId
               ? "text-white"
-              : "text-[#9b9b9b] hover:text-white"
+              : "text-[var(--color-muted-text)] hover:text-white"
           }`}
         >
           <ListMusic size={14} />

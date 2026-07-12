@@ -15,7 +15,7 @@ export default function OnboardingLegalPage({ mode = "onboarding", onAccept, onC
         {LEGAL_TEXT.map((paragraph) => (
           <p
             key={paragraph.slice(0, 20)}
-            className="m-0 text-[13px] text-[#9b9b9b] leading-relaxed"
+            className="m-0 text-[13px] text-[var(--color-muted-text)] leading-relaxed"
           >
             {paragraph}
           </p>

@@ -9,7 +9,7 @@ export default function Toast({ toast, onDismiss }) {
       role="alert"
       onClick={() => onDismiss(toast.id)}
       style={{
-        background: "#1b1b1b",
+        background: "var(--color-toast-bg)",
         border: `1px solid ${accent}`,
         borderRadius: "10px",
         padding: "0.75rem 1rem",

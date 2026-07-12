@@ -103,7 +103,7 @@ function MainShell() {
         />
         <main
           key={`${activeView}-${activeView === "playlists" ? activePlaylistId : ""}`}
-          className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0 bg-[#080808]"
+          className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0 bg-[var(--color-surface-raised)]"
         >
           <ActivePage
             onSelectView={setActiveView}

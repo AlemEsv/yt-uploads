@@ -34,6 +34,9 @@
   --color-platform-youtube: #c71b1b;
   --color-platform-soundcloud: #e8720c;
   --color-platform-importado: #35827d;
+  --color-cover-placeholder-bg: #161616;
+  --color-input-bg: #0d0d0d;
+  --color-toast-bg: #1b1b1b;
   --font-primary:
     "Poppins",
     "Segoe UI",
@@ -72,6 +75,9 @@
   --color-platform-youtube: #c71b1b;
   --color-platform-soundcloud: #e8720c;
   --color-platform-importado: #35827d;
+  --color-cover-placeholder-bg: #e4e4e4;
+  --color-input-bg: #ececec;
+  --color-toast-bg: #ffffff;
 }
 
 [data-theme="claro"] .glass {

@@ -17,7 +17,7 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
     <div className="group relative flex items-center gap-4 px-4 py-2.5 rounded-[8px] hover:bg-white/5 transition-colors select-none">
       {rank != null && (
         <>
-          <span className="w-5 text-[14px] font-bold text-[#b2b2b2] group-hover:hidden shrink-0 text-center">
+          <span className="w-5 text-[14px] font-bold text-[var(--color-text-secondary)] group-hover:hidden shrink-0 text-center">
             {rank}
           </span>
           <button
@@ -41,7 +41,7 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
         <p className="text-[14px] font-semibold truncate group-hover:text-[var(--color-accent)] transition-colors m-0">
           {song.titulo}
         </p>
-        <p className="text-[12px] text-[#b2b2b2] truncate m-0">
+        <p className="text-[12px] text-[var(--color-text-secondary)] truncate m-0">
           {song.artista ?? "Unknown artist"}
         </p>
       </div>
@@ -53,7 +53,7 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
       ))}
 
       <p
-        className="w-10 text-right text-[13px] text-[#9b9b9b] shrink-0 m-0"
+        className="w-10 text-right text-[13px] text-[var(--color-muted-text)] shrink-0 m-0"
         style={{ fontFamily: "var(--font-secondary)" }}
       >
         {formatTime(song.duracion_segundos)}
@@ -69,7 +69,9 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
           <Heart
             size={13}
             className={
-              song.es_favorito ? "text-[#f21c2c] fill-[#f21c2c]" : "text-white/50 hover:text-white"
+              song.es_favorito
+                ? "text-[var(--color-heart)] fill-[var(--color-heart)]"
+                : "text-white/50 hover:text-white"
             }
           />
         </button>

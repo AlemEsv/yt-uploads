@@ -16,7 +16,7 @@ function SettingsCard({ icon: Icon, title, description, children }) {
         </div>
         <div>
           <h3 className="text-[15px] font-bold m-0">{title}</h3>
-          <p className="text-[12px] text-[#9b9b9b] m-0">{description}</p>
+          <p className="text-[12px] text-[var(--color-muted-text)] m-0">{description}</p>
         </div>
       </div>
       <div className="mt-4">{children}</div>
@@ -91,7 +91,7 @@ export default function SettingsPage() {
   if (!settings) {
     return (
       <div className="page-surface min-h-full p-6">
-        <p className="text-[13px] text-[#9b9b9b]">Loading settings...</p>
+        <p className="text-[13px] text-[var(--color-muted-text)]">Loading settings...</p>
       </div>
     );
   }
@@ -115,7 +115,7 @@ export default function SettingsPage() {
                 className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                   settings.calidad_audio_kbps === kbps
                     ? "bg-[var(--color-accent)] text-white"
-                    : "bg-white/5 text-[#9b9b9b] hover:text-white hover:bg-white/10"
+                    : "bg-white/5 text-[var(--color-muted-text)] hover:text-white hover:bg-white/10"
                 }`}
               >
                 {kbps} kbps
@@ -130,7 +130,7 @@ export default function SettingsPage() {
           description="Where new downloads and your library live."
         >
           <div className="flex items-center gap-3">
-            <p className="flex-1 text-[13px] text-[#b2b2b2] truncate m-0">
+            <p className="flex-1 text-[13px] text-[var(--color-text-secondary)] truncate m-0">
               {settings.directorio_descarga}
             </p>
             <button type="button" onClick={handleChooseFolder} className={secondaryButton}>

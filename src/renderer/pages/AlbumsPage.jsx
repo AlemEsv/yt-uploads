@@ -56,7 +56,7 @@ export default function AlbumsPage() {
               className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                 sort === s
                   ? "bg-[var(--color-accent)] text-white"
-                  : "glass text-[#9b9b9b] hover:text-white hover:bg-white/10"
+                  : "glass text-[var(--color-muted-text)] hover:text-white hover:bg-white/10"
               }`}
             >
               {s}
@@ -78,7 +78,7 @@ export default function AlbumsPage() {
                 <img
                   src={api.coverUrl(featured.songs[0].id, featured.songs[0].fecha_modificacion)}
                   alt=""
-                  className="w-[200px] h-[200px] object-cover bg-[#161616]"
+                  className="w-[200px] h-[200px] object-cover bg-[var(--color-cover-placeholder-bg)]"
                 />
               )}
               <div className="p-6 flex flex-col justify-between">
@@ -87,7 +87,7 @@ export default function AlbumsPage() {
                     FEATURED ALBUM
                   </p>
                   <h2 className="text-[32px] font-bold mb-1 mt-0">{featured.name}</h2>
-                  <p className="text-[16px] text-[#b2b2b2] font-semibold m-0">
+                  <p className="text-[16px] text-[var(--color-text-secondary)] font-semibold m-0">
                     {featured.songs[0]?.artista ?? "Various"} · {featured.songs.length} songs
                   </p>
                 </div>
@@ -111,7 +111,7 @@ export default function AlbumsPage() {
                 className="group cursor-pointer glass rounded-[12px] p-4 hover:bg-white/5 transition-colors"
                 onClick={() => playAlbum(album)}
               >
-                <div className="relative rounded-[9px] overflow-hidden aspect-square mb-3 bg-[#161616]">
+                <div className="relative rounded-[9px] overflow-hidden aspect-square mb-3 bg-[var(--color-cover-placeholder-bg)]">
                   {api && album.songs[0] && (
                     <img
                       src={api.coverUrl(album.songs[0].id, album.songs[0].fecha_modificacion)}
@@ -126,7 +126,7 @@ export default function AlbumsPage() {
                   </div>
                 </div>
                 <p className="text-[15px] font-bold truncate m-0">{album.name}</p>
-                <p className="text-[13px] text-[#9b9b9b] truncate mt-0.5 mb-0">
+                <p className="text-[13px] text-[var(--color-muted-text)] truncate mt-0.5 mb-0">
                   {album.songs[0]?.artista ?? "Various"} · {album.songs.length} tracks
                 </p>
               </div>
