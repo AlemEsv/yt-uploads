@@ -58,6 +58,24 @@ export function createApiClient(baseUrl) {
       request(baseUrl, `/history/stats?ventana_dias=${ventanaDias}`),
     getHistory: (limit = 50, offset = 0) =>
       request(baseUrl, `/history?limit=${limit}&offset=${offset}`),
+    listPlaylists: () => request(baseUrl, "/playlists"),
+    createPlaylist: (nombre) =>
+      request(baseUrl, "/playlists", { method: "POST", body: JSON.stringify({ nombre }) }),
+    getPlaylist: (playlistId) => request(baseUrl, `/playlists/${playlistId}`),
+    renamePlaylist: (playlistId, nombre) =>
+      request(baseUrl, `/playlists/${playlistId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ nombre }),
+      }),
+    deletePlaylist: (playlistId) =>
+      request(baseUrl, `/playlists/${playlistId}`, { method: "DELETE" }),
+    addPlaylistSong: (playlistId, songId) =>
+      request(baseUrl, `/playlists/${playlistId}/songs`, {
+        method: "POST",
+        body: JSON.stringify({ song_id: songId }),
+      }),
+    removePlaylistSong: (playlistId, songId) =>
+      request(baseUrl, `/playlists/${playlistId}/songs/${songId}`, { method: "DELETE" }),
     getSettings: () => request(baseUrl, "/settings"),
     putSettings: (data) =>
       request(baseUrl, "/settings", { method: "PUT", body: JSON.stringify(data) }),

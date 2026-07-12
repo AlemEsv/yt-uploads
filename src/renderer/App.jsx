@@ -4,6 +4,7 @@ import { WebSocketProvider } from "./context/WebSocketContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import { LibraryProvider } from "./context/LibraryContext.jsx";
 import { PlayerProvider } from "./context/PlayerContext.jsx";
+import { PlaylistsProvider } from "./context/PlaylistsContext.jsx";
 import ToastContainer from "./components/common/ToastContainer.jsx";
 import TitleBar from "./components/layout/TitleBar.jsx";
 import TopBar from "./components/layout/TopBar.jsx";
@@ -65,10 +66,16 @@ function BackendStatusScreen() {
 
 function MainShell() {
   const [activeView, setActiveView] = useState("home");
+  const [activePlaylistId, setActivePlaylistId] = useState(null);
   const [legalAccepted, setLegalAccepted] = useState(
     () => localStorage.getItem(LEGAL_ACCEPTED_KEY) === "true",
   );
   const ActivePage = PAGES[activeView] ?? HomePage;
+
+  function openPlaylist(playlistId) {
+    setActivePlaylistId(playlistId);
+    setActiveView("playlists");
+  }
 
   if (!legalAccepted) {
     return (
@@ -87,9 +94,21 @@ function MainShell() {
       <TopBar activeView={activeView} onSelectView={setActiveView} />
       <CapturePanel />
       <div className="flex flex-1 gap-4 px-4 pb-4 min-h-0">
-        <Sidebar activeView={activeView} onSelectView={setActiveView} />
-        <main key={activeView} className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0">
-          <ActivePage onSelectView={setActiveView} />
+        <Sidebar
+          activeView={activeView}
+          onSelectView={setActiveView}
+          activePlaylistId={activePlaylistId}
+          onOpenPlaylist={openPlaylist}
+        />
+        <main
+          key={`${activeView}-${activeView === "playlists" ? activePlaylistId : ""}`}
+          className="page-in flex-1 rounded-[15px] overflow-y-auto min-h-0"
+        >
+          <ActivePage
+            onSelectView={setActiveView}
+            activePlaylistId={activePlaylistId}
+            onOpenPlaylist={openPlaylist}
+          />
         </main>
       </div>
       <PlayerBar />
@@ -111,9 +130,11 @@ function AppShell() {
           <WebSocketProvider>
             <ToastProvider>
               <LibraryProvider>
-                <PlayerProvider>
-                  <MainShell />
-                </PlayerProvider>
+                <PlaylistsProvider>
+                  <PlayerProvider>
+                    <MainShell />
+                  </PlayerProvider>
+                </PlaylistsProvider>
               </LibraryProvider>
             </ToastProvider>
           </WebSocketProvider>

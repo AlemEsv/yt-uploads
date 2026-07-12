@@ -1,8 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { ChevronRight } from "lucide-react";
 import { useLibrary } from "../../context/LibraryContext.jsx";
+import { usePlaylists } from "../../context/PlaylistsContext.jsx";
+import { useToast } from "../../context/ToastContext.jsx";
 
 export default function TrackRowMenu({ song, onEdit, onClose }) {
   const { removeSong } = useLibrary();
+  const { playlists, addSong } = usePlaylists();
+  const { showSuccess } = useToast();
+  const [showPlaylists, setShowPlaylists] = useState(false);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -15,23 +21,50 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
+  async function handleAddToPlaylist(playlist) {
+    await addSong(playlist.id, song.id);
+    showSuccess({
+      title: "Added to playlist",
+      message: `"${song.titulo}" was added to ${playlist.nombre}.`,
+    });
+    onClose();
+  }
+
   return (
     <div
       ref={menuRef}
-      className="popover-in"
-      style={{
-        position: "absolute",
-        top: "100%",
-        right: 0,
-        marginTop: "0.25rem",
-        background: "var(--color-sidebar-bg)",
-        border: "1px solid var(--color-border)",
-        borderRadius: "8px",
-        minWidth: "160px",
-        overflow: "hidden",
-        zIndex: 1000,
-      }}
+      className="popover-in absolute top-full right-0 mt-1 bg-[#080808] border border-white/10 rounded-[8px] min-w-[180px] z-[1000]"
     >
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setShowPlaylists((v) => !v)}
+          className={`${itemClass} flex items-center justify-between`}
+        >
+          Add to playlist
+          <ChevronRight size={13} className="text-white/50" />
+        </button>
+        {showPlaylists && (
+          <div className="popover-in absolute top-0 right-full mr-1 bg-[#080808] border border-white/10 rounded-[8px] min-w-[160px] max-h-[220px] overflow-y-auto z-[1001]">
+            {playlists.length === 0 ? (
+              <p className="m-0 px-3 py-2 text-[12px] text-[#9b9b9b]">
+                No playlists yet — create one from the sidebar.
+              </p>
+            ) : (
+              playlists.map((playlist) => (
+                <button
+                  key={playlist.id}
+                  type="button"
+                  onClick={() => handleAddToPlaylist(playlist)}
+                  className={itemClass}
+                >
+                  <span className="truncate block">{playlist.nombre}</span>
+                </button>
+              ))
+            )}
+          </div>
+        )}
+      </div>
       {onEdit && (
         <button
           type="button"
@@ -39,9 +72,9 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
             onEdit(song);
             onClose();
           }}
-          style={itemStyle}
+          className={itemClass}
         >
-          Editar
+          Edit
         </button>
       )}
       <button
@@ -50,33 +83,23 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
           window.sounddock.showItemInFolder(song.ruta_archivo);
           onClose();
         }}
-        style={itemStyle}
+        className={itemClass}
       >
-        Carpeta
+        Show in folder
       </button>
       <button
         type="button"
         onClick={() => {
-          if (confirm(`¿Eliminar "${song.titulo}" de la biblioteca?`)) removeSong(song.id);
+          if (confirm(`Remove "${song.titulo}" from your library?`)) removeSong(song.id);
           onClose();
         }}
-        style={itemStyle}
+        className={itemClass}
       >
-        Eliminar
+        Delete
       </button>
     </div>
   );
 }
 
-const itemStyle = {
-  display: "block",
-  width: "100%",
-  textAlign: "left",
-  padding: "0.5rem 0.75rem",
-  border: "none",
-  background: "transparent",
-  color: "var(--color-text-primary)",
-  cursor: "pointer",
-  font: "inherit",
-  fontSize: "0.85rem",
-};
+const itemClass =
+  "block w-full text-left px-3 py-2 border-none bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/10 transition-colors";
