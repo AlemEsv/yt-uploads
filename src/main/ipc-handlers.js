@@ -1,7 +1,28 @@
 const { ipcMain, dialog, shell, app } = require("electron");
 
+let lastPlayerState = { currentSong: null, isPlaying: false };
+
 function registerIpcHandlers({ backendProcess, getMainWindow, getMiniWindow }) {
   ipcMain.handle("backend:get-config", () => backendProcess.getConfig());
+
+  // La mini ventana no reproduce audio real: solo refleja y controla el estado
+  // de la ventana principal, que sigue siendo la única con un <audio> real.
+  ipcMain.on("player:state-changed", (_event, state) => {
+    lastPlayerState = state;
+    const mini = getMiniWindow?.();
+    if (mini && !mini.isDestroyed()) {
+      mini.webContents.send("player:state", state);
+    }
+  });
+
+  ipcMain.handle("player:get-state", () => lastPlayerState);
+
+  ipcMain.on("player:command", (_event, action) => {
+    const win = getMainWindow();
+    if (win && !win.isDestroyed()) {
+      win.webContents.send("player:command", action);
+    }
+  });
 
   ipcMain.handle("window:minimize", () => getMainWindow()?.minimize());
 

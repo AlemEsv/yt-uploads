@@ -131,6 +131,12 @@ body {
   font-family: var(--font-primary);
 }
 
+html.mini-mode,
+html.mini-mode body,
+html.mini-mode #root {
+  background: transparent !important;
+}
+
 .glass {
   background: rgba(8, 8, 8, 0.72);
   backdrop-filter: blur(24px) saturate(1.4);
@@ -182,6 +188,20 @@ body {
 @keyframes icon-pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.3; }
+}
+
+@keyframes disc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.disc-spin {
+  animation: disc-spin 12s linear infinite;
+}
+
+.disc-spin-paused {
+  animation-play-state: paused;
 }
 
 .page-in {

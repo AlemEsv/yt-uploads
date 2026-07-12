@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Play, Pause, X } from "lucide-react";
-import { usePlayer } from "./context/PlayerContext.jsx";
+import { useRemotePlayerState } from "./hooks/useRemotePlayerState.js";
 import SongCover from "./components/common/SongCover.jsx";
 
 export default function MiniPlayer() {
-  const { currentSong, isPlaying, togglePlay } = usePlayer();
+  const { currentSong, isPlaying, togglePlay } = useRemotePlayerState();
 
   function handleRestore() {
     window.sounddock?.restoreMain();
@@ -42,9 +42,12 @@ export default function MiniPlayer() {
         }}
       />
 
-      {/* Album art */}
-      <div style={{ zIndex: 1, flexShrink: 0 }}>
-        <SongCover song={currentSong} className="w-[54px] h-[54px] rounded-[8px]" iconSize={24} />
+      {/* Spinning disc — album art */}
+      <div
+        className={`shrink-0 rounded-full ${isPlaying ? "disc-spin" : "disc-spin disc-spin-paused"}`}
+        style={{ zIndex: 1 }}
+      >
+        <SongCover song={currentSong} className="w-[54px] h-[54px] rounded-full" iconSize={24} />
       </div>
 
       {/* Song info */}
@@ -71,7 +74,7 @@ export default function MiniPlayer() {
             textOverflow: "ellipsis",
           }}
         >
-          {currentSong?.artista ?? "\u2014"}
+          {currentSong?.artista ?? "—"}
         </p>
       </div>
 

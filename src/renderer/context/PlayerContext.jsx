@@ -173,6 +173,18 @@ export function PlayerProvider({ children }) {
     localStorage.setItem(VOLUME_STORAGE_KEY, String(volume));
   }, [volume]);
 
+  useEffect(() => {
+    window.sounddock?.notifyPlayerState({ currentSong, isPlaying });
+  }, [currentSong, isPlaying]);
+
+  useEffect(() => {
+    return window.sounddock?.onPlayerCommand((action) => {
+      if (action === "toggle") togglePlay();
+      else if (action === "next") next();
+      else if (action === "previous") previous();
+    });
+  }, [next, previous]);
+
   function playNow(songId) {
     const index = queue.indexOf(songId);
     if (index !== -1) {

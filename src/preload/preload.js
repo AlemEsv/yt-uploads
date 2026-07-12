@@ -31,4 +31,18 @@ contextBridge.exposeInMainWorld("sounddock", {
 
   // Sincrónico: webUtils.getPathForFile no necesita ida y vuelta por IPC.
   getPathForFile: (file) => webUtils.getPathForFile(file),
+
+  notifyPlayerState: (state) => ipcRenderer.send("player:state-changed", state),
+  getPlayerState: () => ipcRenderer.invoke("player:get-state"),
+  onPlayerStateChange: (callback) => {
+    const wrapped = (_event, state) => callback(state);
+    ipcRenderer.on("player:state", wrapped);
+    return () => ipcRenderer.removeListener("player:state", wrapped);
+  },
+  sendPlayerCommand: (action) => ipcRenderer.send("player:command", action),
+  onPlayerCommand: (callback) => {
+    const wrapped = (_event, action) => callback(action);
+    ipcRenderer.on("player:command", wrapped);
+    return () => ipcRenderer.removeListener("player:command", wrapped);
+  },
 });
