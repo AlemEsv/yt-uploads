@@ -25,8 +25,10 @@
   --color-search-bg: #f1f1f1;
   --color-search-text: #000000;
   --color-search-placeholder: #696969;
-  --color-progress-active: #0c1b6a;
   --color-progress-inactive: #414141;
+  --color-hero-gradient-start: #4a4a4d;
+  --color-hero-gradient-mid: #1c1c1e;
+  --color-hero-gradient-end: #000000;
   --color-player-bg: #080808;
   --color-heart: #f21c2c;
   --color-platform-youtube: #c71b1b;

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Play } from "lucide-react";
+import { HardDrive, Play } from "lucide-react";
+import { SiSoundcloud, SiYoutube } from "react-icons/si";
 import { useApi } from "../hooks/useApi.js";
 import { useLibrary } from "../context/LibraryContext.jsx";
 import { usePlayer } from "../context/PlayerContext.jsx";
@@ -7,9 +8,9 @@ import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackRow from "../components/tracks/TrackRow.jsx";
 
 const PLATFORM_CHIPS = [
-  { id: "youtube", label: "YouTube", color: "#C71B1B" },
-  { id: "soundcloud", label: "SoundCloud", color: "#E8720C" },
-  { id: "importado", label: "Imported", color: "#35827D" },
+  { id: "youtube", label: "YouTube", color: "#C71B1B", Icon: SiYoutube },
+  { id: "soundcloud", label: "SoundCloud", color: "#E8720C", Icon: SiSoundcloud },
+  { id: "importado", label: "Imported", color: "#35827D", Icon: HardDrive },
 ];
 
 export default function HomePage({ onSelectView }) {
@@ -79,7 +80,10 @@ export default function HomePage({ onSelectView }) {
       <div className="relative h-[300px] overflow-hidden rounded-[15px] mb-6">
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(120deg, #1a2a4a 0%, #000000 85%)" }}
+          style={{
+            background:
+              "linear-gradient(120deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 85%)",
+          }}
         />
         <div className="absolute bottom-0 left-0 p-8">
           <p className="text-[22px] font-bold mb-1">Welcome back!</p>
@@ -143,9 +147,10 @@ export default function HomePage({ onSelectView }) {
                 key={p.id}
                 type="button"
                 onClick={() => handlePlatformClick(p.id)}
-                className="h-[58px] rounded-[10px] flex items-center justify-center text-[13px] font-bold text-white transition-opacity hover:opacity-90 border-none cursor-pointer"
+                className="h-[58px] rounded-[10px] flex items-center justify-center gap-2 text-[13px] font-bold text-white transition-opacity hover:opacity-90 border-none cursor-pointer"
                 style={{ backgroundColor: p.color }}
               >
+                <p.Icon size={16} />
                 {p.label} · {platformCounts[p.id] ?? 0}
               </button>
             ))}

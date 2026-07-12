@@ -9,10 +9,10 @@ export default function ToastContainer() {
     <div
       style={{
         position: "fixed",
-        top: "1rem",
+        bottom: "1rem",
         right: "1rem",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "column-reverse",
         gap: "0.5rem",
         zIndex: 1000,
       }}

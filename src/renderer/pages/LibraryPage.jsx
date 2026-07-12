@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Clock3, Folder, Heart, Music, RefreshCw, Upload } from "lucide-react";
+import { Clock3, Folder, HardDrive, Heart, Music, RefreshCw, Upload } from "lucide-react";
+import { SiSoundcloud, SiYoutube } from "react-icons/si";
 import { useApi } from "../hooks/useApi.js";
 import { useLibrary } from "../context/LibraryContext.jsx";
 import { useToast } from "../context/ToastContext.jsx";
@@ -9,9 +10,9 @@ import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackTable from "../components/tracks/TrackTable.jsx";
 
 const PLATFORM_BADGES = {
-  youtube: { label: "YOUTUBE", color: "#C71B1B" },
-  soundcloud: { label: "SOUNDCLOUD", color: "#E8720C" },
-  importado: { label: "IMPORTED", color: "#35827D" },
+  youtube: { label: "YOUTUBE", color: "#C71B1B", Icon: SiYoutube },
+  soundcloud: { label: "SOUNDCLOUD", color: "#E8720C", Icon: SiSoundcloud },
+  importado: { label: "IMPORTED", color: "#35827D", Icon: HardDrive },
 };
 
 function formatTotalDuration(totalSeconds) {
@@ -117,9 +118,10 @@ export default function LibraryPage() {
         const badge = PLATFORM_BADGES[song.plataforma_origen];
         return (
           <span
-            className="text-[9px] font-bold px-2 py-0.5 rounded-[4px] text-white"
+            className="inline-flex items-center gap-1 text-[9px] font-bold px-2 py-0.5 rounded-[4px] text-white"
             style={{ backgroundColor: badge?.color ?? "#414141" }}
           >
+            {badge?.Icon && <badge.Icon size={10} />}
             {badge?.label ?? song.plataforma_origen}
           </span>
         );

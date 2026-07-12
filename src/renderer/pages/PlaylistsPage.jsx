@@ -127,7 +127,10 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
       <div className="relative rounded-t-[15px] overflow-hidden">
         <div
           className="h-[200px] px-8 pt-8 pb-6 flex flex-col justify-end"
-          style={{ background: "linear-gradient(180deg, #1a2a4a 0%, #000000 100%)" }}
+          style={{
+            background:
+              "linear-gradient(180deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%)",
+          }}
         >
           <div className="flex items-end gap-6">
             <div className="w-[120px] h-[120px] rounded-[10px] flex items-center justify-center shadow-2xl bg-white/10">
