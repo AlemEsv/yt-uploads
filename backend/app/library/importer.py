@@ -39,7 +39,6 @@ def import_files(conn, rutas: list[str]) -> dict:
                 )
                 actualizadas += 1
             else:
-                # Importación manual
                 insert_cancion(
                     conn,
                     titulo=tags["titulo"],

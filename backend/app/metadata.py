@@ -21,7 +21,6 @@ def _find_thumbnail(filepath: str) -> Path | None:
 
 
 def write_tags(filepath: str, info: dict) -> tuple[str, str | None, bool]:
-    """Escribe título/artista/portada en el MP3. Devuelve (titulo, artista, revisado)."""
     titulo = info.get("title") or Path(filepath).stem
     artista = info.get("artist") or info.get("uploader") or info.get("channel")
 

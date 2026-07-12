@@ -1,5 +1,3 @@
-"""Acceso a datos de `perfiles_tematicos`."""
-
 import json
 import sqlite3
 

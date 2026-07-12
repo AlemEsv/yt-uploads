@@ -33,7 +33,7 @@ export function PlayerProvider({ children }) {
     return Number.isFinite(stored) && stored > 0 ? stored : 0.8;
   });
   const [isShuffle, setIsShuffle] = useState(false);
-  const [loopMode, setLoopMode] = useState("off"); // off | one | all
+  const [loopMode, setLoopMode] = useState("off");
 
   const currentSongId = queueIndex >= 0 ? queue[queueIndex] : null;
   const currentSong = songs.find((s) => s.id === currentSongId) ?? null;
@@ -48,7 +48,6 @@ export function PlayerProvider({ children }) {
     queueIndexRef.current = queueIndex;
   }, [queueIndex]);
 
-  // Mantiene queueIndex dentro de rango cuando la cola cambia de tamaño.
   useEffect(() => {
     if (queueIndex >= queue.length) {
       setQueueIndex(queue.length - 1);
@@ -119,7 +118,9 @@ export function PlayerProvider({ children }) {
     const song = currentSongRef.current;
     if (song && !loggedRef.current && api) {
       const duration = song.duracion_segundos;
-      const threshold = duration ? Math.min(HISTORY_MIN_SECONDS, duration * HISTORY_MIN_RATIO) : HISTORY_MIN_SECONDS;
+      const threshold = duration
+        ? Math.min(HISTORY_MIN_SECONDS, duration * HISTORY_MIN_RATIO)
+        : HISTORY_MIN_SECONDS;
       if (accumulatedRef.current >= threshold) {
         loggedRef.current = true;
         api.registerHistory(song.id).catch(() => {});
@@ -137,7 +138,6 @@ export function PlayerProvider({ children }) {
     };
   }, [handleTimeUpdate, handleEnded]);
 
-  // Cambio de pista: reinicia contadores de historial y carga la nueva fuente.
   useEffect(() => {
     accumulatedRef.current = 0;
     lastTimeRef.current = 0;

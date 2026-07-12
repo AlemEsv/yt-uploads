@@ -176,15 +176,15 @@ def insert_cancion(
     return cursor.lastrowid
 
 
+# Edición asistida por el usuario: siempre marca la canción como revisada.
 def update_cancion(conn: sqlite3.Connection, cancion_id: int, **fields) -> None:
-    """Edición asistida por el usuario: siempre marca la canción como revisada."""
     if not fields:
         return
     set_fields(conn, cancion_id, **fields, revisado=1)
 
 
+# Actualización interna (import/scan/favoritos) sin forzar `revisado`.
 def set_fields(conn: sqlite3.Connection, cancion_id: int, **fields) -> None:
-    """Actualización interna (import/scan/favoritos) sin forzar `revisado`."""
     if not fields:
         return
     assignments = [f"{key} = ?" for key in fields]
@@ -199,8 +199,8 @@ def mark_inactive(conn: sqlite3.Connection, cancion_id: int) -> None:
     set_fields(conn, cancion_id, activo=0)
 
 
+# favoritos/historial se limpian solos por ON DELETE CASCADE al borrar esta fila.
 def delete_cancion(conn: sqlite3.Connection, cancion_id: int) -> str | None:
-    """Elimina la fila (favoritos/historial se limpian por ON DELETE CASCADE). Devuelve la ruta del archivo."""
     row = conn.execute("SELECT ruta_archivo FROM canciones WHERE id = ?", (cancion_id,)).fetchone()
     if not row:
         return None

@@ -40,7 +40,6 @@ def run_migrations(conn: sqlite3.Connection) -> None:
 
 
 def get_connection() -> sqlite3.Connection:
-    """base de datos activa de la app."""
     conn = _connect_raw(db_path())
     run_migrations(conn)
     return conn
