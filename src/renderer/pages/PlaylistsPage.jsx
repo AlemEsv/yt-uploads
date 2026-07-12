@@ -14,8 +14,7 @@ function playlistGradient(id) {
   for (let i = 0; i < str.length; i++) {
     hash = (hash * 31 + str.charCodeAt(i)) % 360;
   }
-  const hue2 = (hash + 50) % 360;
-  return `linear-gradient(135deg, hsl(${hash}, 85%, 55%), hsl(${hue2}, 85%, 45%))`;
+  return `linear-gradient(135deg, hsl(${hash}, 55%, 32%) 0%, rgba(10, 10, 12, 0.95) 90%)`;
 }
 
 export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {

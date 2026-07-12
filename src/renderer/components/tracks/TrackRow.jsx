@@ -82,10 +82,11 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
           title={song.es_favorito ? "Liked" : "Like"}
         >
           <Heart
+            key={song.es_favorito}
             size={13}
             className={
               song.es_favorito
-                ? "text-[var(--color-heart)] fill-[var(--color-heart)]"
+                ? "heart-pop text-[var(--color-heart)] fill-[var(--color-heart)]"
                 : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
             }
           />

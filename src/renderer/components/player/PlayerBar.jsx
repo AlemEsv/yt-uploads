@@ -39,10 +39,11 @@ export default function PlayerBar() {
           className="shrink-0 ml-1 bg-transparent border-none cursor-pointer p-0"
         >
           <Heart
+            key={currentSong.es_favorito}
             size={14}
             className={
               currentSong.es_favorito
-                ? "text-[var(--color-heart)] fill-[var(--color-heart)]"
+                ? "heart-pop text-[var(--color-heart)] fill-[var(--color-heart)]"
                 : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
             }
           />

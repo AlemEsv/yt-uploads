@@ -61,16 +61,14 @@ export default function FavoritesPage() {
         <div
           className="h-[200px] px-8 pt-8 pb-6 flex flex-col justify-end"
           style={{
-            background:
-              "linear-gradient(180deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%)",
+            background: "linear-gradient(135deg, #a11733 0%, rgba(10, 10, 12, 0.95) 90%)",
           }}
         >
           <div className="flex items-end gap-6">
             <div
               className="w-[120px] h-[120px] rounded-[10px] flex items-center justify-center shadow-2xl"
               style={{
-                background:
-                  "linear-gradient(135deg, var(--color-hero-gradient-start), var(--color-hero-gradient-mid))",
+                background: "linear-gradient(135deg, #a11733, #5c0e1e)",
               }}
             >
               <Heart size={52} className="text-white fill-white" />
