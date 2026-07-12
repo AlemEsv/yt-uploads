@@ -86,24 +86,14 @@ function MainShell() {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
+    <div className="flex flex-col h-full bg-black text-white overflow-hidden relative">
+      <TopBar activeView={activeView} onSelectView={setActiveView} />
+      <CapturePanel />
+      <div className="flex flex-1 gap-4 px-4 pb-4 min-h-0">
         <Sidebar activeView={activeView} onSelectView={setActiveView} />
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            minWidth: 0,
-            position: "relative",
-          }}
-        >
-          <TopBar activeView={activeView} onSelectView={setActiveView} />
-          <CapturePanel />
-          <div style={{ flex: 1, overflow: "auto" }}>
-            <ActivePage onSelectView={setActiveView} />
-          </div>
-        </div>
+        <main className="flex-1 rounded-[15px] overflow-y-auto min-h-0">
+          <ActivePage onSelectView={setActiveView} />
+        </main>
       </div>
       <PlayerBar />
       <ToastContainer />

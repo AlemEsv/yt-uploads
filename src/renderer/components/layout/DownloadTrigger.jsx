@@ -32,76 +32,41 @@ export default function DownloadTrigger() {
   }
 
   return (
-    <div ref={panelRef} style={{ position: "relative" }}>
+    <div ref={panelRef} className="relative">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        title="Descargar desde un enlace"
-        style={{
-          width: "38px",
-          height: "38px",
-          borderRadius: "50%",
-          border: "1px solid var(--color-border)",
-          background: open ? "var(--color-accent)" : "var(--color-sidebar-bg)",
-          color: "var(--color-text-primary)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          flexShrink: 0,
-        }}
+        title="Download from a link"
+        className={`w-[34px] h-[34px] rounded-[6px] flex items-center justify-center border-none cursor-pointer transition-colors ${
+          open ? "bg-[var(--color-accent)]" : "bg-[#080808] hover:bg-white/10"
+        }`}
       >
-        <Download size={18} strokeWidth={2.25} />
+        <Download size={15} className="text-white" />
       </button>
 
       {open && (
         <form
           onSubmit={handleSubmit}
-          style={{
-            position: "absolute",
-            top: "100%",
-            right: 0,
-            marginTop: "0.5rem",
-            width: "340px",
-            padding: "0.75rem",
-            borderRadius: "12px",
-            border: "1px solid var(--color-border)",
-            background: "var(--color-sidebar-bg)",
-            boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
-            display: "flex",
-            gap: "0.5rem",
-            zIndex: 2000,
-          }}
+          className="absolute top-full right-0 mt-2 w-[340px] p-3 rounded-[12px] border border-white/10 bg-[#080808] shadow-2xl flex gap-2 z-[2000]"
         >
           <input
             type="text"
             autoFocus
             value={url}
             onChange={(event) => setUrl(event.target.value)}
-            placeholder="Pega un enlace de YouTube o SoundCloud"
-            style={{
-              flex: 1,
-              padding: "0.5rem 0.75rem",
-              borderRadius: "8px",
-              border: "1px solid var(--color-border)",
-              background: "#0c0c0c",
-              color: "var(--color-text-primary)",
-            }}
+            placeholder="Paste a YouTube or SoundCloud link"
+            className="flex-1 px-3 py-2 rounded-[8px] border border-white/10 bg-[#0c0c0c] text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
           />
           <button
             type="submit"
             disabled={!url.trim() || !api}
-            style={{
-              padding: "0.5rem 1rem",
-              borderRadius: "8px",
-              border: "none",
-              background: "var(--color-cta)",
-              color: "white",
-              cursor: url.trim() && api ? "pointer" : "not-allowed",
-              opacity: url.trim() && api ? 1 : 0.5,
-            }}
+            className={`px-4 py-2 rounded-[8px] border-none text-white text-[13px] font-semibold transition-colors ${
+              url.trim() && api
+                ? "bg-[var(--color-accent)] cursor-pointer hover:opacity-90"
+                : "bg-[var(--color-accent)] opacity-50 cursor-not-allowed"
+            }`}
           >
-            Descargar
+            Download
           </button>
         </form>
       )}

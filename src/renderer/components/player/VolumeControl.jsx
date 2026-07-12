@@ -3,17 +3,17 @@ import { Volume1, Volume2, VolumeX } from "lucide-react";
 import { usePlayer } from "../../context/PlayerContext.jsx";
 
 function VolumeIcon({ volume }) {
-  if (volume === 0) return <VolumeX size={19} strokeWidth={2.25} />;
-  if (volume < 0.5) return <Volume1 size={19} strokeWidth={2.25} />;
-  return <Volume2 size={19} strokeWidth={2.25} />;
+  if (volume === 0) return <VolumeX size={16} />;
+  if (volume < 0.5) return <Volume1 size={16} />;
+  return <Volume2 size={16} />;
 }
 
 export default function VolumeControl() {
   const { volume, setVolume } = usePlayer();
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-      <span style={{ color: "var(--color-text-secondary)" }} title="Volumen">
+    <div className="flex items-center gap-2">
+      <span className="text-white/60" title="Volume">
         <VolumeIcon volume={volume} />
       </span>
       <input
@@ -23,7 +23,8 @@ export default function VolumeControl() {
         step={0.05}
         value={volume}
         onChange={(event) => setVolume(Number(event.target.value))}
-        style={{ width: "80px", accentColor: "var(--color-progress-inactive)" }}
+        className="w-[101px] h-[4px] cursor-pointer"
+        style={{ accentColor: "#ffffff" }}
       />
     </div>
   );

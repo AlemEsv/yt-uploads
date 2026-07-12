@@ -6,21 +6,10 @@ export default function ProgressBar() {
   const { currentTime, duration, seek } = usePlayer();
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "0.5rem",
-        width: "100%",
-        maxWidth: "420px",
-      }}
-    >
+    <div className="w-full max-w-[400px] flex items-center gap-2">
       <span
-        style={{
-          fontSize: "0.7rem",
-          color: "var(--color-text-secondary)",
-          fontFamily: "var(--font-secondary)",
-        }}
+        className="text-[10px] text-[#9b9b9b] w-7 text-right"
+        style={{ fontFamily: "var(--font-secondary)" }}
       >
         {formatTime(currentTime)}
       </span>
@@ -30,14 +19,12 @@ export default function ProgressBar() {
         max={duration || 0}
         value={Math.min(currentTime, duration || 0)}
         onChange={(event) => seek(Number(event.target.value))}
-        style={{ flex: 1, accentColor: "var(--color-progress-active)" }}
+        className="flex-1 h-[3px] cursor-pointer"
+        style={{ accentColor: "#0c1b6a" }}
       />
       <span
-        style={{
-          fontSize: "0.7rem",
-          color: "var(--color-text-secondary)",
-          fontFamily: "var(--font-secondary)",
-        }}
+        className="text-[10px] text-[#9b9b9b] w-7"
+        style={{ fontFamily: "var(--font-secondary)" }}
       >
         {formatTime(duration)}
       </span>

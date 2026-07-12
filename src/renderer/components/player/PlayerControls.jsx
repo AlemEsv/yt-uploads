@@ -15,73 +15,55 @@ export default function PlayerControls() {
   } = usePlayer();
 
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+    <div className="flex items-center gap-6">
       <button
         type="button"
         onClick={toggleShuffle}
-        title="Aleatorio"
-        style={flatButtonStyle(isShuffle)}
+        title="Shuffle"
+        className={`bg-transparent border-none cursor-pointer p-0 transition-colors ${
+          isShuffle ? "text-[var(--color-accent)]" : "text-white/60 hover:text-white"
+        }`}
       >
-        <Shuffle size={19} strokeWidth={2.25} />
+        <Shuffle size={16} />
       </button>
-      <button type="button" onClick={previous} title="Atrás" style={flatButtonStyle(false)}>
-        <SkipBack size={22} strokeWidth={2.25} />
+      <button
+        type="button"
+        onClick={previous}
+        title="Previous"
+        className="bg-transparent border-none cursor-pointer p-0 text-white hover:text-white/80 transition-colors"
+      >
+        <SkipBack size={18} />
       </button>
       <button
         type="button"
         onClick={togglePlay}
-        title={isPlaying ? "Pausa" : "Reproducir"}
-        style={playButtonStyle}
+        title={isPlaying ? "Pause" : "Play"}
+        className="w-[34px] h-[34px] bg-white rounded-full flex items-center justify-center hover:scale-105 transition-transform border-none cursor-pointer"
       >
         {isPlaying ? (
-          <Pause size={20} strokeWidth={2.5} fill="var(--color-cta-light-text)" />
+          <Pause size={16} className="text-black fill-black" />
         ) : (
-          <Play size={20} strokeWidth={2.5} fill="var(--color-cta-light-text)" />
+          <Play size={16} className="text-black fill-black ml-0.5" />
         )}
       </button>
-      <button type="button" onClick={next} title="Adelante" style={flatButtonStyle(false)}>
-        <SkipForward size={22} strokeWidth={2.25} />
+      <button
+        type="button"
+        onClick={next}
+        title="Next"
+        className="bg-transparent border-none cursor-pointer p-0 text-white hover:text-white/80 transition-colors"
+      >
+        <SkipForward size={18} />
       </button>
       <button
         type="button"
         onClick={cycleLoopMode}
-        title={loopMode === "one" ? "Repetir 1" : "Repetir"}
-        style={flatButtonStyle(loopMode !== "off")}
+        title={loopMode === "one" ? "Repeat one" : "Repeat"}
+        className={`bg-transparent border-none cursor-pointer p-0 transition-colors ${
+          loopMode !== "off" ? "text-[var(--color-accent)]" : "text-white/60 hover:text-white"
+        }`}
       >
-        {loopMode === "one" ? (
-          <Repeat1 size={19} strokeWidth={2.25} />
-        ) : (
-          <Repeat size={19} strokeWidth={2.25} />
-        )}
+        {loopMode === "one" ? <Repeat1 size={16} /> : <Repeat size={16} />}
       </button>
     </div>
   );
 }
-
-function flatButtonStyle(active) {
-  return {
-    width: "34px",
-    height: "34px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "none",
-    borderRadius: "50%",
-    background: "transparent",
-    color: active ? "var(--color-accent)" : "var(--color-text-primary)",
-    cursor: "pointer",
-  };
-}
-
-const playButtonStyle = {
-  width: "40px",
-  height: "40px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  border: "none",
-  borderRadius: "50%",
-  background: "var(--color-cta-light-bg)",
-  color: "var(--color-cta-light-text)",
-  cursor: "pointer",
-};

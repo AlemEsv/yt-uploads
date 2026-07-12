@@ -4,10 +4,10 @@ import { useLibrary } from "../../context/LibraryContext.jsx";
 import MetadataEditModal from "../metadata/MetadataEditModal.jsx";
 
 const STATUS_LABEL = {
-  queued: "En cola",
-  downloading: "Descargando",
-  converting: "Convirtiendo",
-  completed: "Listo",
+  queued: "Queued",
+  downloading: "Downloading",
+  converting: "Converting",
+  completed: "Done",
   error: "Error",
 };
 
@@ -26,47 +26,13 @@ export default function CapturePanel() {
   }
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: "100%",
-        left: "1.25rem",
-        marginTop: "0.5rem",
-        width: "340px",
-        padding: "0.75rem",
-        borderRadius: "12px",
-        border: "1px solid var(--color-border)",
-        background: "var(--color-sidebar-bg)",
-        boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
-        zIndex: 1500,
-      }}
-    >
+    <div className="absolute top-[58px] right-4 w-[340px] p-3 rounded-[12px] border border-white/10 bg-[#080808] shadow-2xl z-[1500]">
       {recentItems.length > 0 && (
-        <ul
-          style={{
-            listStyle: "none",
-            margin: 0,
-            padding: 0,
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.4rem",
-          }}
-        >
+        <ul className="list-none m-0 p-0 flex flex-col gap-2">
           {recentItems.map((item) => (
-            <li
-              key={item.songId}
-              style={{
-                fontSize: "0.8rem",
-                color: "var(--color-text-secondary)",
-                display: "flex",
-                justifyContent: "space-between",
-                gap: "0.5rem",
-              }}
-            >
-              <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                {item.cancion?.titulo ?? item.url}
-              </span>
-              <span style={{ flexShrink: 0 }}>
+            <li key={item.songId} className="text-[12px] text-[#9b9b9b] flex justify-between gap-2">
+              <span className="truncate">{item.cancion?.titulo ?? item.url}</span>
+              <span className="shrink-0">
                 {STATUS_LABEL[item.status] ?? item.status}
                 {item.status === "downloading" ? ` ${item.progress ?? 0}%` : ""}
               </span>

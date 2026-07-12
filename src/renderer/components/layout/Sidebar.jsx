@@ -1,143 +1,104 @@
 import React from "react";
 import {
-  CalendarDays,
+  BookOpen,
+  Calendar,
+  Clock,
   Disc3,
   HardDrive,
   Heart,
-  History,
   Home,
   ListMusic,
-  Tags,
+  Plus,
 } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
-const NAV_SECTIONS = [
-  {
-    label: "Descubrir",
-    items: [
-      { id: "home", label: "Home", icon: Home },
-      { id: "genres", label: "Géneros", icon: Tags },
-      { id: "albums", label: "Álbumes", icon: Disc3 },
-      { id: "events", label: "Eventos", icon: CalendarDays },
-    ],
-  },
-  {
-    label: "Biblioteca",
-    items: [
-      { id: "recent", label: "Reciente", icon: History },
-      { id: "favorites", label: "Favoritos", icon: Heart },
-      { id: "library", label: "Local", icon: HardDrive },
-    ],
-  },
+const navDiscover = [
+  { id: "home", label: "Home", icon: Home },
+  { id: "genres", label: "Genres", icon: Disc3 },
+  { id: "albums", label: "Albums", icon: BookOpen },
+  { id: "events", label: "Events", icon: Calendar },
 ];
 
-function sectionLabelStyle() {
-  return {
-    fontSize: "0.7rem",
-    fontWeight: 600,
-    letterSpacing: "0.06em",
-    textTransform: "uppercase",
-    color: "var(--color-text-secondary)",
-    padding: "1.1rem 0.75rem 0.4rem",
-  };
-}
+const navLibrary = [
+  { id: "recent", label: "Recent", icon: Clock },
+  { id: "favorites", label: "Liked songs", icon: Heart },
+  { id: "library", label: "Local", icon: HardDrive },
+];
 
-function navRowStyle(active) {
-  return {
-    display: "flex",
-    alignItems: "center",
-    gap: "0.6rem",
-    width: "100%",
-    padding: "0.55rem 0.75rem",
-    borderRadius: "10px",
-    border: "none",
-    background: active ? "var(--color-accent)" : "transparent",
-    color: "var(--color-text-primary)",
-    cursor: "pointer",
-    font: "inherit",
-    fontSize: "0.85rem",
-    fontWeight: 600,
-    textAlign: "left",
-  };
+function NavRow({ item, active, onSelect }) {
+  const Icon = item.icon;
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(item.id)}
+      className={`flex items-center gap-3 px-2 py-1.5 rounded-[8px] text-[14px] font-semibold transition-colors border-none cursor-pointer text-left w-full ${
+        active
+          ? "text-white bg-white/10"
+          : "text-white/70 hover:text-white hover:bg-white/5 bg-transparent"
+      }`}
+    >
+      <Icon size={15} />
+      {item.label}
+    </button>
+  );
 }
 
 export default function Sidebar({ activeView, onSelectView }) {
   const { profiles, activeProfileId, activateProfile } = useTheme();
 
   return (
-    <nav
-      style={{
-        background: "var(--color-sidebar-bg)",
-        borderRadius: "15px",
-        margin: "0.75rem",
-        padding: "0.5rem 0.5rem 1rem",
-        display: "flex",
-        flexDirection: "column",
-        width: "254px",
-        flexShrink: 0,
-        border: "1px solid var(--color-border)",
-        overflowY: "auto",
-      }}
-    >
-      {NAV_SECTIONS.map((section) => (
-        <div key={section.label}>
-          <div style={sectionLabelStyle()}>{section.label}</div>
-          {section.items.map((item) => {
-            const Icon = item.icon;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onSelectView(item.id)}
-                style={navRowStyle(activeView === item.id)}
-              >
-                <Icon size={18} strokeWidth={2.25} />
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
-      ))}
-
-      <div>
-        <div style={sectionLabelStyle()}>Tu playlist</div>
-        <button
-          type="button"
-          onClick={() => onSelectView("playlists")}
-          style={navRowStyle(activeView === "playlists")}
-        >
-          <ListMusic size={18} strokeWidth={2.25} />
-          Crear playlist
-        </button>
-        {profiles.map((profile) => (
-          <button
-            key={profile.id}
-            type="button"
-            onClick={() => activateProfile(profile.id)}
-            style={navRowStyle(profile.id === activeProfileId)}
-            title={`Activar perfil ${profile.nombre}`}
-          >
-            <span
-              style={{
-                width: "10px",
-                height: "10px",
-                borderRadius: "50%",
-                background: profile.paleta_colores?.accent ?? "var(--color-accent)",
-                flexShrink: 0,
-              }}
-            />
-            <span
-              style={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {profile.nombre}
-            </span>
-          </button>
+    <aside className="w-[254px] shrink-0 bg-[#080808] rounded-[15px] flex flex-col py-6 px-5 overflow-y-auto">
+      <p className="text-[11px] font-semibold tracking-widest text-white mb-2 mt-0">DISCOVER</p>
+      <nav className="flex flex-col gap-1 mb-6">
+        {navDiscover.map((item) => (
+          <NavRow
+            key={item.id}
+            item={item}
+            active={activeView === item.id}
+            onSelect={onSelectView}
+          />
         ))}
-      </div>
-    </nav>
+      </nav>
+
+      <p className="text-[11px] font-semibold tracking-widest text-white mb-2 mt-0">LIBRARY</p>
+      <nav className="flex flex-col gap-1 mb-6">
+        {navLibrary.map((item) => (
+          <NavRow
+            key={item.id}
+            item={item}
+            active={activeView === item.id}
+            onSelect={onSelectView}
+          />
+        ))}
+      </nav>
+
+      <p className="text-[11px] font-semibold tracking-widest text-white mb-2 mt-0">
+        YOUR PLAYLIST
+      </p>
+      <button
+        type="button"
+        onClick={() => onSelectView("playlists")}
+        className={`flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent ${
+          activeView === "playlists" ? "text-white" : "text-[#9b9b9b] hover:text-white"
+        }`}
+      >
+        <Plus size={14} />
+        Create playlist
+      </button>
+      {profiles.map((profile) => (
+        <button
+          key={profile.id}
+          type="button"
+          onClick={() => activateProfile(profile.id)}
+          title={`Activate ${profile.nombre}`}
+          className={`flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent ${
+            profile.id === activeProfileId ? "text-white" : "text-[#9b9b9b] hover:text-white"
+          }`}
+        >
+          <ListMusic size={14} style={{ color: profile.paleta_colores?.accent }} />
+          <span className="truncate">{profile.nombre}</span>
+        </button>
+      ))}
+    </aside>
   );
 }

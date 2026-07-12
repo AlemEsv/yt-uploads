@@ -3,9 +3,9 @@ import { ChevronDown, User } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
 const MENU_ITEMS = [
-  { id: "profiles", label: "Perfiles Temáticos" },
-  { id: "stats", label: "Estadísticas" },
-  { id: "settings", label: "Configuración" },
+  { id: "profiles", label: "Theme Profiles" },
+  { id: "stats", label: "Statistics" },
+  { id: "settings", label: "Settings" },
 ];
 
 export default function UserMenu({ activeView, onSelectView }) {
@@ -27,68 +27,26 @@ export default function UserMenu({ activeView, onSelectView }) {
   const activeProfile = profiles.find((p) => p.id === activeProfileId);
 
   return (
-    <div ref={menuRef} style={{ position: "relative" }}>
+    <div ref={menuRef} className="relative">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          minWidth: "180px",
-          padding: "0.3rem 0.75rem 0.3rem 0.3rem",
-          borderRadius: "6px",
-          border: "1px solid var(--color-border)",
-          background: "var(--color-sidebar-bg)",
-          color: "var(--color-text-primary)",
-          cursor: "pointer",
-        }}
+        className="flex items-center gap-2 bg-[#080808] rounded-[6px] px-3 h-[34px] border-none cursor-pointer"
       >
         <span
-          style={{
-            width: "26px",
-            height: "26px",
-            borderRadius: "50%",
-            background: activeProfile?.paleta_colores?.accent ?? "var(--color-accent)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-          }}
+          className="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0"
+          style={{ background: activeProfile?.paleta_colores?.accent ?? "var(--color-accent)" }}
         >
-          <User size={14} strokeWidth={2.25} />
+          <User size={12} className="text-white" />
         </span>
-        <span
-          style={{
-            fontSize: "0.85rem",
-            fontWeight: 600,
-            flex: 1,
-            textAlign: "left",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {activeProfile?.nombre ?? "Sin perfil"}
+        <span className="text-[14px] font-semibold text-white">
+          {activeProfile?.nombre ?? "No profile"}
         </span>
-        <ChevronDown size={16} strokeWidth={2.25} color="var(--color-text-secondary)" />
+        <ChevronDown size={14} className="text-white" />
       </button>
 
       {open && (
-        <div
-          style={{
-            position: "absolute",
-            top: "100%",
-            right: 0,
-            marginTop: "0.4rem",
-            background: "var(--color-sidebar-bg)",
-            border: "1px solid var(--color-border)",
-            borderRadius: "8px",
-            minWidth: "200px",
-            overflow: "hidden",
-            zIndex: 2000,
-          }}
-        >
+        <div className="absolute top-full right-0 mt-2 bg-[#080808] border border-white/10 rounded-[8px] min-w-[200px] overflow-hidden z-[2000]">
           {MENU_ITEMS.map((item) => (
             <button
               key={item.id}
@@ -97,17 +55,11 @@ export default function UserMenu({ activeView, onSelectView }) {
                 onSelectView(item.id);
                 setOpen(false);
               }}
-              style={{
-                display: "block",
-                width: "100%",
-                textAlign: "left",
-                padding: "0.6rem 0.9rem",
-                border: "none",
-                background: activeView === item.id ? "var(--color-accent)" : "transparent",
-                color: "var(--color-text-primary)",
-                cursor: "pointer",
-                font: "inherit",
-              }}
+              className={`block w-full text-left px-4 py-2.5 text-[13px] border-none cursor-pointer transition-colors ${
+                activeView === item.id
+                  ? "bg-[var(--color-accent)] text-white"
+                  : "bg-transparent text-white hover:bg-white/10"
+              }`}
             >
               {item.label}
             </button>

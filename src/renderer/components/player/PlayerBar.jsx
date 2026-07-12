@@ -9,22 +9,6 @@ import ProgressBar from "./ProgressBar.jsx";
 import VolumeControl from "./VolumeControl.jsx";
 import QueuePanel from "./QueuePanel.jsx";
 
-const barStyle = {
-  position: "relative",
-  height: "65px",
-  flexShrink: 0,
-  margin: "0 0.75rem 0.75rem",
-  borderRadius: "15px",
-  boxShadow: "inset 0 4px 0 0 var(--color-progress-active)",
-  background: "var(--color-sidebar-bg)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "0 1rem",
-  gap: "1rem",
-  transition: "background 500ms ease",
-};
-
 export default function PlayerBar() {
   const { currentSong } = usePlayer();
   const { toggleFavorite } = useLibrary();
@@ -36,133 +20,78 @@ export default function PlayerBar() {
 
   if (!currentSong) {
     return (
-      <div style={{ ...barStyle, justifyContent: "center" }}>
-        <span style={{ color: "var(--color-text-secondary)", fontSize: "0.85rem" }}>
-          Nada en reproducción — elige una canción de tu biblioteca.
+      <footer className="relative shrink-0 mx-4 mb-4 bg-[#080808] rounded-[15px] h-[65px] flex items-center justify-center px-6">
+        <span className="text-[13px] text-[#9b9b9b]">
+          Nothing playing — pick a song from your library.
         </span>
-      </div>
+      </footer>
     );
   }
 
   const gradientStyle = dominantColor
-    ? { background: `linear-gradient(180deg, ${dominantColor}, transparent)` }
+    ? { background: `linear-gradient(180deg, ${dominantColor}, #080808)` }
     : {};
 
   return (
-    <div style={{ ...barStyle, ...gradientStyle }}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.6rem",
-          width: "220px",
-          minWidth: 0,
-        }}
-      >
+    <footer
+      className="relative shrink-0 mx-4 mb-4 bg-[#080808] rounded-[15px] h-[65px] flex items-center px-6 gap-4 transition-colors duration-500"
+      style={gradientStyle}
+    >
+      <div className="flex items-center gap-3 w-[260px] min-w-0">
         {api && (
           <img
             src={api.coverUrl(currentSong.id, currentSong.fecha_modificacion)}
             alt=""
-            style={{
-              width: "44px",
-              height: "44px",
-              borderRadius: "6px",
-              objectFit: "cover",
-              background: "#161616",
-            }}
+            className="w-[45px] h-[45px] rounded-[6px] object-cover shrink-0 bg-[#161616]"
             onError={(event) => {
               event.target.style.visibility = "hidden";
             }}
           />
         )}
-        <div style={{ overflow: "hidden" }}>
-          <div
-            style={{
-              fontWeight: 600,
-              fontSize: "0.85rem",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {currentSong.titulo}
-          </div>
-          <div
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--color-text-secondary)",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
-            {currentSong.artista ?? "Artista desconocido"}
-          </div>
+        <div className="min-w-0">
+          <p className="text-[15px] font-medium truncate m-0">{currentSong.titulo}</p>
+          <p className="text-[12px] text-[#b3b3b3] truncate m-0">
+            {currentSong.artista ?? "Unknown artist"}
+          </p>
         </div>
         <button
           type="button"
           onClick={() => toggleFavorite(currentSong)}
-          title={currentSong.es_favorito ? "En favoritos" : "Favorito"}
-          style={iconButtonStyle(currentSong.es_favorito, "var(--color-heart)")}
+          title={currentSong.es_favorito ? "Liked" : "Like"}
+          className="shrink-0 ml-1 bg-transparent border-none cursor-pointer p-0"
         >
           <Heart
-            size={19}
-            strokeWidth={2.25}
-            fill={currentSong.es_favorito ? "currentColor" : "none"}
+            size={14}
+            className={
+              currentSong.es_favorito
+                ? "text-[#f21c2c] fill-[#f21c2c]"
+                : "text-white/60 hover:text-white"
+            }
           />
         </button>
       </div>
 
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "0.3rem",
-        }}
-      >
+      <div className="flex-1 flex flex-col items-center gap-1 min-w-0">
         <PlayerControls />
         <ProgressBar />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          width: "220px",
-          justifyContent: "flex-end",
-        }}
-      >
-        <VolumeControl />
+      <div className="flex items-center gap-3 w-[200px] justify-end shrink-0">
         <button
           type="button"
           onClick={() => setShowQueue((v) => !v)}
-          title="Cola"
-          style={iconButtonStyle(showQueue)}
+          title="Queue"
+          className="bg-transparent border-none cursor-pointer p-0"
         >
-          <ListMusic size={19} strokeWidth={2.25} />
+          <ListMusic
+            size={16}
+            className={showQueue ? "text-[var(--color-accent)]" : "text-white/60 hover:text-white"}
+          />
         </button>
+        <VolumeControl />
       </div>
 
       {showQueue && <QueuePanel onClose={() => setShowQueue(false)} />}
-    </div>
+    </footer>
   );
-}
-
-function iconButtonStyle(active, activeColor = "var(--color-accent)") {
-  return {
-    width: "34px",
-    height: "34px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "none",
-    borderRadius: "50%",
-    background: "transparent",
-    color: active ? activeColor : "var(--color-text-primary)",
-    cursor: "pointer",
-    flexShrink: 0,
-  };
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Disc3, Search } from "lucide-react";
+import { Music, Search } from "lucide-react";
 import { useLibrary } from "../../context/LibraryContext.jsx";
 import DownloadTrigger from "./DownloadTrigger.jsx";
 import UserMenu from "./UserMenu.jsx";
@@ -15,56 +15,29 @@ export default function TopBar({ activeView, onSelectView }) {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "1rem",
-        padding: "0.75rem 1.25rem",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
-        <Disc3 size={22} strokeWidth={2.25} />
-        <strong style={{ fontSize: "1.05rem" }}>SoundDock</strong>
+    <header className="flex items-center gap-4 px-6 py-3 shrink-0 z-10">
+      <div className="flex items-center gap-2 w-[254px] shrink-0">
+        <Music size={18} className="text-white" />
+        <span className="font-bold text-[18px] tracking-tight">SoundDock</span>
       </div>
 
-      <div
-        style={{
-          flex: 1,
-          maxWidth: "605px",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.6rem",
-          background: "var(--color-search-bg)",
-          borderRadius: "6px",
-          height: "34px",
-          padding: "0 0.9rem",
-        }}
-      >
-        <Search size={16} color="var(--color-search-placeholder)" />
-        <input
-          type="text"
-          className="sounddock-search-input"
-          value={searchQuery}
-          onChange={(event) => handleSearchChange(event.target.value)}
-          placeholder="Buscar canciones o artistas"
-          style={{
-            flex: 1,
-            border: "none",
-            outline: "none",
-            background: "transparent",
-            color: "var(--color-search-text)",
-            fontSize: "0.85rem",
-          }}
-        />
+      <div className="flex-1 max-w-[600px]">
+        <div className="relative">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#696969]" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(event) => handleSearchChange(event.target.value)}
+            placeholder="Artists, songs, or albums"
+            className="w-full bg-[#f1f1f1] text-black placeholder:text-[#696969] placeholder:italic placeholder:text-[12px] rounded-[6px] h-[34px] pl-8 pr-4 text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+          />
+        </div>
       </div>
 
-      <div style={{ flex: 1 }} />
-
-      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexShrink: 0 }}>
+      <div className="ml-auto flex items-center gap-3">
         <DownloadTrigger />
         <UserMenu activeView={activeView} onSelectView={onSelectView} />
       </div>
-    </div>
+    </header>
   );
 }
