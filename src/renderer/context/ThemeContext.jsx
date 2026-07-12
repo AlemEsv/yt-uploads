@@ -4,8 +4,8 @@ import { useWebSocketEvent } from "./WebSocketContext.jsx";
 
 const ThemeContext = createContext(null);
 
-const DEFAULT_ACCENT = "#6c5ce7";
-const DEFAULT_ACCENT_SOFT = "rgba(108, 92, 231, 0.25)";
+const DEFAULT_ACCENT = "#c30dd2";
+const DEFAULT_ACCENT_SOFT = "rgba(195, 13, 210, 0.25)";
 
 function applyPalette(palette) {
   const root = document.documentElement;

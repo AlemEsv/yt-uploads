@@ -1,8 +1,10 @@
+@import "tailwindcss";
+
 :root {
   --color-bg-base: #000000;
   --color-sidebar-bg: #080808;
-  --color-accent: #6c5ce7;
-  --color-accent-soft: rgba(108, 92, 231, 0.25);
+  --color-accent: #c30dd2;
+  --color-accent-soft: rgba(195, 13, 210, 0.25);
   --color-text-primary: #ffffff;
   --color-text-secondary: #b3b3b3;
   --color-muted-text: #9b9b9b;

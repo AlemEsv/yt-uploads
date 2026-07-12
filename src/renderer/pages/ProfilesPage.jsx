@@ -163,7 +163,7 @@ export default function ProfilesPage() {
 
 function ProfileEditor({ profile, onClose, onSave }) {
   const [nombre, setNombre] = useState(profile.nombre ?? "");
-  const [accent, setAccent] = useState(profile.paleta_colores?.accent ?? "#6c5ce7");
+  const [accent, setAccent] = useState(profile.paleta_colores?.accent ?? "#c30dd2");
   const [genero, setGenero] = useState(profile.criterio_activacion?.genero ?? "");
   const [plataforma, setPlataforma] = useState(profile.criterio_activacion?.plataforma ?? "");
   const [saving, setSaving] = useState(false);
