@@ -88,7 +88,7 @@ export default function TitleBar({
             style={{
               position: "absolute",
               top: "100%",
-              left: 0,
+              left: "0.5rem",
               marginTop: "0.25rem",
               borderRadius: "8px",
               minWidth: "200px",
