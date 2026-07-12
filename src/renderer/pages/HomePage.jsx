@@ -6,6 +6,7 @@ import { useLibrary } from "../context/LibraryContext.jsx";
 import { usePlayer } from "../context/PlayerContext.jsx";
 import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
 import TrackRow from "../components/tracks/TrackRow.jsx";
+import TrackRowMenu from "../components/tracks/TrackRowMenu.jsx";
 
 const PLATFORM_CHIPS = [
   { id: "youtube", label: "YouTube", color: "#C71B1B", Icon: SiYoutube },
@@ -20,6 +21,7 @@ export default function HomePage({ onSelectView }) {
   const [history, setHistory] = useState([]);
   const [topCanciones, setTopCanciones] = useState([]);
   const [editingSong, setEditingSong] = useState(null);
+  const [contextMenu, setContextMenu] = useState(null);
 
   useEffect(() => {
     if (!api) return;
@@ -76,6 +78,19 @@ export default function HomePage({ onSelectView }) {
     onSelectView("library");
   }
 
+  function handleContextMenu(event, song) {
+    event.preventDefault();
+    setContextMenu({
+      song,
+      anchor: {
+        top: event.clientY,
+        bottom: event.clientY,
+        left: event.clientX,
+        right: event.clientX,
+      },
+    });
+  }
+
   return (
     <div className="page-surface min-h-full">
       {/* Hero banner */}
@@ -127,7 +142,12 @@ export default function HomePage({ onSelectView }) {
           <h2 className="text-[22px] font-semibold mb-4 mt-0">Recently played</h2>
           <div className="grid grid-cols-6 gap-4">
             {recentSongs.map((song) => (
-              <div key={song.id} className="group cursor-pointer" onClick={() => playNow(song.id)}>
+              <div
+                key={song.id}
+                className="group cursor-pointer"
+                onClick={() => playNow(song.id)}
+                onContextMenu={(event) => handleContextMenu(event, song)}
+              >
                 <div className="relative rounded-[9px] overflow-hidden aspect-square mb-2 bg-[var(--color-cover-placeholder-bg)]">
                   {api && (
                     <img
@@ -211,6 +231,15 @@ export default function HomePage({ onSelectView }) {
             setEditingSong(updated);
           }}
           onClose={() => setEditingSong(null)}
+        />
+      )}
+
+      {contextMenu && (
+        <TrackRowMenu
+          song={contextMenu.song}
+          anchor={contextMenu.anchor}
+          onEdit={setEditingSong}
+          onClose={() => setContextMenu(null)}
         />
       )}
     </div>
