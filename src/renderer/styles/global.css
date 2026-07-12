@@ -212,66 +212,22 @@ html.mini-mode #root {
   animation-play-state: paused;
 }
 
-@keyframes glow-bar-x {
-  from {
-    background-position: 0% 0%;
-  }
-  to {
-    background-position: -200% 0%;
-  }
-}
-
-@keyframes glow-bar-y {
-  from {
-    background-position: 0% 0%;
-  }
-  to {
-    background-position: 0% -200%;
-  }
-}
-
-.glow-bar {
+.glow-bar-top {
   position: fixed;
-  pointer-events: none;
-  /* A propósito por encima de todo, incluida la barra de título y el sidebar. */
-  z-index: 99999;
-  filter: blur(36px);
-}
-
-.glow-bar--top {
   top: 0;
   left: 0;
   right: 0;
-  height: 130px;
+  height: 320px;
+  pointer-events: none;
+  /* A propósito por encima de todo, incluida la barra de título y el sidebar. */
+  z-index: 99999;
   background: linear-gradient(
-    90deg,
-    rgba(14, 165, 233, 0.4) 0%,
-    rgba(59, 130, 246, 0.45) 20%,
-    rgba(139, 92, 246, 0.4) 40%,
-    rgba(59, 130, 246, 0.45) 60%,
-    rgba(14, 165, 233, 0.4) 80%,
-    rgba(139, 92, 246, 0.4) 100%
+    to bottom,
+    rgba(14, 165, 233, 0.35) 0%,
+    rgba(59, 130, 246, 0.2) 35%,
+    rgba(139, 92, 246, 0.1) 65%,
+    transparent 100%
   );
-  background-size: 200% 100%;
-  animation: glow-bar-x 16s linear infinite;
-}
-
-.glow-bar--left {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 130px;
-  background: linear-gradient(
-    180deg,
-    rgba(14, 165, 233, 0.4) 0%,
-    rgba(59, 130, 246, 0.45) 20%,
-    rgba(139, 92, 246, 0.4) 40%,
-    rgba(59, 130, 246, 0.45) 60%,
-    rgba(14, 165, 233, 0.4) 80%,
-    rgba(139, 92, 246, 0.4) 100%
-  );
-  background-size: 100% 200%;
-  animation: glow-bar-y 16s linear infinite;
 }
 
 .player-range {
