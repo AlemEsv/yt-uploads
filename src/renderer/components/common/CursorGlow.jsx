@@ -14,26 +14,5 @@ export default function CursorGlow() {
     return () => window.removeEventListener("mousemove", handleMove);
   }, []);
 
-  return (
-    <div
-      ref={glowRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "560px",
-        height: "560px",
-        marginLeft: "-280px",
-        marginTop: "-280px",
-        background:
-          "radial-gradient(circle, rgba(14,165,233,0.4) 0%, rgba(139,92,246,0.32) 40%, transparent 72%)",
-        filter: "blur(70px)",
-        opacity: 0,
-        transition: "opacity 300ms ease",
-        pointerEvents: "none",
-        zIndex: 40,
-        willChange: "transform",
-      }}
-    />
-  );
+  return <div ref={glowRef} className="cursor-glow" />;
 }

@@ -212,6 +212,40 @@ html.mini-mode #root {
   animation-play-state: paused;
 }
 
+@keyframes cursor-glow-hue {
+  from {
+    filter: blur(120px) hue-rotate(0deg);
+  }
+  to {
+    filter: blur(120px) hue-rotate(360deg);
+  }
+}
+
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1000px;
+  height: 1000px;
+  margin-left: -500px;
+  margin-top: -500px;
+  background: radial-gradient(
+    circle,
+    rgba(14, 165, 233, 0.22) 0%,
+    rgba(139, 92, 246, 0.16) 40%,
+    transparent 72%
+  );
+  pointer-events: none;
+  /* Negativo a propósito: cae por detrás de todo contenido no posicionado
+     (título, sidebar, panel principal) y solo se asoma en los huecos donde
+     se ve el fondo base — nunca encima de las tarjetas/paneles opacos. */
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  will-change: transform;
+  animation: cursor-glow-hue 14s linear infinite;
+}
+
 .player-range {
   -webkit-appearance: none;
   appearance: none;
