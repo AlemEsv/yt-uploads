@@ -18,7 +18,10 @@ contextBridge.exposeInMainWorld("sounddock", {
 
   minimizeWindow: () => ipcRenderer.invoke("window:minimize"),
   toggleMaximizeWindow: () => ipcRenderer.invoke("window:toggle-maximize"),
+  // Ahora "cerrar" oculta al tray; para salir completamente usar quitApp
   closeWindow: () => ipcRenderer.invoke("window:close"),
+  quitApp: () => ipcRenderer.invoke("window:quit"),
+  restoreMain: () => ipcRenderer.invoke("window:restore-main"),
   isWindowMaximized: () => ipcRenderer.invoke("window:is-maximized"),
   onWindowMaximizedChange: (callback) => {
     const wrapped = (_event, isMaximized) => callback(isMaximized);

@@ -1,10 +1,81 @@
 const path = require("path");
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, Menu, Tray, nativeImage, ipcMain } = require("electron");
 const { BackendProcess } = require("./backend-process");
 const { registerIpcHandlers } = require("./ipc-handlers");
 
 let mainWindow = null;
+let miniWindow = null;
+let tray = null;
+let forceQuit = false;
 const backendProcess = new BackendProcess({ isPackaged: app.isPackaged });
+
+function createTray() {
+  // Ícono mínimo (16x16 vacío si no hay asset)
+  const icon = nativeImage.createEmpty();
+  tray = new Tray(icon);
+  tray.setToolTip("SoundDock");
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Mostrar SoundDock",
+      click: () => {
+        if (mainWindow) {
+          mainWindow.show();
+          mainWindow.focus();
+        }
+      },
+    },
+    { type: "separator" },
+    {
+      label: "Salir",
+      click: () => {
+        forceQuit = true;
+        app.quit();
+      },
+    },
+  ]);
+  tray.setContextMenu(contextMenu);
+  tray.on("double-click", () => {
+    if (mainWindow) {
+      mainWindow.show();
+      mainWindow.focus();
+    }
+  });
+}
+
+function createMiniWindow() {
+  if (miniWindow && !miniWindow.isDestroyed()) {
+    miniWindow.show();
+    miniWindow.focus();
+    return;
+  }
+  miniWindow = new BrowserWindow({
+    width: 340,
+    height: 90,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    resizable: false,
+    skipTaskbar: true,
+    webPreferences: {
+      preload: path.join(__dirname, "..", "preload", "preload.js"),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: true,
+    },
+  });
+
+  if (app.isPackaged) {
+    miniWindow.loadFile(path.join(__dirname, "..", "..", "dist", "index.html"), {
+      hash: "mini",
+    });
+  } else {
+    miniWindow.loadURL("http://localhost:5173/#mini");
+  }
+
+  miniWindow.on("closed", () => {
+    miniWindow = null;
+  });
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -12,7 +83,7 @@ function createWindow() {
     height: 800,
     minWidth: 960,
     minHeight: 600,
-    backgroundColor: "#000101",
+    backgroundColor: "#000000",
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, "..", "preload", "preload.js"),
@@ -39,12 +110,28 @@ function createWindow() {
 
   mainWindow.on("maximize", () => mainWindow.webContents.send("window:maximized-change", true));
   mainWindow.on("unmaximize", () => mainWindow.webContents.send("window:maximized-change", false));
+
+  // Interceptar cierre → ocultar en bandeja (reproducción en segundo plano)
+  mainWindow.on("close", (event) => {
+    if (!forceQuit) {
+      event.preventDefault();
+      mainWindow.hide();
+    }
+  });
+
+  // Minimizar → mostrar mini widget
+  mainWindow.on("minimize", (event) => {
+    event.preventDefault();
+    mainWindow.hide();
+    createMiniWindow();
+  });
 }
 
 app.whenReady().then(() => {
   Menu.setApplicationMenu(null);
-  registerIpcHandlers({ backendProcess, getMainWindow: () => mainWindow });
+  registerIpcHandlers({ backendProcess, getMainWindow: () => mainWindow, getMiniWindow: () => miniWindow });
   createWindow();
+  createTray();
   backendProcess.start().catch((err) => {
     console.error("[main] no se pudo iniciar el backend:", err);
   });
@@ -58,10 +145,11 @@ app.whenReady().then(() => {
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
-    app.quit();
+    // No salir — la ventana se oculta, el backend sigue corriendo
   }
 });
 
 app.on("before-quit", () => {
+  forceQuit = true;
   backendProcess.stop();
 });

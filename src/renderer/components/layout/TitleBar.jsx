@@ -57,13 +57,12 @@ export default function TitleBar() {
         </button>
         {menuOpen && (
           <div
+            className="popover-in glass"
             style={{
               position: "absolute",
               top: "100%",
               left: 0,
               marginTop: "0.25rem",
-              background: "var(--color-sidebar-bg)",
-              border: "1px solid var(--color-border)",
               borderRadius: "8px",
               minWidth: "160px",
               zIndex: 3000,
@@ -72,7 +71,7 @@ export default function TitleBar() {
           >
             <button
               type="button"
-              onClick={() => window.sounddock.closeWindow()}
+              onClick={() => window.sounddock.quitApp()}
               style={{
                 display: "block",
                 width: "100%",

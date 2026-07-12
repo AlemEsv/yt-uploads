@@ -1,6 +1,6 @@
-const { ipcMain, dialog, shell } = require("electron");
+const { ipcMain, dialog, shell, app } = require("electron");
 
-function registerIpcHandlers({ backendProcess, getMainWindow }) {
+function registerIpcHandlers({ backendProcess, getMainWindow, getMiniWindow }) {
   ipcMain.handle("backend:get-config", () => backendProcess.getConfig());
 
   ipcMain.handle("window:minimize", () => getMainWindow()?.minimize());
@@ -15,7 +15,26 @@ function registerIpcHandlers({ backendProcess, getMainWindow }) {
     }
   });
 
-  ipcMain.handle("window:close", () => getMainWindow()?.close());
+  // Cierra al tray (no sale de la app)
+  ipcMain.handle("window:close", () => getMainWindow()?.hide());
+
+  // Sale completamente de la aplicación
+  ipcMain.handle("window:quit", () => {
+    app.quit();
+  });
+
+  // Restaura la ventana principal desde el mini widget
+  ipcMain.handle("window:restore-main", () => {
+    const win = getMainWindow();
+    const mini = getMiniWindow?.();
+    if (win) {
+      win.show();
+      win.focus();
+    }
+    if (mini && !mini.isDestroyed()) {
+      mini.close();
+    }
+  });
 
   ipcMain.handle("window:is-maximized", () => getMainWindow()?.isMaximized() ?? false);
 
