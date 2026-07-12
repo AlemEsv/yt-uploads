@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BackendProvider, useBackend } from "./context/BackendContext.jsx";
+import { AppearanceProvider } from "./context/AppearanceContext.jsx";
 import { WebSocketProvider } from "./context/WebSocketContext.jsx";
 import { ToastProvider } from "./context/ToastContext.jsx";
 import { LibraryProvider } from "./context/LibraryContext.jsx";
@@ -147,7 +148,9 @@ function AppShell() {
 export default function App() {
   return (
     <BackendProvider>
-      <AppShell />
+      <AppearanceProvider>
+        <AppShell />
+      </AppearanceProvider>
     </BackendProvider>
   );
 }
