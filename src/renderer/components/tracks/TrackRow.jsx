@@ -4,6 +4,7 @@ import { usePlayer } from "../../context/PlayerContext.jsx";
 import { useLibrary } from "../../context/LibraryContext.jsx";
 import { useApi } from "../../hooks/useApi.js";
 import { formatTime } from "../../utils/formatTime.js";
+import SongCover from "../common/SongCover.jsx";
 import TrackRowMenu from "./TrackRowMenu.jsx";
 
 export default function TrackRow({ rank, song, onEdit, columns = [] }) {
@@ -13,10 +14,10 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="flex items-center gap-4 px-5 py-3 hover:bg-white/5 transition-colors cursor-pointer group rounded-[8px]">
+    <div className="group relative flex items-center gap-4 px-4 py-2.5 rounded-[8px] hover:bg-white/5 transition-colors select-none">
       {rank != null && (
         <>
-          <span className="w-5 text-center text-[13px] text-[#9b9b9b] group-hover:hidden shrink-0">
+          <span className="w-5 text-[14px] font-bold text-[#b2b2b2] group-hover:hidden shrink-0 text-center">
             {rank}
           </span>
           <button
@@ -29,14 +30,12 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
         </>
       )}
 
-      {api && (
-        <img
-          src={api.coverUrl(song.id, song.fecha_modificacion)}
-          alt=""
-          onClick={() => playNow(song.id)}
-          className="w-[44px] h-[44px] rounded-[4px] object-cover shrink-0 bg-[#161616]"
-        />
-      )}
+      <SongCover
+        song={song}
+        onClick={() => playNow(song.id)}
+        className="w-[44px] h-[44px] rounded-[4px] cursor-pointer"
+        iconSize={18}
+      />
 
       <div className="flex-1 min-w-0" onClick={() => playNow(song.id)}>
         <p className="text-[14px] font-semibold truncate group-hover:text-[var(--color-accent)] transition-colors m-0">
