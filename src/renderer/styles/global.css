@@ -37,6 +37,10 @@
   --color-cover-placeholder-bg: #161616;
   --color-input-bg: #0d0d0d;
   --color-toast-bg: #1b1b1b;
+  --color-overlay-border: rgba(255, 255, 255, 0.1);
+  --color-overlay-border-strong: rgba(255, 255, 255, 0.2);
+  --color-overlay-subtle: rgba(255, 255, 255, 0.05);
+  --color-overlay-hover: rgba(255, 255, 255, 0.1);
   --font-primary:
     "Poppins",
     "Segoe UI",
@@ -78,6 +82,10 @@
   --color-cover-placeholder-bg: #e4e4e4;
   --color-input-bg: #ececec;
   --color-toast-bg: #ffffff;
+  --color-overlay-border: rgba(0, 0, 0, 0.1);
+  --color-overlay-border-strong: rgba(0, 0, 0, 0.2);
+  --color-overlay-subtle: rgba(0, 0, 0, 0.04);
+  --color-overlay-hover: rgba(0, 0, 0, 0.08);
 }
 
 [data-theme="claro"] .glass {

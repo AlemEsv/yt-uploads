@@ -116,7 +116,10 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
           title="Remove from playlist"
           className="bg-transparent border-none cursor-pointer p-0 opacity-0 group-hover:opacity-100 transition-opacity"
         >
-          <X size={14} className="text-white/50 hover:text-white" />
+          <X
+            size={14}
+            className="text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
+          />
         </button>
       ),
     },
@@ -182,14 +185,14 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
           type="button"
           onClick={() => playAll(true)}
           disabled={rows.length === 0}
-          className={`w-[42px] h-[42px] border border-white/20 rounded-full flex items-center justify-center transition-colors bg-transparent ${
+          className={`w-[42px] h-[42px] border border-[var(--color-overlay-border-strong)] rounded-full flex items-center justify-center transition-colors bg-transparent ${
             rows.length === 0
               ? "opacity-50 cursor-not-allowed"
-              : "cursor-pointer hover:border-white/50"
+              : "cursor-pointer hover:border-[var(--color-overlay-border-strong)]"
           }`}
           title="Shuffle"
         >
-          <Shuffle size={16} className="text-white" />
+          <Shuffle size={16} className="text-[var(--color-text-primary)]" />
         </button>
 
         <div className="flex-1" />
@@ -200,14 +203,14 @@ export default function PlaylistsPage({ activePlaylistId, onOpenPlaylist }) {
             setNewName(detail.nombre);
             setRenaming(true);
           }}
-          className="flex items-center gap-2 px-4 py-2 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-[8px] border border-[var(--color-overlay-border)] bg-transparent text-[var(--color-text-primary)] text-[13px] cursor-pointer hover:bg-[var(--color-overlay-subtle)] transition-colors"
         >
           <Pencil size={13} /> Rename
         </button>
         <button
           type="button"
           onClick={handleDelete}
-          className="flex items-center gap-2 px-4 py-2 rounded-[8px] border border-white/10 bg-transparent text-[var(--color-heart)] text-[13px] cursor-pointer hover:bg-white/5 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 rounded-[8px] border border-[var(--color-overlay-border)] bg-transparent text-[var(--color-heart)] text-[13px] cursor-pointer hover:bg-[var(--color-overlay-subtle)] transition-colors"
         >
           <Trash2 size={13} /> Delete
         </button>

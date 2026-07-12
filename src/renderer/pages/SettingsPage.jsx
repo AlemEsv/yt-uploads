@@ -42,27 +42,31 @@ function SettingsCard({ icon: Icon, title, description, children }) {
   );
 }
 
-function ThemeCard({ label, Icon, active, onClick }) {
+function ThemeCard({ label, Icon, active, onClick, previewBg, previewSurface, previewAccent }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`relative flex-1 rounded-[12px] border p-4 flex flex-col items-center gap-3 cursor-pointer transition-colors ${
+      className={`relative flex-1 rounded-[12px] border p-3 flex flex-col items-center gap-3 cursor-pointer transition-colors ${
         active
           ? "border-[var(--color-accent)] bg-[var(--color-accent-soft)]"
-          : "border-white/10 bg-white/5 hover:bg-white/10"
+          : "border-[var(--color-overlay-border)] bg-[var(--color-overlay-subtle)] hover:bg-[var(--color-overlay-hover)]"
       }`}
     >
       {active && (
-        <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-[11px] font-bold">
+        <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-[var(--color-accent)] flex items-center justify-center text-white text-[11px] font-bold z-10">
           ✓
         </span>
       )}
-      <Icon size={22} />
       <div
-        className="w-full h-[64px] rounded-[8px] border border-white/10"
-        style={{ background: label === "Dark" ? "#0a0a0a" : "#f0f0f0" }}
-      />
+        className="w-full h-[72px] rounded-[8px] overflow-hidden border border-[var(--color-overlay-border)] flex"
+        style={{ background: previewBg }}
+      >
+        <div className="w-[26%] h-full" style={{ background: previewSurface }} />
+        <div className="flex-1 flex items-center justify-center">
+          <Icon size={20} style={{ color: previewAccent }} />
+        </div>
+      </div>
       <span className="text-[13px] font-medium">{label}</span>
     </button>
   );
@@ -170,7 +174,7 @@ export default function SettingsPage() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-[13px] font-medium text-left border-none cursor-pointer transition-colors ${
                 activeCategory === cat.id
                   ? "bg-[var(--color-accent)] text-white"
-                  : "bg-transparent text-[var(--color-muted-text)] hover:bg-white/5 hover:text-white"
+                  : "bg-transparent text-[var(--color-muted-text)] hover:bg-[var(--color-overlay-subtle)] hover:text-[var(--color-text-primary)]"
               }`}
             >
               <cat.icon size={15} />
@@ -193,7 +197,7 @@ export default function SettingsPage() {
                   onChange={(event) => setNameInput(event.target.value)}
                   onBlur={handleNameBlur}
                   maxLength={40}
-                  className="w-full max-w-[280px] px-3 py-2 rounded-[8px] border border-white/10 bg-[var(--color-input-bg)] text-[13px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)]"
+                  className="w-full max-w-[280px] px-3 py-2 rounded-[8px] border border-[var(--color-overlay-border)] bg-[var(--color-input-bg)] text-[13px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-accent)]"
                 />
               </SettingsCard>
 
@@ -211,7 +215,7 @@ export default function SettingsPage() {
                       className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                         settings.calidad_audio_kbps === kbps
                           ? "bg-[var(--color-accent)] text-white"
-                          : "bg-white/5 text-[var(--color-muted-text)] hover:text-white hover:bg-white/10"
+                          : "bg-[var(--color-overlay-subtle)] text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-overlay-hover)]"
                       }`}
                     >
                       {kbps} kbps
@@ -234,12 +238,18 @@ export default function SettingsPage() {
                   Icon={Moon}
                   active={tema === "oscuro"}
                   onClick={() => setTema("oscuro")}
+                  previewBg="#0a0a0a"
+                  previewSurface="#1c1c1c"
+                  previewAccent="#ffffff"
                 />
                 <ThemeCard
                   label="Light"
                   Icon={Sun}
                   active={tema === "claro"}
                   onClick={() => setTema("claro")}
+                  previewBg="#f0f0f0"
+                  previewSurface="#ffffff"
+                  previewAccent="#14141a"
                 />
               </div>
             </SettingsCard>
@@ -310,4 +320,4 @@ export default function SettingsPage() {
 }
 
 const secondaryButton =
-  "px-4 py-2 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors";
+  "px-4 py-2 rounded-[8px] border border-[var(--color-overlay-border)] bg-transparent text-[var(--color-text-primary)] text-[13px] cursor-pointer hover:bg-[var(--color-overlay-subtle)] transition-colors";

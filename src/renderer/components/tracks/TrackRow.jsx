@@ -12,7 +12,7 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="group relative flex items-center gap-4 px-4 py-2.5 rounded-[8px] hover:bg-white/5 transition-colors select-none">
+    <div className="group relative flex items-center gap-4 px-4 py-2.5 rounded-[8px] hover:bg-[var(--color-overlay-subtle)] transition-colors select-none">
       {rank != null && (
         <>
           <span className="w-5 text-[14px] font-bold text-[var(--color-text-secondary)] group-hover:hidden shrink-0 text-center">
@@ -23,7 +23,10 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
             onClick={() => playNow(song.id)}
             className="w-5 hidden group-hover:flex items-center justify-center shrink-0 bg-transparent border-none cursor-pointer p-0"
           >
-            <Play size={13} className="text-white fill-white" />
+            <Play
+              size={13}
+              className="text-[var(--color-text-primary)] fill-[var(--color-text-primary)]"
+            />
           </button>
         </>
       )}
@@ -69,7 +72,7 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
             className={
               song.es_favorito
                 ? "text-[var(--color-heart)] fill-[var(--color-heart)]"
-                : "text-white/50 hover:text-white"
+                : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
             }
           />
         </button>
@@ -80,7 +83,10 @@ export default function TrackRow({ rank, song, onEdit, columns = [] }) {
             className="bg-transparent border-none cursor-pointer p-0"
             title="More"
           >
-            <MoreHorizontal size={13} className="text-white/50 hover:text-white" />
+            <MoreHorizontal
+              size={13}
+              className="text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
+            />
           </button>
           {menuOpen && (
             <TrackRowMenu song={song} onEdit={onEdit} onClose={() => setMenuOpen(false)} />

@@ -70,7 +70,7 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[2000]">
-      <div className="glass border border-white/10 rounded-[12px] p-6 w-[360px] flex flex-col gap-3">
+      <div className="glass border border-[var(--color-overlay-border)] rounded-[12px] p-6 w-[360px] flex flex-col gap-3">
         <h2 className="m-0 text-[17px] font-bold">Edit metadata</h2>
         <p className="m-0 text-[13px] text-[var(--color-muted-text)]">
           Review this song's details before saving it to your library.
@@ -177,6 +177,6 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
 
 const labelClass = "text-[12px] text-[var(--color-muted-text)] flex flex-col gap-1";
 const inputClass =
-  "w-full px-3 py-2 rounded-[6px] border border-white/10 bg-[var(--color-input-bg)] text-white text-[13px] outline-none focus:ring-1 focus:ring-white/20";
+  "w-full px-3 py-2 rounded-[6px] border border-[var(--color-overlay-border)] bg-[var(--color-input-bg)] text-[var(--color-text-primary)] text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-overlay-border-strong)]";
 const secondaryButton =
-  "px-4 py-1.5 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors";
+  "px-4 py-1.5 rounded-[8px] border border-[var(--color-overlay-border)] bg-transparent text-[var(--color-text-primary)] text-[13px] cursor-pointer hover:bg-[var(--color-overlay-subtle)] transition-colors";

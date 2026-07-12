@@ -20,9 +20,9 @@ export default function SongCover({
   return (
     <div
       onClick={onClick}
-      className={`relative overflow-hidden shrink-0 bg-[var(--color-cover-placeholder-bg)] flex items-center justify-center border border-white/10 ${className}`}
+      className={`relative overflow-hidden shrink-0 bg-[var(--color-cover-placeholder-bg)] flex items-center justify-center border border-[var(--color-overlay-border)] ${className}`}
     >
-      <Music size={iconSize} className="text-white/30 shrink-0" />
+      <Music size={iconSize} className="text-[var(--color-muted-text)] shrink-0" />
       {coverUrl && !error && (
         <img
           key={`${song.id}-${song.fecha_modificacion ?? ""}`}

@@ -13,7 +13,7 @@ export default function VolumeControl() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-white/60" title="Volume">
+      <span className="text-[var(--color-muted-text)]" title="Volume">
         <VolumeIcon volume={volume} />
       </span>
       <input

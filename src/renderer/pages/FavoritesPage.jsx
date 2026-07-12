@@ -107,14 +107,14 @@ export default function FavoritesPage() {
           type="button"
           onClick={() => playAll(true)}
           disabled={favoritos.length === 0}
-          className={`w-[42px] h-[42px] border border-white/20 rounded-full flex items-center justify-center transition-colors bg-transparent ${
+          className={`w-[42px] h-[42px] border border-[var(--color-overlay-border-strong)] rounded-full flex items-center justify-center transition-colors bg-transparent ${
             favoritos.length === 0
               ? "opacity-50 cursor-not-allowed"
-              : "cursor-pointer hover:border-white/50"
+              : "cursor-pointer hover:border-[var(--color-overlay-border-strong)]"
           }`}
           title="Shuffle"
         >
-          <Shuffle size={16} className="text-white" />
+          <Shuffle size={16} className="text-[var(--color-text-primary)]" />
         </button>
       </div>
 

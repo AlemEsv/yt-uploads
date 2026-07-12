@@ -20,7 +20,7 @@ export default function CreatePlaylistModal({ onClose, onCreate }) {
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[2000]">
       <form
         onSubmit={handleCreate}
-        className="popover-in glass border border-white/10 rounded-[12px] p-6 w-[320px] flex flex-col gap-3"
+        className="popover-in glass border border-[var(--color-overlay-border)] rounded-[12px] p-6 w-[320px] flex flex-col gap-3"
       >
         <h2 className="m-0 text-[16px] font-bold">New playlist</h2>
         <input
@@ -28,13 +28,13 @@ export default function CreatePlaylistModal({ onClose, onCreate }) {
           value={name}
           onChange={(event) => setName(event.target.value)}
           placeholder="Playlist name"
-          className="w-full px-3 py-2 rounded-[6px] border border-white/10 bg-white/5 text-white text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
+          className="w-full px-3 py-2 rounded-[6px] border border-[var(--color-overlay-border)] bg-[var(--color-overlay-subtle)] text-[var(--color-text-primary)] text-[13px] outline-none focus:ring-1 focus:ring-[var(--color-accent)]"
         />
         <div className="flex justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-[8px] border border-white/10 bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/5 transition-colors"
+            className="px-4 py-1.5 rounded-[8px] border border-[var(--color-overlay-border)] bg-transparent text-[var(--color-text-primary)] text-[13px] cursor-pointer hover:bg-[var(--color-overlay-subtle)] transition-colors"
           >
             Cancel
           </button>

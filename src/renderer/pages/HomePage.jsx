@@ -148,7 +148,7 @@ export default function HomePage({ onSelectView }) {
                 type="button"
                 onClick={() => handlePlatformClick(p.id)}
                 title={p.label}
-                className="h-[58px] rounded-[10px] flex flex-col items-center justify-center gap-0.5 text-white transition-opacity hover:opacity-90 border-none cursor-pointer"
+                className="w-full h-[58px] rounded-[10px] flex flex-col items-center justify-center gap-0.5 text-white transition-opacity hover:opacity-90 border-none cursor-pointer"
                 style={{ backgroundColor: p.color }}
               >
                 <p.Icon size={18} />

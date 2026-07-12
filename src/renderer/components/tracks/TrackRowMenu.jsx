@@ -33,7 +33,7 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
   return (
     <div
       ref={menuRef}
-      className="popover-in absolute top-full right-0 mt-1 glass border border-white/10 rounded-[8px] min-w-[180px] z-[1000]"
+      className="popover-in absolute top-full right-0 mt-1 glass border border-[var(--color-overlay-border)] rounded-[8px] min-w-[180px] z-[1000]"
     >
       <div className="relative">
         <button
@@ -42,10 +42,10 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
           className={`${itemClass} flex items-center justify-between`}
         >
           Add to playlist
-          <ChevronRight size={13} className="text-white/50" />
+          <ChevronRight size={13} className="text-[var(--color-muted-text)]" />
         </button>
         {showPlaylists && (
-          <div className="popover-in absolute top-0 right-full mr-1 glass border border-white/10 rounded-[8px] min-w-[160px] max-h-[220px] overflow-y-auto z-[1001]">
+          <div className="popover-in absolute top-0 right-full mr-1 glass border border-[var(--color-overlay-border)] rounded-[8px] min-w-[160px] max-h-[220px] overflow-y-auto z-[1001]">
             {playlists.length === 0 ? (
               <p className="m-0 px-3 py-2 text-[12px] text-[var(--color-muted-text)]">
                 No playlists yet — create one from the sidebar.
@@ -102,4 +102,4 @@ export default function TrackRowMenu({ song, onEdit, onClose }) {
 }
 
 const itemClass =
-  "block w-full text-left px-3 py-2 border-none bg-transparent text-white text-[13px] cursor-pointer hover:bg-white/10 transition-colors";
+  "block w-full text-left px-3 py-2 border-none bg-transparent text-[var(--color-text-primary)] text-[13px] cursor-pointer hover:bg-[var(--color-overlay-hover)] transition-colors";

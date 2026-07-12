@@ -153,7 +153,7 @@ export default function LibraryPage() {
           <button
             type="button"
             onClick={handleScan}
-            className="flex items-center gap-2 glass hover:bg-white/10 text-[13px] text-[var(--color-muted-text)] hover:text-white px-4 py-2 rounded-[8px] transition-colors border-none cursor-pointer"
+            className="flex items-center gap-2 glass hover:bg-[var(--color-overlay-hover)] text-[13px] text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)] px-4 py-2 rounded-[8px] transition-colors border-none cursor-pointer"
           >
             <RefreshCw size={13} /> Scan Library
           </button>
@@ -186,7 +186,7 @@ export default function LibraryPage() {
       {downloadDir && (
         <div className="glass rounded-[15px] p-5 mb-6">
           <h2 className="text-[16px] font-bold mb-4 mt-0">Source Folder</h2>
-          <div className="flex items-center gap-4 p-3 rounded-[10px] hover:bg-white/5 transition-colors">
+          <div className="flex items-center gap-4 p-3 rounded-[10px] hover:bg-[var(--color-overlay-subtle)] transition-colors">
             <div className="w-9 h-9 rounded-[8px] flex items-center justify-center shrink-0 bg-[var(--color-accent-soft)]">
               <Folder size={16} className="text-[var(--color-accent)]" />
             </div>

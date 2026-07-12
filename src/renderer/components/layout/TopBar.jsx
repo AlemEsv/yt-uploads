@@ -17,7 +17,7 @@ export default function TopBar({ activeView, onSelectView }) {
   return (
     <header className="flex items-center gap-4 px-6 py-3 shrink-0 z-10">
       <div className="flex items-center gap-2 w-[254px] shrink-0">
-        <Music size={18} className="text-white" />
+        <Music size={18} className="text-[var(--color-text-primary)]" />
         <span className="font-bold text-[18px] tracking-tight">SoundDock</span>
       </div>
 
@@ -39,7 +39,7 @@ export default function TopBar({ activeView, onSelectView }) {
 
       <div className="ml-auto flex items-center gap-3">
         <DownloadTrigger />
-        <UserMenu activeView={activeView} onSelectView={onSelectView} />
+        <UserMenu onSelectView={onSelectView} />
       </div>
     </header>
   );

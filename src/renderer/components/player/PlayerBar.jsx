@@ -14,7 +14,7 @@ export default function PlayerBar() {
 
   if (!currentSong) {
     return (
-      <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] border border-white/[0.07] rounded-[15px] h-[65px] flex items-center justify-center px-6">
+      <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] border border-[var(--color-overlay-border)] rounded-[15px] h-[65px] flex items-center justify-center px-6">
         <span className="text-[13px] text-[var(--color-muted-text)]">
           Nothing playing — pick a song from your library.
         </span>
@@ -23,7 +23,7 @@ export default function PlayerBar() {
   }
 
   return (
-    <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] border border-white/[0.07] rounded-[15px] h-[65px] flex items-center px-6 gap-4">
+    <footer className="relative shrink-0 mx-4 mb-4 bg-[var(--color-player-bg)] border border-[var(--color-overlay-border)] rounded-[15px] h-[65px] flex items-center px-6 gap-4">
       <div className="flex items-center gap-3 w-[260px] min-w-0">
         <SongCover song={currentSong} className="w-[45px] h-[45px] rounded-[6px]" iconSize={20} />
         <div className="min-w-0">
@@ -43,7 +43,7 @@ export default function PlayerBar() {
             className={
               currentSong.es_favorito
                 ? "text-[var(--color-heart)] fill-[var(--color-heart)]"
-                : "text-white/60 hover:text-white"
+                : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
             }
           />
         </button>
@@ -63,7 +63,11 @@ export default function PlayerBar() {
         >
           <ListMusic
             size={16}
-            className={showQueue ? "text-[var(--color-accent)]" : "text-white/60 hover:text-white"}
+            className={
+              showQueue
+                ? "text-[var(--color-accent)]"
+                : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
+            }
           />
         </button>
         <VolumeControl />

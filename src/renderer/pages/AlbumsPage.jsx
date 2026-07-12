@@ -56,7 +56,7 @@ export default function AlbumsPage() {
               className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                 sort === s
                   ? "bg-[var(--color-accent)] text-white"
-                  : "glass text-[var(--color-muted-text)] hover:text-white hover:bg-white/10"
+                  : "glass text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-overlay-hover)]"
               }`}
             >
               {s}
@@ -108,7 +108,7 @@ export default function AlbumsPage() {
             {albums.map((album) => (
               <div
                 key={album.name}
-                className="group cursor-pointer glass rounded-[12px] p-4 hover:bg-white/5 transition-colors"
+                className="group cursor-pointer glass rounded-[12px] p-4 hover:bg-[var(--color-overlay-subtle)] transition-colors"
                 onClick={() => playAlbum(album)}
               >
                 <div className="relative rounded-[9px] overflow-hidden aspect-square mb-3 bg-[var(--color-cover-placeholder-bg)]">

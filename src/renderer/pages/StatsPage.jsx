@@ -20,7 +20,7 @@ function BarList({ title, items, max }) {
           {items.map((item) => (
             <div key={item.label} className="flex items-center gap-3">
               <span className="w-[120px] text-[13px] truncate">{item.label}</span>
-              <div className="flex-1 h-[8px] bg-white/5 rounded-full overflow-hidden">
+              <div className="flex-1 h-[8px] bg-[var(--color-overlay-subtle)] rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full bg-[var(--color-accent)] transition-all duration-500"
                   style={{ width: `${Math.round((item.count / max) * 100)}%` }}
@@ -78,7 +78,7 @@ export default function StatsPage() {
               className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-colors border-none cursor-pointer ${
                 windowDays === w.days
                   ? "bg-[var(--color-accent)] text-white"
-                  : "glass text-[var(--color-muted-text)] hover:text-white hover:bg-white/10"
+                  : "glass text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-overlay-hover)]"
               }`}
             >
               {w.label}

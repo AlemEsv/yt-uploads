@@ -21,7 +21,9 @@ export default function PlayerControls() {
         onClick={toggleShuffle}
         title="Shuffle"
         className={`bg-transparent border-none cursor-pointer p-0 transition-colors ${
-          isShuffle ? "text-[var(--color-accent)]" : "text-white/60 hover:text-white"
+          isShuffle
+            ? "text-[var(--color-accent)]"
+            : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
         }`}
       >
         <Shuffle size={16} />
@@ -30,7 +32,7 @@ export default function PlayerControls() {
         type="button"
         onClick={previous}
         title="Previous"
-        className="bg-transparent border-none cursor-pointer p-0 text-white hover:text-white/80 transition-colors"
+        className="bg-transparent border-none cursor-pointer p-0 text-[var(--color-text-primary)] hover:text-[var(--color-text-secondary)] transition-colors"
       >
         <SkipBack size={18} />
       </button>
@@ -50,7 +52,7 @@ export default function PlayerControls() {
         type="button"
         onClick={next}
         title="Next"
-        className="bg-transparent border-none cursor-pointer p-0 text-white hover:text-white/80 transition-colors"
+        className="bg-transparent border-none cursor-pointer p-0 text-[var(--color-text-primary)] hover:text-[var(--color-text-secondary)] transition-colors"
       >
         <SkipForward size={18} />
       </button>
@@ -59,7 +61,9 @@ export default function PlayerControls() {
         onClick={cycleLoopMode}
         title={loopMode === "one" ? "Repeat one" : "Repeat"}
         className={`bg-transparent border-none cursor-pointer p-0 transition-colors ${
-          loopMode !== "off" ? "text-[var(--color-accent)]" : "text-white/60 hover:text-white"
+          loopMode !== "off"
+            ? "text-[var(--color-accent)]"
+            : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
         }`}
       >
         {loopMode === "one" ? <Repeat1 size={16} /> : <Repeat size={16} />}

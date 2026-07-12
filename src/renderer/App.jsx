@@ -19,7 +19,6 @@ import FavoritesPage from "./pages/FavoritesPage.jsx";
 import RecentPage from "./pages/RecentPage.jsx";
 import GenresPage from "./pages/GenresPage.jsx";
 import AlbumsPage from "./pages/AlbumsPage.jsx";
-import EventsPage from "./pages/EventsPage.jsx";
 import PlaylistsPage from "./pages/PlaylistsPage.jsx";
 import StatsPage from "./pages/StatsPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
@@ -41,7 +40,6 @@ const PAGES = {
   recent: RecentPage,
   genres: GenresPage,
   albums: AlbumsPage,
-  events: EventsPage,
   playlists: PlaylistsPage,
   stats: StatsPage,
   settings: SettingsPage,
@@ -70,7 +68,7 @@ function MainShell({ activeView, onSelectView, activePlaylistId, onOpenPlaylist 
   const ActivePage = PAGES[activeView] ?? HomePage;
 
   return (
-    <div className="flex flex-col h-full text-white overflow-hidden relative">
+    <div className="flex flex-col h-full text-[var(--color-text-primary)] overflow-hidden relative">
       <TopBar activeView={activeView} onSelectView={onSelectView} />
       <CapturePanel />
       <div className="flex flex-1 gap-4 px-4 pb-4 min-h-0">

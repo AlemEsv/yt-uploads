@@ -4,7 +4,7 @@ import TrackRow from "./TrackRow.jsx";
 export default function TrackTable({ rows, columns = [], showRank = true, onEdit }) {
   return (
     <div className="glass rounded-[15px] overflow-hidden">
-      <div className="flex items-center gap-4 px-5 py-2 border-b border-white/5 text-[11px] font-semibold text-[var(--color-muted-text)] tracking-wider">
+      <div className="flex items-center gap-4 px-5 py-2 border-b border-[var(--color-border)] text-[11px] font-semibold text-[var(--color-muted-text)] tracking-wider">
         {showRank && <span className="w-5 text-center">#</span>}
         <span className="w-[44px]" />
         <span className="flex-1">TITLE</span>

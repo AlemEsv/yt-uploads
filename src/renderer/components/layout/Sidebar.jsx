@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
+  BarChart3,
   BookOpen,
-  Calendar,
   Clock,
   Disc3,
   HardDrive,
@@ -17,7 +17,7 @@ const navDiscover = [
   { id: "home", label: "Home", icon: Home },
   { id: "genres", label: "Genres", icon: Disc3 },
   { id: "albums", label: "Albums", icon: BookOpen },
-  { id: "events", label: "Events", icon: Calendar },
+  { id: "stats", label: "Statistics", icon: BarChart3 },
 ];
 
 const navLibrary = [
@@ -34,8 +34,8 @@ function NavRow({ item, active, onSelect }) {
       onClick={() => onSelect(item.id)}
       className={`flex items-center gap-3 px-2 py-1.5 rounded-[8px] text-[14px] font-semibold transition-colors border-none cursor-pointer text-left w-full ${
         active
-          ? "text-white bg-white/10"
-          : "text-white/70 hover:text-white hover:bg-white/5 bg-transparent"
+          ? "text-[var(--color-text-primary)] bg-[var(--color-overlay-hover)]"
+          : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-overlay-subtle)] bg-transparent"
       }`}
     >
       <Icon size={15} />
@@ -57,7 +57,9 @@ export default function Sidebar({ activeView, onSelectView, activePlaylistId, on
 
   return (
     <aside className="w-[254px] shrink-0 glass rounded-[15px] flex flex-col py-6 px-5 overflow-y-auto">
-      <p className="text-[11px] font-semibold tracking-widest text-white mb-2 mt-0">DISCOVER</p>
+      <p className="text-[11px] font-semibold tracking-widest text-[var(--color-text-primary)] mb-2 mt-0">
+        DISCOVER
+      </p>
       <nav className="flex flex-col gap-1 mb-6">
         {navDiscover.map((item) => (
           <NavRow
@@ -69,7 +71,9 @@ export default function Sidebar({ activeView, onSelectView, activePlaylistId, on
         ))}
       </nav>
 
-      <p className="text-[11px] font-semibold tracking-widest text-white mb-2 mt-0">LIBRARY</p>
+      <p className="text-[11px] font-semibold tracking-widest text-[var(--color-text-primary)] mb-2 mt-0">
+        LIBRARY
+      </p>
       <nav className="flex flex-col gap-1 mb-6">
         {navLibrary.map((item) => (
           <NavRow
@@ -81,13 +85,13 @@ export default function Sidebar({ activeView, onSelectView, activePlaylistId, on
         ))}
       </nav>
 
-      <p className="text-[11px] font-semibold tracking-widest text-white mb-2 mt-0">
+      <p className="text-[11px] font-semibold tracking-widest text-[var(--color-text-primary)] mb-2 mt-0">
         YOUR PLAYLIST
       </p>
       <button
         type="button"
         onClick={() => setShowCreate(true)}
-        className="flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent text-[var(--color-muted-text)] hover:text-white"
+        className="flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
       >
         <Plus size={14} />
         Create playlist
@@ -99,8 +103,8 @@ export default function Sidebar({ activeView, onSelectView, activePlaylistId, on
           onClick={() => onOpenPlaylist(playlist.id)}
           className={`flex items-center gap-2 px-2 py-1.5 text-[14px] transition-colors border-none cursor-pointer text-left bg-transparent ${
             activeView === "playlists" && playlist.id === activePlaylistId
-              ? "text-white"
-              : "text-[var(--color-muted-text)] hover:text-white"
+              ? "text-[var(--color-text-primary)]"
+              : "text-[var(--color-muted-text)] hover:text-[var(--color-text-primary)]"
           }`}
         >
           <ListMusic size={14} />
