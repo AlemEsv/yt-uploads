@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown, User } from "lucide-react";
+import { useAppearance } from "../../context/AppearanceContext.jsx";
 
 const MENU_ITEMS = [
   { id: "stats", label: "Statistics" },
@@ -7,6 +8,7 @@ const MENU_ITEMS = [
 ];
 
 export default function UserMenu({ activeView, onSelectView }) {
+  const { nombreUsuario } = useAppearance();
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -31,7 +33,7 @@ export default function UserMenu({ activeView, onSelectView }) {
         <span className="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0 bg-[var(--color-accent)]">
           <User size={12} className="text-white" />
         </span>
-        <span className="text-[14px] font-semibold text-white">SoundDock</span>
+        <span className="text-[14px] font-semibold text-white">{nombreUsuario}</span>
         <ChevronDown size={14} className="text-white" />
       </button>
 
