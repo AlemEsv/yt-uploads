@@ -10,6 +10,7 @@ export function LibraryProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [platformFilter, setPlatformFilter] = useState(null);
+  const [genreFilter, setGenreFilter] = useState(null);
 
   const refetch = useCallback(async () => {
     if (!api) return;
@@ -90,6 +91,8 @@ export function LibraryProvider({ children }) {
     setSearchQuery,
     platformFilter,
     setPlatformFilter,
+    genreFilter,
+    setGenreFilter,
   };
 
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>;

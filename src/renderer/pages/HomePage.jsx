@@ -1,15 +1,23 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Play } from "lucide-react";
 import { useApi } from "../hooks/useApi.js";
 import { useLibrary } from "../context/LibraryContext.jsx";
+import { usePlayer } from "../context/PlayerContext.jsx";
+import { useTheme } from "../context/ThemeContext.jsx";
 import MetadataEditModal from "../components/metadata/MetadataEditModal.jsx";
-import HeroBanner from "../components/home/HeroBanner.jsx";
-import RecentlyPlayedRow from "../components/home/RecentlyPlayedRow.jsx";
-import PlatformChipGrid from "../components/home/PlatformChipGrid.jsx";
-import TopTracksList from "../components/home/TopTracksList.jsx";
+import TrackRow from "../components/tracks/TrackRow.jsx";
+
+const PLATFORM_CHIPS = [
+  { id: "youtube", label: "YouTube", color: "#C71B1B" },
+  { id: "soundcloud", label: "SoundCloud", color: "#E8720C" },
+  { id: "importado", label: "Imported", color: "#35827D" },
+];
 
 export default function HomePage({ onSelectView }) {
   const api = useApi();
-  const { songs, applyUpdate } = useLibrary();
+  const { songs, applyUpdate, setPlatformFilter } = useLibrary();
+  const { clearQueue, enqueue, playQueueItem, playNow } = usePlayer();
+  const { profiles, activeProfileId } = useTheme();
   const [history, setHistory] = useState([]);
   const [topCanciones, setTopCanciones] = useState([]);
   const [editingSong, setEditingSong] = useState(null);
@@ -20,6 +28,9 @@ export default function HomePage({ onSelectView }) {
     api.getHistoryStats(7).then((stats) => setTopCanciones(stats.top_canciones));
   }, [api]);
 
+  const activeProfile = profiles.find((p) => p.id === activeProfileId);
+  const accent = activeProfile?.paleta_colores?.accent ?? "var(--color-accent)";
+
   const recentSongs = useMemo(() => {
     const seen = new Set();
     const result = [];
@@ -29,20 +40,148 @@ export default function HomePage({ onSelectView }) {
       if (!song) continue;
       seen.add(item.song_id);
       result.push(song);
-      if (result.length >= 8) break;
+      if (result.length >= 6) break;
     }
     return result;
   }, [history, songs]);
 
+  const topTracks = useMemo(
+    () =>
+      topCanciones
+        .map((tc) => songs.find((s) => s.id === tc.song_id))
+        .filter(Boolean)
+        .slice(0, 3),
+    [topCanciones, songs],
+  );
+
+  const likedTracks = useMemo(() => songs.filter((s) => s.es_favorito).slice(0, 3), [songs]);
+
+  const platformCounts = useMemo(() => {
+    const map = {};
+    for (const song of songs) {
+      map[song.plataforma_origen] = (map[song.plataforma_origen] ?? 0) + 1;
+    }
+    return map;
+  }, [songs]);
+
+  function handlePlayNow() {
+    const queueSongs =
+      topTracks.length > 0 ? topTracks : [...songs].sort(() => Math.random() - 0.5).slice(0, 20);
+    if (queueSongs.length === 0) return;
+    clearQueue();
+    queueSongs.forEach((song) => enqueue(song.id));
+    playQueueItem(0);
+  }
+
+  function handlePlatformClick(platformId) {
+    setPlatformFilter(platformId);
+    onSelectView("library");
+  }
+
   return (
-    <div
-      style={{ padding: "1rem 1.5rem", display: "flex", flexDirection: "column", gap: "1.75rem" }}
-    >
-      <HeroBanner topCanciones={topCanciones} />
-      <RecentlyPlayedRow songs={recentSongs} />
-      <div style={{ display: "grid", gridTemplateColumns: "254px 1fr", gap: "1.25rem" }}>
-        <PlatformChipGrid onSelectView={onSelectView} />
-        <TopTracksList topCanciones={topCanciones} onEdit={setEditingSong} />
+    <div className="bg-black min-h-full">
+      {/* Hero banner */}
+      <div className="relative h-[300px] overflow-hidden rounded-[15px] mb-6">
+        <div
+          className="absolute inset-0"
+          style={{ background: `linear-gradient(120deg, ${accent} 0%, #000000 85%)` }}
+        />
+        <div className="absolute bottom-0 left-0 p-8">
+          <p className="text-[22px] font-bold mb-1">Now playing mood</p>
+          <p className="text-[52px] font-medium leading-tight">
+            {activeProfile?.nombre ?? "SoundDock"}
+          </p>
+          <div className="flex items-center gap-4 mt-2">
+            <button
+              type="button"
+              onClick={handlePlayNow}
+              disabled={songs.length === 0}
+              className={`bg-[#f1f1f1] text-black text-[13px] font-medium px-4 py-1.5 rounded-[5px] shadow transition-colors border-none ${
+                songs.length === 0
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer hover:bg-white"
+              }`}
+            >
+              Play Now!
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Recently Played */}
+      {recentSongs.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-[22px] font-semibold mb-4 mt-0">Recently played</h2>
+          <div className="grid grid-cols-6 gap-4">
+            {recentSongs.map((song) => (
+              <div key={song.id} className="group cursor-pointer" onClick={() => playNow(song.id)}>
+                <div className="relative rounded-[9px] overflow-hidden aspect-square mb-2 bg-[#161616]">
+                  {api && (
+                    <img
+                      src={api.coverUrl(song.id, song.fecha_modificacion)}
+                      alt=""
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
+                      <Play size={16} className="text-black fill-black ml-0.5" />
+                    </span>
+                  </div>
+                </div>
+                <p className="text-[15px] font-bold truncate m-0">{song.titulo}</p>
+                <p className="text-[13px] text-[#d7d7d7] font-semibold truncate m-0">
+                  {song.artista ?? "Unknown artist"}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Three-column section */}
+      <div className="grid grid-cols-[1fr_1.6fr_1.6fr] gap-4">
+        {/* Your Platforms */}
+        <div className="bg-[#080808] rounded-[15px] p-5">
+          <h3 className="text-[18px] font-bold mb-4 mt-0">Your Platforms</h3>
+          <div className="flex flex-col gap-2">
+            {PLATFORM_CHIPS.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => handlePlatformClick(p.id)}
+                className="h-[58px] rounded-[10px] flex items-center justify-center text-[13px] font-bold text-white transition-opacity hover:opacity-90 border-none cursor-pointer"
+                style={{ backgroundColor: p.color }}
+              >
+                {p.label} · {platformCounts[p.id] ?? 0}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Top Tracks */}
+        <div className="bg-[#080808] rounded-[15px] p-5">
+          <h3 className="text-[18px] font-bold mb-3 mt-0">Top Tracks</h3>
+          {topTracks.length === 0 ? (
+            <p className="text-[13px] text-[#9b9b9b]">Play some songs to see your top tracks.</p>
+          ) : (
+            topTracks.map((song, idx) => (
+              <TrackRow key={song.id} rank={idx + 1} song={song} onEdit={setEditingSong} />
+            ))
+          )}
+        </div>
+
+        {/* Liked Songs */}
+        <div className="bg-[#080808] rounded-[15px] p-5">
+          <h3 className="text-[18px] font-bold mb-3 mt-0">Liked Songs</h3>
+          {likedTracks.length === 0 ? (
+            <p className="text-[13px] text-[#9b9b9b]">Like songs to see them here.</p>
+          ) : (
+            likedTracks.map((song, idx) => (
+              <TrackRow key={song.id} rank={idx + 1} song={song} onEdit={setEditingSong} />
+            ))
+          )}
+        </div>
       </div>
 
       {editingSong && (
