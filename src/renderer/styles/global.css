@@ -212,65 +212,66 @@ html.mini-mode #root {
   animation-play-state: paused;
 }
 
-@keyframes glow-drift-a {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
+@keyframes glow-bar-x {
+  from {
+    background-position: 0% 0%;
   }
-  50% {
-    transform: translate(3%, 4%) scale(1.08);
-  }
-}
-
-@keyframes glow-drift-b {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-4%, -3%) scale(1.1);
+  to {
+    background-position: -200% 0%;
   }
 }
 
-.glow-field {
+@keyframes glow-bar-y {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 0% -200%;
+  }
+}
+
+.glow-bar {
   position: fixed;
-  inset: 0;
-  overflow: hidden;
   pointer-events: none;
-  /* Negativo a propósito: cae por detrás de todo contenido no posicionado
-     (título, sidebar, panel principal) y solo se asoma en los huecos donde
-     se ve el fondo base — nunca encima de las tarjetas/paneles opacos. */
-  z-index: -1;
+  /* A propósito por encima de todo, incluida la barra de título y el sidebar. */
+  z-index: 99999;
+  filter: blur(36px);
 }
 
-.glow-blob {
-  position: absolute;
-  width: 46vw;
-  height: 34vw;
-  filter: blur(90px);
-  /* Radios asimétricos en cada esquina: nunca un círculo, siempre una mancha
-     orgánica. */
-  border-radius: 58% 42% 63% 37% / 45% 55% 42% 58%;
+.glow-bar--top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 130px;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 165, 233, 0.4) 0%,
+    rgba(59, 130, 246, 0.45) 20%,
+    rgba(139, 92, 246, 0.4) 40%,
+    rgba(59, 130, 246, 0.45) 60%,
+    rgba(14, 165, 233, 0.4) 80%,
+    rgba(139, 92, 246, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  animation: glow-bar-x 16s linear infinite;
 }
 
-.glow-blob--sky {
-  background: rgba(14, 165, 233, 0.28);
-  animation: glow-drift-a 22s ease-in-out infinite;
-}
-
-.glow-blob--blue {
-  background: rgba(37, 99, 235, 0.26);
-  animation: glow-drift-b 26s ease-in-out infinite;
-}
-
-.glow-blob--violet {
-  background: rgba(139, 92, 246, 0.26);
-  animation: glow-drift-a 24s ease-in-out infinite reverse;
-}
-
-.glow-blob--indigo {
-  background: rgba(99, 102, 241, 0.24);
-  animation: glow-drift-b 20s ease-in-out infinite reverse;
+.glow-bar--left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 130px;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 165, 233, 0.4) 0%,
+    rgba(59, 130, 246, 0.45) 20%,
+    rgba(139, 92, 246, 0.4) 40%,
+    rgba(59, 130, 246, 0.45) 60%,
+    rgba(14, 165, 233, 0.4) 80%,
+    rgba(139, 92, 246, 0.4) 100%
+  );
+  background-size: 100% 200%;
+  animation: glow-bar-y 16s linear infinite;
 }
 
 .player-range {
