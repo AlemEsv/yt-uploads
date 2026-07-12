@@ -12,6 +12,7 @@ DEFAULTS = {
     "calidad_audio_kbps": "320",
     "tema": "oscuro",
     "nombre_usuario": "Usuario",
+    "color_acento": "#0ea5e9",
 }
 
 
@@ -20,6 +21,7 @@ class SettingsPayload(BaseModel):
     calidad_audio_kbps: int | None = None
     tema: Literal["oscuro", "claro"] | None = None
     nombre_usuario: str | None = None
+    color_acento: str | None = None
 
 
 def _read_settings(conn) -> dict:
@@ -28,6 +30,7 @@ def _read_settings(conn) -> dict:
         "calidad_audio_kbps": int(get_value(conn, "calidad_audio_kbps", DEFAULTS["calidad_audio_kbps"])),
         "tema": get_value(conn, "tema", DEFAULTS["tema"]),
         "nombre_usuario": get_value(conn, "nombre_usuario", DEFAULTS["nombre_usuario"]),
+        "color_acento": get_value(conn, "color_acento", DEFAULTS["color_acento"]),
     }
 
 

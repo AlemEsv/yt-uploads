@@ -17,6 +17,15 @@ import OnboardingLegalPage from "./OnboardingLegalPage.jsx";
 
 const QUALITY_OPTIONS = [128, 192, 256, 320];
 
+const ACCENT_PRESETS = [
+  { label: "Sky", value: "#0ea5e9" },
+  { label: "Violet", value: "#8b5cf6" },
+  { label: "Pink", value: "#ec4899" },
+  { label: "Green", value: "#22c55e" },
+  { label: "Orange", value: "#f97316" },
+  { label: "Rose", value: "#ef4444" },
+];
+
 const CATEGORIES = [
   { id: "general", label: "General", icon: User },
   { id: "appearance", label: "Appearance", icon: Sun },
@@ -76,7 +85,8 @@ export default function SettingsPage() {
   const api = useApi();
   const { showSuccess, showError } = useToast();
   const { scanLibrary, refetch } = useLibrary();
-  const { tema, setTema, nombreUsuario, setNombreUsuario } = useAppearance();
+  const { tema, setTema, nombreUsuario, setNombreUsuario, colorAcento, setColorAcento } =
+    useAppearance();
   const [settings, setSettings] = useState(null);
   const [showLegal, setShowLegal] = useState(false);
   const [activeCategory, setActiveCategory] = useState("general");
@@ -227,32 +237,57 @@ export default function SettingsPage() {
           )}
 
           {activeCategory === "appearance" && (
-            <SettingsCard
-              icon={Sun}
-              title="Theme"
-              description="Choose how SoundDock looks on your device."
-            >
-              <div className="flex gap-4">
-                <ThemeCard
-                  label="Dark"
-                  Icon={Moon}
-                  active={tema === "oscuro"}
-                  onClick={() => setTema("oscuro")}
-                  previewBg="#0a0a0a"
-                  previewSurface="#1c1c1c"
-                  previewAccent="#ffffff"
-                />
-                <ThemeCard
-                  label="Light"
-                  Icon={Sun}
-                  active={tema === "claro"}
-                  onClick={() => setTema("claro")}
-                  previewBg="#f0f0f0"
-                  previewSurface="#ffffff"
-                  previewAccent="#14141a"
-                />
-              </div>
-            </SettingsCard>
+            <>
+              <SettingsCard
+                icon={Sun}
+                title="Theme"
+                description="Choose how SoundDock looks on your device."
+              >
+                <div className="flex gap-4">
+                  <ThemeCard
+                    label="Dark"
+                    Icon={Moon}
+                    active={tema === "oscuro"}
+                    onClick={() => setTema("oscuro")}
+                    previewBg="#0a0a0a"
+                    previewSurface="#1c1c1c"
+                    previewAccent="#ffffff"
+                  />
+                  <ThemeCard
+                    label="Light"
+                    Icon={Sun}
+                    active={tema === "claro"}
+                    onClick={() => setTema("claro")}
+                    previewBg="#f0f0f0"
+                    previewSurface="#ffffff"
+                    previewAccent="#14141a"
+                  />
+                </div>
+              </SettingsCard>
+
+              <SettingsCard
+                icon={Sun}
+                title="Accent color"
+                description="Used for buttons, active states, and highlights across the app."
+              >
+                <div className="flex gap-3">
+                  {ACCENT_PRESETS.map((preset) => (
+                    <button
+                      key={preset.value}
+                      type="button"
+                      onClick={() => setColorAcento(preset.value)}
+                      title={preset.label}
+                      className={`relative w-9 h-9 rounded-full border-none cursor-pointer transition-transform hover:scale-110 ${
+                        colorAcento.toLowerCase() === preset.value
+                          ? "ring-2 ring-offset-2 ring-[var(--color-text-primary)] ring-offset-[var(--color-surface-raised)]"
+                          : ""
+                      }`}
+                      style={{ backgroundColor: preset.value }}
+                    />
+                  ))}
+                </div>
+              </SettingsCard>
+            </>
           )}
 
           {activeCategory === "storage" && (
