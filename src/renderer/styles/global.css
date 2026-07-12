@@ -212,38 +212,65 @@ html.mini-mode #root {
   animation-play-state: paused;
 }
 
-@keyframes cursor-glow-hue {
-  from {
-    filter: blur(120px) hue-rotate(0deg);
+@keyframes glow-drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
   }
-  to {
-    filter: blur(120px) hue-rotate(360deg);
+  50% {
+    transform: translate(3%, 4%) scale(1.08);
   }
 }
 
-.cursor-glow {
+@keyframes glow-drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-4%, -3%) scale(1.1);
+  }
+}
+
+.glow-field {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 1000px;
-  height: 1000px;
-  margin-left: -500px;
-  margin-top: -500px;
-  background: radial-gradient(
-    circle,
-    rgba(14, 165, 233, 0.22) 0%,
-    rgba(139, 92, 246, 0.16) 40%,
-    transparent 72%
-  );
+  inset: 0;
+  overflow: hidden;
   pointer-events: none;
   /* Negativo a propósito: cae por detrás de todo contenido no posicionado
      (título, sidebar, panel principal) y solo se asoma en los huecos donde
      se ve el fondo base — nunca encima de las tarjetas/paneles opacos. */
   z-index: -1;
-  opacity: 0;
-  transition: opacity 400ms ease;
-  will-change: transform;
-  animation: cursor-glow-hue 14s linear infinite;
+}
+
+.glow-blob {
+  position: absolute;
+  width: 46vw;
+  height: 34vw;
+  filter: blur(90px);
+  /* Radios asimétricos en cada esquina: nunca un círculo, siempre una mancha
+     orgánica. */
+  border-radius: 58% 42% 63% 37% / 45% 55% 42% 58%;
+}
+
+.glow-blob--sky {
+  background: rgba(14, 165, 233, 0.28);
+  animation: glow-drift-a 22s ease-in-out infinite;
+}
+
+.glow-blob--blue {
+  background: rgba(37, 99, 235, 0.26);
+  animation: glow-drift-b 26s ease-in-out infinite;
+}
+
+.glow-blob--violet {
+  background: rgba(139, 92, 246, 0.26);
+  animation: glow-drift-a 24s ease-in-out infinite reverse;
+}
+
+.glow-blob--indigo {
+  background: rgba(99, 102, 241, 0.24);
+  animation: glow-drift-b 20s ease-in-out infinite reverse;
 }
 
 .player-range {
