@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useApi } from "../../hooks/useApi.js";
+import { useToast } from "../../context/ToastContext.jsx";
 
 export default function MetadataEditModal({ cancion, onClose, onSaved }) {
   const api = useApi();
+  const { showError } = useToast();
   const [titulo, setTitulo] = useState(cancion.titulo ?? "");
   const [artista, setArtista] = useState(cancion.artista ?? "");
   const [genero, setGenero] = useState(cancion.genero ?? "");
   const [saving, setSaving] = useState(false);
+  const [changingCover, setChangingCover] = useState(false);
+  const [coverError, setCoverError] = useState(false);
 
   async function handleSave() {
     if (!api) return;
@@ -21,6 +25,25 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
       onClose();
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleChangeCover() {
+    if (!api) return;
+    const path = await window.sounddock.chooseImageFile();
+    if (!path) return;
+    setChangingCover(true);
+    try {
+      const updated = await api.updateCover(cancion.id, path);
+      setCoverError(false);
+      onSaved?.(updated);
+    } catch {
+      showError({
+        title: "Error al cambiar la portada",
+        message: "No se pudo actualizar la portada de esta canción.",
+      });
+    } finally {
+      setChangingCover(false);
     }
   }
 
@@ -53,6 +76,36 @@ export default function MetadataEditModal({ cancion, onClose, onSaved }) {
           No pudimos detectar toda la información de esta descarga. Corrígela antes de guardarla
           definitivamente.
         </p>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div
+            style={{
+              width: "64px",
+              height: "64px",
+              borderRadius: "8px",
+              background: "#161616",
+              overflow: "hidden",
+              flexShrink: 0,
+            }}
+          >
+            {!coverError && api && (
+              <img
+                src={api.coverUrl(cancion.id, cancion.fecha_modificacion)}
+                alt=""
+                onError={() => setCoverError(true)}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={handleChangeCover}
+            disabled={changingCover}
+            style={secondaryButtonStyle}
+          >
+            {changingCover ? "Actualizando..." : "Cambiar portada"}
+          </button>
+        </div>
 
         <label style={{ fontSize: "0.8rem", color: "var(--color-text-secondary)" }}>
           Título

@@ -55,3 +55,20 @@ def write_tags(filepath: str, info: dict) -> tuple[str, str | None, bool]:
 
     revisado = not (_looks_incomplete(titulo) or _looks_incomplete(artista))
     return titulo, artista, revisado
+
+
+def replace_cover(filepath: str, image_path: str) -> None:
+    try:
+        tags = ID3(filepath)
+    except ID3NoHeaderError:
+        tags = ID3()
+
+    image = Path(image_path)
+    mime = "image/png" if image.suffix.lower() == ".png" else "image/jpeg"
+
+    tags.delall("APIC")
+    tags.setall(
+        "APIC",
+        [APIC(encoding=3, mime=mime, type=3, desc="Cover", data=image.read_bytes())],
+    )
+    tags.save(filepath)

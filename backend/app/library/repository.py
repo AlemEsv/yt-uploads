@@ -199,6 +199,11 @@ def mark_inactive(conn: sqlite3.Connection, cancion_id: int) -> None:
     set_fields(conn, cancion_id, activo=0)
 
 
+def touch_modificacion(conn: sqlite3.Connection, cancion_id: int) -> None:
+    conn.execute("UPDATE canciones SET fecha_modificacion = datetime('now') WHERE id = ?", (cancion_id,))
+    conn.commit()
+
+
 # favoritos/historial se limpian solos por ON DELETE CASCADE al borrar esta fila.
 def delete_cancion(conn: sqlite3.Connection, cancion_id: int) -> str | None:
     row = conn.execute("SELECT ruta_archivo FROM canciones WHERE id = ?", (cancion_id,)).fetchone()

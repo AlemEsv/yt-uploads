@@ -23,7 +23,13 @@ export function createApiClient(baseUrl) {
         method: "PATCH",
         body: JSON.stringify(updates),
       }),
-    coverUrl: (songId) => `${baseUrl}/library/${songId}/cover`,
+    coverUrl: (songId, version) =>
+      `${baseUrl}/library/${songId}/cover${version ? `?v=${encodeURIComponent(version)}` : ""}`,
+    updateCover: (songId, rutaImagen) =>
+      request(baseUrl, `/library/${songId}/cover`, {
+        method: "PUT",
+        body: JSON.stringify({ ruta_imagen: rutaImagen }),
+      }),
     streamUrl: (songId) => `${baseUrl}/library/${songId}/stream`,
     listLibrary: (params = {}) => {
       const query = new URLSearchParams(

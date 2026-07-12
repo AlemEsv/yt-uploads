@@ -129,7 +129,10 @@ export default function LibraryPage() {
       {editingSong && (
         <MetadataEditModal
           cancion={editingSong}
-          onSaved={applyUpdate}
+          onSaved={(updated) => {
+            applyUpdate(updated);
+            setEditingSong(updated);
+          }}
           onClose={() => setEditingSong(null)}
         />
       )}

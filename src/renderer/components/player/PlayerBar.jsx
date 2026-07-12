@@ -27,7 +27,9 @@ export default function PlayerBar() {
   const { toggleFavorite } = useLibrary();
   const api = useApi();
   const [showQueue, setShowQueue] = useState(false);
-  const dominantColor = useDominantColor(currentSong && api ? api.coverUrl(currentSong.id) : null);
+  const dominantColor = useDominantColor(
+    currentSong && api ? api.coverUrl(currentSong.id, currentSong.fecha_modificacion) : null,
+  );
 
   if (!currentSong) {
     return (
@@ -56,7 +58,7 @@ export default function PlayerBar() {
       >
         {api && (
           <img
-            src={api.coverUrl(currentSong.id)}
+            src={api.coverUrl(currentSong.id, currentSong.fecha_modificacion)}
             alt=""
             style={{
               width: "44px",

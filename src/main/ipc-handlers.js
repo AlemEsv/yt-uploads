@@ -17,6 +17,16 @@ function registerIpcHandlers({ backendProcess, getMainWindow }) {
     shell.showItemInFolder(absolutePath);
   });
 
+  ipcMain.handle("dialog:choose-image-file", async () => {
+    const win = getMainWindow();
+    const result = await dialog.showOpenDialog(win, {
+      title: "Elegir portada",
+      properties: ["openFile"],
+      filters: [{ name: "Imagen", extensions: ["jpg", "jpeg", "png"] }],
+    });
+    return result.canceled ? null : result.filePaths[0];
+  });
+
   ipcMain.handle("dialog:choose-folder", async () => {
     const win = getMainWindow();
     const result = await dialog.showOpenDialog(win, {

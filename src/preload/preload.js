@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld("sounddock", {
   },
 
   chooseMp3Files: () => ipcRenderer.invoke("dialog:choose-mp3-files"),
+  chooseImageFile: () => ipcRenderer.invoke("dialog:choose-image-file"),
   showItemInFolder: (absolutePath) => ipcRenderer.invoke("shell:show-in-folder", absolutePath),
   chooseFolder: () => ipcRenderer.invoke("dialog:choose-folder"),
   chooseBackupExportPath: () => ipcRenderer.invoke("dialog:save-backup"),

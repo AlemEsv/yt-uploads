@@ -22,7 +22,7 @@ export default function SongCard({ song, onEdit }) {
       >
         {!imgError && api && (
           <img
-            src={api.coverUrl(song.id)}
+            src={api.coverUrl(song.id, song.fecha_modificacion)}
             alt=""
             onError={() => setImgError(true)}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}

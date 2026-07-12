@@ -11,9 +11,19 @@ from app.config_store import get_download_dir
 from app.db import DB_LOCK
 from app.errors import ApiError
 from app.library.importer import import_files
-from app.library.repository import delete_cancion, get_cancion, list_canciones, count_canciones, update_cancion
+from app.library.repository import (
+    delete_cancion,
+    get_cancion,
+    list_canciones,
+    count_canciones,
+    touch_modificacion,
+    update_cancion,
+)
 from app.library.scanner import scan_directory
 from app.library.streaming import build_stream_response
+from app.metadata import replace_cover
+
+COVER_EXTENSIONS = {".jpg", ".jpeg", ".png"}
 
 router = APIRouter()
 
@@ -31,6 +41,10 @@ class ImportRequest(BaseModel):
 
 class ScanRequest(BaseModel):
     directorio: str | None = None
+
+
+class LibraryCoverRequest(BaseModel):
+    ruta_imagen: str
 
 
 @router.get("/library")
@@ -165,3 +179,24 @@ async def get_library_song_cover(cancion_id: int, request: Request):
 
     apic = apics[0]
     return Response(content=apic.data, media_type=apic.mime)
+
+
+@router.put("/library/{cancion_id}/cover")
+async def replace_library_song_cover(cancion_id: int, payload: LibraryCoverRequest, request: Request):
+    conn = request.app.state.db
+    with DB_LOCK:
+        cancion = get_cancion(conn, cancion_id)
+    if not cancion:
+        raise ApiError(404, "no_encontrado", "Canción no encontrada")
+
+    image_path = Path(payload.ruta_imagen)
+    if image_path.suffix.lower() not in COVER_EXTENSIONS:
+        raise ApiError(400, "formato_no_soportado", "La imagen debe ser JPG o PNG")
+    if not image_path.exists():
+        raise ApiError(404, "archivo_no_encontrado", "La imagen seleccionada no existe")
+
+    await run_in_threadpool(replace_cover, cancion["ruta_archivo"], str(image_path))
+
+    with DB_LOCK:
+        touch_modificacion(conn, cancion_id)
+        return get_cancion(conn, cancion_id)
